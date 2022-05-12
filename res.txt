@@ -1,0 +1,2 @@
+Cool stack-overflow explaining what it means to be vertex/edge critical:
+https://math.stackexchange.com/questions/4008248/query-regarding-k-critical-graphs 
