@@ -1,0 +1,8 @@
+v1
+	Simply classify a graph as critical or not critical
+	
+v2
+	Simply classify a graph as critical or not critical
+	Changes* 
+		- When deleting a vertex, delete the vertex with the min/max degree first
+		- Deleting the vertex with the minimum degree first, proved fater than deleting the vertex with maximum degree frist.

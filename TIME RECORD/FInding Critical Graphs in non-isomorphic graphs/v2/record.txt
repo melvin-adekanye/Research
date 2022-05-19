@@ -1,0 +1,34 @@
+
+Deleting Vertex With Min Degree FIrst
+
+Test RUn #1
+TIme Taken 12.71s
+
+Test RUn #2
+TIme Taken 13.09s
+
+Test RUn #3
+TIme Taken 14.55s
+
+Test RUn #4
+TIme Taken 15.06s
+
+Test RUn #5
+TIme Taken 14.48s
+
+Deleting Vertex With Min Degree FIrst
+
+Test RUn #1
+TIme Taken 21.45s
+
+Test RUn #2
+TIme Taken 19.29s
+
+Test RUn #3
+TIme Taken 21.86s
+
+Test RUn #4
+TIme Taken 19.39s
+
+Test RUn #5
+TIme Taken 20.86s

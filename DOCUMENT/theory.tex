@@ -7,7 +7,14 @@
 \usepackage{inputenc}
 \usepackage{geometry}
 \usepackage{booktabs}
+
+\usepackage{tabularx}
+\usepackage[english]{babel}
+\newtheorem{theorem}{Theorem}
+
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 
 \title{%
@@ -36,10 +43,14 @@ The colours act as labels for distinguishing elements on a constrained graph.
 \toprule
 Terms           &                  & Definitions \\
 \midrule
+Degree &$:\Leftrightarrow$& The degree of a vertice refers to the number of connections it has.\\
 Chromatic number &$:\Leftrightarrow$& The smallest number of colours needed to color a graph (for restricted graphs).\\
 Connected Graph  &$:\Leftrightarrow$& A graph in which all nodes are connected with edges. \\
 Restricted Graph  &$:\Leftrightarrow$& A graph in which connected adjacent nodes cannot have the same label/color.\\
-isomorphic Graph  &$:\Leftrightarrow$& A graph can take on different forms while having the same number of vertices and edges.\\
+Isomorphic Graph  &$:\Leftrightarrow$& A graph can take on different forms while having the same number of vertices and edges.\\
+Bipartite Graph  &$:\Leftrightarrow$& A bipartite graph is a set of vertices placed into two disjoint sets restricting their vertices from connecting to adjacent vertices in the set.\\
+Vertex Critical Graph  &$:\Leftrightarrow$& A critical vertex graph is a graph in which every vertex is a critical element, which will decrease the chromatic number on deletion.\\
+Edge Critical Graph  &$:\Leftrightarrow$& A critical edge graph is a graph in which every edge is a critical element, which will decrease the chromatic number on deletion.\\
 
 \bottomrule
 \end{tabular}
@@ -47,9 +58,71 @@ isomorphic Graph  &$:\Leftrightarrow$& A graph can take on different forms while
 
 \clearpage
 
+\section{Introduction}
+While misleading with its name, graph theory studies networks, relating connections found between a set of elements. These studies of networks find roots in graph colouring. 
+Graph colouring is a unique problem in which connections made between elements "vertices" are assigned labels that prevent adjacent elements from sharing the same label.
+Prominent uses of graph colouring can be identified with the colouring of maps, data mining, and networking and can even be found helpful in solving sudokus.
+
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
 
 \section{Critical Graphs}
-Critical Graphs. For a graph to be considered critical, if any vertex or node is removed, the chromatic number must decrease in value. If any exception arises, the graph is therefore not critical.
+Critical graphs are classified as being vertex or edge critical. This infers that not all edge critical graphs will also be vertex critical. To determine if a graph is critical, either an edge or vertex, when deleted, must be observed to change the graph's chromatic number. 
+If deleting a vertex or edge results in an unchanged chromatic number, the graph is considered not critical.
+Below are diagrams of critical graphs:
+
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+\includegraphics[scale=.35]{test}
+
+\subsection{Exploring relationships between the degrees of a graph and its chromatic number}
+The average degree of a graph appeared to have a seemingly unique relationship with the chromatic number. 
+Interestingly, this relationship on the bipartite graph resulted in an asymptotic approach to a value of 2 as the number of vertices increased. 
+While promising, this relationship appeared to have flaws with some graphs, resulting in values precisely one less than the chromatic number.  
+
+\subsection{Finding efficiency in determining critical graphs}
+The arduous process of deleting vertices in other to find criticality proves inefficient on time when analyzing graphs with larger vertices. 
+However, what if such deletion of vertices becomes "smart"? 
+The idea of first deleting vertices with a lesser or greater degree proved true in improving the time taken to classify critical graphs.
+Through time analysis, deleting vertices with the largest degree first resulted in no time change, if not an increase. On the contrary, deleting vertices with the smallest degree resulted in faster criticality analysis.
+
+\begin{theorem}
+When determining what vertex to remove, removing vertices with the smallest degree first proves faster, as it eliminates non-critical graphs on the first deletion on average. 
+\end{theorem}
+
+Results (Graphs with 3 to 8 vertices)
+
+\begin{tabularx}{0.9\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+  
+\toprule
+Deleting vertice with random degree & Deleting vertice with smallest degree & Deleting vertice with largest degree \\
+\midrule
+
+ 20.96s & 12.71s & 21.45s \\
+ \hline
+ 25.7s  & 13.09s  & 19.29s  \\
+ \hline
+ 21.48s  & 14.55s  & 21.86s  \\
+ \hline
+ 25.0s  & 15.06s  & 19.39s  \\
+ \hline
+ 18.79s  & 14.48s  & 20.86s  \\
+
+\hline
+\end{tabularx}
+
+\subsubsection{Using Reinforcement Learning to classify critical graphs}
+Using RL to classify critical graphs
 
 
 \end{document}

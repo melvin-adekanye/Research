@@ -74,13 +74,13 @@ for vertice in range(min_vertices, max_vertices + 1):
                 break
         
         # A quick print out
-        print(f"is '{graph6_string}' critical? {is_critical}")
+        # print(f"is '{graph6_string}' critical? {is_critical}")
 
         # Save. (Only if graph is critical)
         if is_critical:
 
             # Store this graph in the grpahs folder
-            f=open(f'./graphs/order{vertice}_chi{chromatic_number}.txt', "a")
+            f=open(f'./graphs/order{vertice}_crit{chromatic_number}.txt', "a")
 
             # Write to file
             f.write(f'{graph6_string}\n')

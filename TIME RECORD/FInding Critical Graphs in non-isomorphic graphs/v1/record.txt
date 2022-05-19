@@ -1,0 +1,14 @@
+Test RUn #1
+TIme Taken 20.96s
+
+Test RUn #2
+TIme Taken 25.7s
+
+Test RUn #3
+TIme Taken 21.48s
+
+Test RUn #4
+TIme Taken 25.0s
+
+Test RUn #5
+TIme Taken 18.79s

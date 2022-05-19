@@ -1,0 +1,3 @@
+Resources
+	Classify with pytorch
+	https://www.youtube.com/watch?v=oSirQZ_L7Q8&list=LL&index=186
