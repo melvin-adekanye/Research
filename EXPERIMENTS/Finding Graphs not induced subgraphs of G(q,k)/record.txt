@@ -1,0 +1,6 @@
+G(q,k)
+	This constructs a graph that is (k+1)-critical for each value of q.
+	
+	search through all graphs of order 3 to 9 to see which of these graphs are not induced subgraphs of G(q,k) for all q
+	
+q=1 to 10 if possible, otherwise 5

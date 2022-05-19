@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+
 # Neural network class
 class Net(nn.Module):
 
@@ -48,8 +49,7 @@ out = model.forward(X)
 
 print(out)
 
-
-'''
+"""
 
 # Path to get the data
 path = f'../../../DATA/graphs'
@@ -114,8 +114,8 @@ for string in graphs:
     indice_n_degree = [[index, degree]
                        for index, degree in enumerate(degrees)]
 
-    # Delete highest degree vertice first
-    delete_vertice_with_highest_degree_first = True
+    # Delete highest degree vertice first (False is faster)
+    delete_vertice_with_highest_degree_first = False
 
     # Sort the indice_n_degree by the degree value
     indice_n_degree.sort(
@@ -146,11 +146,10 @@ for string in graphs:
 
         # Push it to the critical_graphs list
         critical_graphs.append(string)
-
+        
     else:
 
         not_critical.append(string)
-
 
 # Set end time (not a Prophet tho)
 end_time = time.time()
@@ -163,5 +162,4 @@ print('Done')
 
 # print('critical_graphs: ', critical_graphs)
 # print('not_critical: ', not_critical)
-
-'''
+"""
