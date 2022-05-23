@@ -16,7 +16,7 @@ TIme Taken 15.06s
 Test RUn #5
 TIme Taken 14.48s
 
-Deleting Vertex With Min Degree FIrst
+Deleting Vertex With Max Degree FIrst
 
 Test RUn #1
 TIme Taken 21.45s
