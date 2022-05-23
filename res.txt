@@ -21,3 +21,19 @@ four
 	
 Optimal chromatic bound for (P2 + P3, P2 + P3)-free graphs
 	https://arxiv.org/pdf/2205.07447.pdf
+	
+	
+
+
+Things to know:
+
+	If the min degree of a graph, is smaller than (k - 1) because it is not critical
+	
+	In Gq, check if it not a subgraph of all values from 1 - 10
+	
+	Upload all Gq graphs to a file 
+	
+	Fix in Document* If it's edge critical it is vertex critical
+	
+	In LaTex, use two single quotes ' '
+	

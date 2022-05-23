@@ -1,0 +1,25 @@
+v2.1
+    Using the mix and max degree to decide which vertex gets deleted first.
+
+    If the min degree was less than K - 1. 
+        - Automatically deemed not critical
+        
+        # Results
+            - In the set of orders 3 - 8 graphs, 1428 graphs were deemed not critical based on this if statement.
+        
+        # Time Results
+
+            Test RUn #1
+            TIme Taken 16.37s
+
+            Test RUn #2
+            TIme Taken 16.69s
+
+            Test RUn #3
+            TIme Taken 21.84s
+
+            Test RUn #4
+            TIme Taken 19.62s
+
+            Test RUn #5
+            TIme Taken 22.17s

@@ -17,35 +17,37 @@ os.mkdir(path)
 
 # The following is a generalizing the Gr and Gp constructions for 4- and 5-crit graphs, resp. to create
 # an infinite family of (k+1)-crit graphs for each k>=2
+
 def Gq(q, k):
-    
+
     L = []
-    
+
     for i in range(0, k*q+1):
-        
+
         e1 = {i, (i+1) % (k*q+1)}
-        
+
         e2 = {i, (i-1) % (k*q+1)}
-        
+
         if e1 not in L:
-            
+
             L.append(e1)
-            
+
         if e2 not in L:
-            
+
             L.append(e2)
-            
+
         for j in range(0, q):
-            
+
             for m in range(2, k):
-                
+
                 e1 = {i, (i+k*j+m) % (k*q+1)}
-                
+
                 if e1 not in L:
-                    
+
                     L.append(e1)
-                    
+
     return Graph(L)
+
 
 # Path to get the data
 path = f'../../DATA/graphs'
@@ -91,55 +93,59 @@ for vertice in range(min_vertices, max_vertices + 1):
 
             pass
 
-# For every graph in Gq() 
-# Search for these graphs are not induced subgraphs of G(q,k) for all q
-for q in range(starting_q, ending_q + 1):
-    
-    print('Q: ', q)
-    
-    # Define the Gq graph
-    Gq_graph = Gq(q, 5)
+# FOr every graph_string in the graphs
+for index, string in enumerate(graphs):
 
-    # FOr every graph_string in the graphs
-    for index, string in enumerate(graphs):
+    # Is a sub graph
+    graph_is_a_subgraph = False
 
-        # Progress report
-        if index % 1000 == 0:
-            print(f'Graph {index} of {len(graphs)} || Q: {q} of {ending_q}')
+    # For every graph in Gq()
+    # Search for these graphs are not induced subgraphs of G(q,k) for all q
+    for q in range(starting_q, ending_q + 1):
+
+        # Define the Gq graph
+        Gq_graph = Gq(q, 5)
 
         # Create the graph using the string
         graph = Graph(string)
         original_graph = Graph(string)
-        
-        # CHeck if graph is a subgraph Gq_graph
-        is_a_subgraph = graph.is_subgraph(Gq_graph, induced=True)
 
-        # If this is not a subgraph
-        if is_a_subgraph == False:
+        # CHeck if graph is a subgraph Gq_graph
+        graph_is_a_subgraph = graph.is_subgraph(Gq_graph, induced=True)
+
+        # If graph is found to be a sub graph
+        if graph_is_a_subgraph == True:
             
-            # Append teh string to the not_induced_subgraphs
-            not_induced_subgraphs.append(string)
-                
-        
+            # Stop
+            break
+
+    # If this is not a subgraph
+    if graph_is_a_subgraph == False:
+
+        # Append teh string to the not_induced_subgraphs
+        not_induced_subgraphs.append(string)
+
+    # Progress report
+    if index % 1000 == 0:
+        print(f'Graph {index} of {len(graphs)}')
+
+
 # Set end time (not a Prophet tho)
 end_time = time.time()
 
 # Calculate the time taken
 time_taken = end_time - start_time
 
-# Remove duplicates from not_induced_subgraphs
-not_induced_subgraphs = set(not_induced_subgraphs)
-
 # Print not_induced_subgraphs
 # print('not_induced_subgraphs: ', not_induced_subgraphs)
 
-# Save to file 
+# Save to file
 
 # Store this graph in the grpahs folder
-f=open(f'./graphs/not_induced_subgraphs.txt', "a")
+f = open(f'./graphs/not_induced_subgraphs.txt', "a")
 
 for string in not_induced_subgraphs:
-    
+
     # Write to file
     f.write(f'{string}\n')
 
