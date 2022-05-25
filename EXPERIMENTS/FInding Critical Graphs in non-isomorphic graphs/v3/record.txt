@@ -1,3 +1,50 @@
 Resources
 	Classify with pytorch
 	https://www.youtube.com/watch?v=oSirQZ_L7Q8&list=LL&index=186
+
+Findings:
+	Using an incredibly small learning rate yields better predictions
+
+Summary (1)
+
+	Loss: -0.06075938045978546
+	learning_rate=5e-06
+	epoch_length=1000
+	actual: tensor([1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0])
+	prediction: tensor([1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0])
+
+	0 = Not Critical
+	1 = Critical
+
+	Almost a perfect match with the model prediction and actual results.
+
+	NN Setup:
+		Input: [
+			graph.order(),
+
+			max(graph.degree()),
+
+			min(graph.degree()),
+
+			graph.chromatic_number()
+		]
+		self.fc1 = nn.Linear(4, 64)
+        self.fc2 = nn.Linear(64, 128)
+        self.fc3 = nn.Linear(128, 128)
+        self.fc4 = nn.Linear(128, 214)
+        self.fc5 = nn.Linear(214, 214)
+        self.fc6 = nn.Linear(214, 128)
+        self.fc7 = nn.Linear(128, 64)
+        self.fc8 = nn.Linear(64, 64)
+        self.out = nn.Linear(64, 2)
+ 
+
+Summary (2)
+
+	number_of_features=4
+	number_of_labels=2
+	loss=-0.08965345472097397
+	learning_rate=5e-06
+	epoch_length=1000
+	actual: tensor([1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0])
+	prediction: tensor([1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0])
