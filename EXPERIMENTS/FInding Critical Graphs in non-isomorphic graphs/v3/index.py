@@ -159,12 +159,16 @@ def train():
 
         # Get the models output
         y = model(X)
+        
+        _, pred = y.max(1)
 
         # Calculate the loss
         loss = F.nll_loss(y, Y)
 
         print(f'\nLoss: {loss}')
         print(f'Epoch {epoch} of {epoch_length}')
+        print(f'\nTarget: {Y}')
+        print(f'\nActual: {pred}')
 
         # updating the Weights and biases
         model.zero_grad()
@@ -219,7 +223,7 @@ def test():
             _, prediction = y.max(0)
 
             # Create a summary
-            print(f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction is_critical: {bool(prediction)}')
+            print(f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction is_critical: {prediction}')
 
         except:
             
@@ -267,10 +271,10 @@ class Net(nn.Module):
 model = Net()
 
 # Learning rate
-learning_rate = 0.00005  # Best: 0.000005
+learning_rate = 50  # Best: 0.000005
 
 # Number of training iterations
-epoch_length = 1000
+epoch_length = 5000
 
 # Define the model Optimizer
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
