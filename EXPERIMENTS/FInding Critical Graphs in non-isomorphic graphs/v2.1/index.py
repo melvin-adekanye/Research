@@ -67,7 +67,7 @@ for string in graphs:
                        for index, degree in enumerate(degrees)]
 
     # Delete highest degree vertice first
-    delete_vertice_with_highest_degree_first = True
+    delete_vertice_with_highest_degree_first = False
 
     # Sort the indice_n_degree by the degree value
     indice_n_degree.sort(

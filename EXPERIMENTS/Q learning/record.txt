@@ -1,0 +1,22 @@
+No Way!! It's Working!!
+
+    MAX_GRAPH_ORDER = 3**2
+    NUMBER_OF_CLASSES = 2
+    LEARNING_RATE = 0.003
+    NUMBER_OF_ROUNDS = 50000
+
+    CLASSIFICATIONS = [0, 1]
+
+    MAX_MEMORY_SIZE = 100000
+    BATCH_SIZE = 50
+
+    GAMMA = 0.99
+    EPSILON = 1
+    MIN_EPSILON = 0.01
+    DECAY_EPSILON = 1e-4
+
+    Round 2517 - Epsilon 0.01 - Avg Score 23.96
+
+
+It's interesting to note, that training slowed down as the rounds increased.
+This is because the while loop wasn't broken quickly, because the agent was so good and getting it right.

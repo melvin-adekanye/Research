@@ -11,12 +11,6 @@ import torch.optim as optim
 # Create the path for the graphs to be stored
 path = f'{os.getcwd()}/graphs'
 
-# Number of inputs (features to determine if a graph is 0-not_critical or 1-critical)
-number_of_features = 4
-
-# Number of labels = 2 (critical or not critical)
-number_of_labels = 2
-
 # Defien the path of the graph
 not_critical_graphs_path = f'{path}/not_critical_graphs.txt'
 
@@ -24,6 +18,7 @@ not_critical_graphs_path = f'{path}/not_critical_graphs.txt'
 critical_graphs_path = f'{path}/critical_graphs.txt'
 
 # Randomly shuffle two arrays in the same way
+
 
 def unison_shuffled_copies(a, b):
 
@@ -33,13 +28,44 @@ def unison_shuffled_copies(a, b):
 
     return a[p], b[p]
 
+# Create the input
+
+
+def create_feature(graph):
+
+    if graph is None:
+
+        # Return the number of features
+        return 2 # Basically data . length  
+
+    data = [
+
+        # Number of vertices
+        # graph.order(),
+
+        # Number of edges
+        # graph.size(),
+
+        # Max degree
+        # max(graph.degree()),
+
+        # Min degree
+        min(graph.degree()),
+
+        # Chromatic #
+        graph.chromatic_number()
+
+    ]
+
+    return data
+
 
 # Train the model
 
 
 def train():
 
-    print('. . . Training')
+    print(f'. . . Training ({epoch_length} rounds) ')
 
     # Create a number array
     not_critical_features = []
@@ -62,74 +88,54 @@ def train():
     # FOr every line in the file
     for index, line in enumerate(f):
 
-        graph_string = line.split(
-            None, 1)[0]
+        read = True
 
-        graph = Graph(graph_string)
+        if index > 13:
+            read = True
 
-        feature = [
+        if read == True:
 
-            # Number of vertices
-            graph.order(),
+            graph_string = line.split(
+                None, 1)[0]
 
-            # Number of edges
-            # graph.size(),
+            graph = Graph(graph_string)
 
-            # Max degree
-            max(graph.degree()),
+            feature = create_feature(graph)
 
-            # Min degree
-            min(graph.degree()),
+            # Label is 0 (not critical)
+            label = 0
 
-            # Chromatic #
-            graph.chromatic_number()
+            # APpend this data to the not_critical_graphs
+            not_critical_features.append(feature)
 
-        ]
-
-        # Label is 0 (not critical)
-        label = 0
-
-        # APpend this data to the not_critical_graphs
-        not_critical_features.append(feature)
-
-        # Append the labels
-        not_critical_labels.append(label)
+            # Append the labels
+            not_critical_labels.append(label)
 
     # FOr every line in the file
     for index, line in enumerate(cf):
 
-        graph_string = line.split(
-            None, 1)[0]
+        read = True
 
-        graph = Graph(graph_string)
+        if index < 13:
+            read = True
 
-        feature = [
+        if read == True:
 
-            # Number of vertices
-            graph.order(),
+            graph_string = line.split(
+                None, 1)[0]
 
-            # Number of edges
-            # graph.size(),
+            graph = Graph(graph_string)
 
-            # Max degree
-            max(graph.degree()),
+            feature = create_feature(graph)
 
-            # Min degree
-            min(graph.degree()),
+            # Label is 1 (critical)
+            label = 1
 
-            # Chromatic #
-            graph.chromatic_number()
+            # APpend this data to the not_critical_graphs
+            critical_features.append(feature)
 
-        ]
-
-        # Label is 1 (critical)
-        label = 1
-
-        # APpend this data to the not_critical_graphs
-        critical_features.append(feature)
-
-        # Append the labels
-        critical_labels.append(label)
+            # Append the labels
+            critical_labels.append(label)
 
     # CLose the file
     f.close()
@@ -159,7 +165,7 @@ def train():
 
         # Get the models output
         y = model(X)
-        
+
         _, pred = y.max(1)
 
         # Calculate the loss
@@ -167,8 +173,8 @@ def train():
 
         print(f'\nLoss: {loss}')
         print(f'Epoch {epoch} of {epoch_length}')
-        print(f'\nTarget: {Y}')
-        print(f'\nActual: {pred}')
+        # print(f'\nTarget: {Y}')
+        # print(f'\nActual: {pred}')
 
         # updating the Weights and biases
         model.zero_grad()
@@ -179,42 +185,94 @@ def train():
         # Step the optimizer
         optimizer.step()
 
+        graph = Graph("DFw")
+
+    feature = torch.tensor(create_feature(graph), dtype=torch.float)
+
+    # Get the output
+    y = model(feature)
+
+    # Get the models prediction (tuple = (value, index))
+    _, prediction = y.max(0)
+
+    is_critical = ['is not critical', 'is critical']
+
+    # Create a summary
+    print(
+        f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction: Graph {"DFw"} {is_critical[prediction]}')
+    print('Should be not critical')
+
+    graph = Graph("GQjRv{")
+
+    feature = torch.tensor(create_feature(graph), dtype=torch.float)
+
+    # Get the output
+    y = model(feature)
+
+    # Get the models prediction (tuple = (value, index))
+    _, prediction = y.max(0)
+
+    is_critical = ['is not critical', 'is critical']
+
+    # Create a summary
+    print(
+        f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction: Graph {"GQjRv{"} {is_critical[prediction]}')
+    print('Should be critical')
+
 # Test the model
 
 
 def test():
 
-    while True:
+    graph = Graph("DFw")
+
+    feature = torch.tensor(create_feature(graph), dtype=torch.float)
+
+    # Get the output
+    y = model(feature)
+
+    # Get the models prediction (tuple = (value, index))
+    _, prediction = y.max(0)
+
+    is_critical = ['is not critical', 'is critical']
+
+    # Create a summary
+    print(
+        f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction: Graph {"DFw"} {is_critical[prediction]}')
+    print('Should be not critical')
+
+    graph = Graph("GQjRv{")
+
+    feature = torch.tensor(create_feature(graph), dtype=torch.float)
+
+    # Get the output
+    y = model(feature)
+
+    # Get the models prediction (tuple = (value, index))
+    _, prediction = y.max(0)
+
+    is_critical = ['is not critical', 'is critical']
+
+    # Create a summary
+    print(
+        f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction: Graph {"GQjRv{"} {is_critical[prediction]}')
+    print('Should be critical')
+
+    while 2 == 5:
 
         # Query the user for a graph stirng
-        requested_graph_string = str(input('Enter a graph string to check criticality? '))
+        requested_graph_string = str(
+            input('\n\n\n. . . Test . . .\n\nEnter a graph string to check criticality? '))
 
         if requested_graph_string == 'q':
-            
+
             break
-        
+
         try:
             # Create the graph object
             graph = Graph(requested_graph_string)
 
-            feature = torch.tensor([
-
-                # Number of vertices
-                graph.order(),
-
-                # Number of edges
-                # graph.size(),
-
-                # Max degree
-                max(graph.degree()),
-
-                # Min degree
-                min(graph.degree()),
-
-                # Chromatic #
-                graph.chromatic_number()
-
-            ], dtype=torch.float)
+            feature = torch.tensor(create_feature(graph), dtype=torch.float)
 
             # Get the output
             y = model(feature)
@@ -222,14 +280,31 @@ def test():
             # Get the models prediction (tuple = (value, index))
             _, prediction = y.max(0)
 
+            is_critical = ['is not critical', 'is critical']
+
             # Create a summary
-            print(f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction is_critical: {prediction}')
+            print(
+                f'\n\nSummary\n\nnumber_of_features={number_of_features}\nnumber_of_labels={number_of_labels}\nlearning_rate={learning_rate}\nepoch_length={epoch_length}\nprediction: Graph {requested_graph_string} {is_critical[prediction]}')
 
         except:
-            
+
             pass
 
 # Neural network class
+
+
+# Number of inputs (features to determine if a graph is 0-not_critical or 1-critical)
+number_of_features = create_feature(None)
+
+# Number of labels = 2 (critical or not critical)
+number_of_labels = 2
+
+# Learning rate
+# The learning rate controls how quickly the model is adapted to the problem
+learning_rate = 0.5  # Best: 0.000005
+
+# Number of training iterations
+epoch_length = 100
 
 
 class Net(nn.Module):
@@ -270,12 +345,6 @@ class Net(nn.Module):
 # Init the model
 model = Net()
 
-# Learning rate
-learning_rate = 50  # Best: 0.000005
-
-# Number of training iterations
-epoch_length = 5000
-
 # Define the model Optimizer
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -284,9 +353,6 @@ train()
 
 # Test
 test()
-
-
-
 
 
 """

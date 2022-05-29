@@ -1,0 +1,8 @@
+Try neural network on curculent graph data
+
+Create a curculent generator from graph files
+
+Curculent graphs
+- All graphs will have 14 vertices
+
+- 
