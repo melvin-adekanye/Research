@@ -10,9 +10,12 @@ import torch.optim as optimizer
 from sage.all import *
 
 # The max graph order (3 - 10 vertices)
-MAX_GRAPH_ORDER = 5**2
+MAX_GRAPH_ORDER = 9**2 # Raised to the power to. To get the matrix length 
 NUMBER_OF_CLASSES = 2
 LEARNING_RATE = 0.003
+
+# Used in training to break when the agent is basically the Lebron James of classifying graphs
+BREAK_WHEN_AVERAGE_SCORE = 50
 NUMBER_OF_ROUNDS = 5000
 
 CLASSIFICATIONS = [0, 1]
@@ -31,17 +34,23 @@ DECAY_EPSILON = 1e-4
 class ENV(nn.Module):
 
     def __init__(self):
-
+        
         self.graphs = []
+        
+        self.tests = []
+
+        self.num_critical = 0
+
+        self.num_not_critical = 0
 
         # Create the path for the graphs to be stored
         path = f'{os.getcwd()}/graphs'
 
         # Defien the path of the graph
-        not_critical_graphs_path = f'{path}/not_critical_graphs.txt'
+        not_critical_graphs_path = f'{path}/not_critical.txt'
 
         # Defien the path of the graph
-        critical_graphs_path = f'{path}/critical_graphs.txt'
+        critical_graphs_path = f'{path}/critical.txt'
 
         # Open up and read the file graph
         f = open(not_critical_graphs_path, "r")
@@ -53,13 +62,15 @@ class ENV(nn.Module):
         for index, graph_string in enumerate(f):
 
             graph_string = graph_string.rstrip('\n')
-            
+
             graph = Graph(graph_string)
 
             if graph.order() == math.sqrt(MAX_GRAPH_ORDER):
 
                 # Label is 0 (not critical)
                 label = 0
+                
+                self.num_not_critical += 1
 
                 # APpend this data to the not_critical_graphs
                 self.graphs.append([graph_string, label])
@@ -75,14 +86,27 @@ class ENV(nn.Module):
 
                 # Label is 1 (critical)
                 label = 1
+                
+                self.num_critical += 1
 
                 # APpend this data to the not_critical_graphs
-                self.graphs.append([line, label])        
+                self.graphs.append([graph_string, label])
+
+        # Add to the tests
+        if len(self.graphs) > 2:
+            self.tests.append(choice(self.graphs))
+            self.tests.append(choice(self.graphs))
+            self.tests.append(choice(self.graphs))
+            self.tests.append(choice(self.graphs))
+
+        # Remove test graphs from graphs
+        self.graphs = [
+            graph for graph in self.graphs if graph not in self.tests]
+
+        print(f'{self.num_critical} critical graphs')
         
-        # FOr some reasons functions are slipped into the  graphs array
-        self.graphs = [graph for graph in self.graphs if callable(graph[0]) == False]
-    
-    
+        print(f'{self.num_not_critical} not critical graphs')
+
     # Return the state
 
     def graph(self, graph_string):
@@ -110,9 +134,9 @@ class ENV(nn.Module):
 
         graph_string = choice(
             [graph[0]
-                for graph in self.graphs ]
+                for graph in self.graphs]
         )
-        
+
         return graph_string
 
     def get_label(self, requested_graph_string):
@@ -120,29 +144,62 @@ class ENV(nn.Module):
         label = [graph[1]
                  for graph in self.graphs if graph[0] == requested_graph_string]
 
-        # label is [0] or [1]. Remove from array
-        label = label[0]
+        # If the requested_graph_string is not found in the self.graphs array
+        if len(label) == 0:
+            
+            # Check if this graph is in the tests
+            label = [graph[1]
+                 for graph in self.tests if graph[0] == requested_graph_string]
 
+            # If it's still not found
+            if len(label) == 0:
+
+                # This must be a new graph 
+                label = -1
+            else:
+                
+                label = label[0]
+        
+        else:
+
+            # Else if it is found. Remove the array to get the int value (0 or 1)
+            label = label[0]
+        
+        # Return the label
         return label
 
     def step(self, graph_string, classification):
-
+        
         label = self.get_label(graph_string)
-
-        if classification != label:
-
-            reward = -10
+                
+        # If there is no label
+        if label == -1:
+            
+            reward = -0
             done = True
 
         else:
 
-            reward = 1
-            done = False
-        
-        info = f'classification: {classification} | label: {label}'
+            # If the agent had the wrong classification
+            if classification != label:
 
+                # Reqard is bad. End test
+                reward = -10
+                done = True
+
+            else:
+
+                # Reqard is good. Kee going
+                reward = 1
+                done = False
+
+        info = f'. . . classification: {classification} | {graph_string} | label: {label}'
+        print(info)
+        
+        # Get a new and random graph
         graph, graph_string = self.graph(None)
 
+        # Return / update the env
         return graph, graph_string, reward, done, info
 
 # The Deep Q Network
@@ -313,13 +370,13 @@ if __name__ == "__main__":
 
         graph, graph_string = env.graph(None)
 
-        if average_score > 50:
-            
+        if average_score > BREAK_WHEN_AVERAGE_SCORE:
+
             break
 
         # and average_score < 200. Forces a stop in training after achieving such success!
         while not done:
-                        
+
             classification = agent.classify(graph)
 
             new_graph, new_graph_string, reward, done, info = env.step(
@@ -343,7 +400,7 @@ if __name__ == "__main__":
 
         # Print out summary
         print(f'Round {round_} / {NUMBER_OF_ROUNDS} - Epsilon {round(agent.epsilon, 2)} - Graph Order {math.sqrt(MAX_GRAPH_ORDER)} - Graph {graph_string} - Avg Score {average_score}')
-    
+
     # Set end time (not a Prophet tho)
     end_time = time.time()
 
@@ -352,20 +409,51 @@ if __name__ == "__main__":
 
     print(f'TIme Taken {round(time_taken, 2)}s')
 
-    while True:
+    print(f'\n\n\nTests: {env.tests} \n\n')
 
-        # Query the user for a graph stirng
-        requested_graph_string = str(
-            input('\n\n. . . Test . . .\n\nEnter a graph string to check criticality? '))
+    for test in env.tests:
         
-        # Create the graph object
-        graph_string = requested_graph_string
+        graph_string = test[0]
 
         graph, _ = env.graph(graph_string)
+        
         classification = agent.classify(graph)
+        
         _, _, _, _, info = env.step(graph_string, classification)
 
-        print('\n\nEvaluation\n', info)
 
 
-# DUw
+
+
+
+
+    """
+    while True:
+
+        try:
+
+            # Query the user for a graph stirng
+            requested_graph_string = str(
+                input('\n\n. . . Test . . .\n\nEnter a graph string to check criticality? '))
+
+            if requested_graph_string == 'q':
+            
+                break
+
+            # Create the graph object
+            graph_string = requested_graph_string
+
+            graph, _ = env.graph(graph_string)
+            classification = agent.classify(graph)
+            _, _, _, _, info = env.step(graph_string, classification)
+
+            print('\n\nEvaluation\n', info)
+
+        except e:
+
+            print(e)
+
+
+# Order #8 Critical Graph -> GQjuv{
+# Order #8 Not Critical Graph -> GCY^Bw
+    """

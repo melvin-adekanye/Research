@@ -3,6 +3,18 @@ import os
 import time
 import shutil
 
+# Create the path for the graphs to be stored
+path = f'{os.getcwd()}/graphs'
+
+# Remove graphs
+shutil.rmtree(path, ignore_errors=True)
+
+# Wait a bit
+time.sleep(3)
+
+# Then create a new folder
+os.mkdir(path)
+
 # Path to get the data
 path = f'../../../DATA/graphs'
 
@@ -10,7 +22,7 @@ path = f'../../../DATA/graphs'
 # Should get chromatic numbers between 2 and the number of vertices.
 
 min_vertices = 3
-max_vertices = 8
+max_vertices = 9
 
 # Set start time
 start_time = time.time()
@@ -18,6 +30,29 @@ start_time = time.time()
 graphs = []
 critical_graphs = []
 not_critical = []
+
+def save():
+
+    # Store this graph in the grpahs folder
+    f=open(f'./graphs/critical.txt', "a")
+
+    # Store this graph in the grpahs folder
+    g=open(f'./graphs/not_critical.txt', "a")
+
+    for graph in critical_graphs:
+        
+        # Write to file
+        f.write(f'{graph}\n')
+
+    for graph in not_critical:
+        
+        # Write to file
+        g.write(f'{graph}\n')
+
+
+    # CLose the file
+    f.close()
+    g.close()
 
 # Loop through all graphs with 3 - 7 vertices
 for vertice in range(min_vertices, max_vertices + 1):
@@ -119,6 +154,9 @@ time_taken = end_time - start_time
 # Time taken print out
 print(f'TIme Taken {round(time_taken, 2)}s')
 print('Done')
+
+save()
+
 
 # print('critical_graphs: ', critical_graphs)
 # print('not_critical: ', not_critical)
