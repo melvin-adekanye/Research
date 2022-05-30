@@ -24,6 +24,7 @@
 \author{ --insert name here-- \thanks{funded by the Kings University}}
 \date{ May - August 2022 }
 
+
 \begin{document}
 
 \begin{titlepage}
@@ -121,8 +122,142 @@ Deleting vertice with random degree & Deleting vertice with smallest degree & De
 \hline
 \end{tabularx}
 
-\subsubsection{Using Reinforcement Learning to classify critical graphs}
-Using RL to classify critical graphs
+\subsubsection{Using Neural Networks to classify critical graphs}
+The application of neural networks became a potential game-changer for classifying graphs efficiently and quickly. I created a feed-forward neural network with four input features and two outputs. These select input features were the graph order (number of vertices), minimum graph degree, maximum graph degree and the chromatic graph number. 
+These features created an interesting result, which sparked further exploration into the use of neural networks for classifying critical/non-critical graphs.
+\\
+\\[0.05in]
+
+Results (Graphs with 3 to 8 vertices)
+
+\begin{tabularx}{0.95\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+  
+\toprule
+ & Test 1 & Test 2 \\
+\midrule
+
+ Loss & -0.06075938045978546 & -0.08965345472097397 \\
+ \hline
+ learning rate & 5e-06 & 5e-06  \\
+ \hline
+ Epoch Length & 1000 & 1000  \\
+ \hline
+ Actual Classification \\ 0 = Not Critical \\ 1 = Critical & 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0 & 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0  \\
+ \hline
+ Agent's Classification \\ 0 = Not Critical \\ 1 = Critical & 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0 & 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0  \\
+
+\hline
+\end{tabularx}
+
+Promising result! Test 2, proving identical results.
+
+
+\section{Deep Q-Learning Agent Classifies Critical Graphs}
+Classifying graphs as critical using select features proved true potential, as results were very similar. However, the basis on which features were selected could potentially hinder the improvement of the model. 
+It's frankly impossible to know the absolute best features to accurately classify graphs.
+I decided to try something outright obvious; to feed the agent an input of the graph. Using a flattened matrix representation of the graph, the deep Q-earning agent derived its own patterns in an effort to maximize its reward. I awarded regards to the agent when its classifications were correct. Likewise, rewards were stripped on false classifications. 
+This iterative process created an elaborated agent which classifies graphs using the graphs matrix.
+It's interesting to note that training slowed down as the rounds increased. This is because new training rounds are started when the agent makes an error. But as the training continues, the agent makes fewer errors, resulting in longer rounds.
+\\
+
+Results (Graphs with Order 5)
+
+\begin{tabularx}{0.9\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+  
+\toprule
+Agents Classification & Graph & Correct Classification \\
+\midrule
+
+ Critical: 0.0003316s & DFw & Critical \\
+ \hline
+ Critical: 0.0002816s  & DCw & Critical  \\
+ \hline
+ Critical: 0.0002756s  & DEw & Not Critical  \\
+ \hline
+ Not Critical: 0.0002849s & DQo & Not Critical  \\
+
+\hline
+\end{tabularx}
+\\[0.075in]
+
+Results (Graphs with Order 8)
+
+\begin{tabularx}{0.9\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+  
+\toprule
+Agents Classification & Graph & Correct Classification \\
+\midrule
+
+ Critical: 0.0003307s &  & Critical \\
+ \hline
+ Critical: 0.0003133s & & Critical  \\
+ \hline
+  Critical: 0.0004377s &  & Critical \\
+ \hline
+ Critical: 0.0003135s & & Critical \\
+ \hline
+ Critical: 0.0003059s &  & Critical \\
+ \hline
+
+ Not Critical: 0.000324s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0003142s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0003021s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0002992s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0003014s &  & Not Critical  \\
+ \hline
+
+\hline
+\end{tabularx}
+
+
+Results (Graphs with Order 9)
+
+\begin{tabularx}{0.9\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+  
+\toprule
+Agents Classification & Graph & Correct Classification \\
+\midrule
+
+ Critical: 0.0003803s &  & Critical \\
+ \hline
+ Critical: 0.0004981s & & Critical  \\
+ \hline
+  Critical: 0.0005579s &  & Critical \\
+ \hline
+ Critical: 0.000499s & & Critical \\
+ \hline
+ Critical: 0.0005002s &  & Critical \\
+ \hline
+
+ Not Critical: 0.0004976s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0005088s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0004992s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.0383444s &  & Not Critical  \\
+ \hline
+ Not Critical: 0.000474s &  & Not Critical  \\
+ \hline
+
+\hline
+\end{tabularx}
 
 
 \end{document}

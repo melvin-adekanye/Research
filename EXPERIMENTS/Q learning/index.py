@@ -9,18 +9,21 @@ import torch.nn.functional as F
 import torch.optim as optimizer
 from sage.all import *
 
-MAX_GRAPH_ORDER = 9**2 # Raised to the power 2. In order to attain the flatten matrix length.
-NUMBER_OF_CLASSES = 2 # Two classes ( critical or not critical )
-LEARNING_RATE = 0.003 # Decent learning rate
+# Raised to the power 2. In order to attain the flatten matrix length.
+MAX_GRAPH_ORDER = 7**2
+NUMBER_OF_CLASSES = 2  # Two classes ( critical or not critical )
+LEARNING_RATE = 0.0003  # 0.003 # Decent learning rate
+
+CLASSIFICATIONS = [0, 1]  # 0 = not critical 1 = critical
+
+# The agent will have [X] number of data points to base future decisions on
+MAX_MEMORY_SIZE = 100000
+BATCH_SIZE = 50  # Batch size of 50 data points before learning
 
 # Used in training to break when the agent is basically the Lebron James of classifying graphs
-BREAK_WHEN_AVERAGE_SCORE = 50 # An average classification score of [X] will break the training
-NUMBER_OF_ROUNDS = 5000 # Number of training rounds 5,000 is a great start.
-
-CLASSIFICATIONS = [0, 1] # 0 = not critical 1 = critical
-
-MAX_MEMORY_SIZE = 100000 # The agent will have [X] number of data points to base future decisions on
-BATCH_SIZE = 50 # Batch size of 50 data points before learning
+# An average classification score of [X] will break the training
+BREAK_WHEN_AVERAGE_SCORE = 300
+NUMBER_OF_ROUNDS = 5000  # Number of training rounds 5,000 is a great start.
 
 # Agent variables
 GAMMA = 0.99
@@ -34,10 +37,10 @@ DECAY_EPSILON = 1e-4
 class ENV(nn.Module):
 
     def __init__(self):
-        
+
         # Will cOntain all grpahs
         self.graphs = []
-        
+
         # Will cOntain all test grpahs
         self.tests = []
 
@@ -64,8 +67,8 @@ class ENV(nn.Module):
 
         # FOr every line in the file
         for index, graph_string in enumerate(f):
-            
-            # Rean in the graph string without \n 
+
+            # Rean in the graph string without \n
             graph_string = graph_string.rstrip('\n')
 
             # Create the graph
@@ -86,7 +89,7 @@ class ENV(nn.Module):
         # FOr every line in the file
         for index, graph_string in enumerate(cf):
 
-            # Rean in the graph string without \n 
+            # Rean in the graph string without \n
             graph_string = graph_string.rstrip('\n')
 
             # Create the graph
@@ -97,7 +100,7 @@ class ENV(nn.Module):
 
                 # Label is 1 (critical)
                 label = 1
-                
+
                 # Incriment the num_critical
                 self.num_critical += 1
 
@@ -105,21 +108,36 @@ class ENV(nn.Module):
                 self.graphs.append([graph_string, label])
 
         # Add random graphs from self.graphs to self.tests
-        if len(self.graphs) > 2:
-            self.tests.append(choice(self.graphs))
-            self.tests.append(choice(self.graphs))
-            self.tests.append(choice(self.graphs))
-            self.tests.append(choice(self.graphs))
+        critical_graohs = [graph for graph in self.graphs if graph[1] == 1]
+        not_critical_graohs = [graph for graph in self.graphs if graph[1] == 0]
+
+        if len(critical_graohs) > 1:
+            self.tests.append(choice(critical_graohs))
+            self.tests.append(choice(critical_graohs))
+            self.tests.append(choice(critical_graohs))
+            self.tests.append(choice(critical_graohs))
+            self.tests.append(choice(critical_graohs))
+
+        if len(not_critical_graohs) > 1:
+            self.tests.append(choice(not_critical_graohs))
+            self.tests.append(choice(not_critical_graohs))
+            self.tests.append(choice(not_critical_graohs))
+            self.tests.append(choice(not_critical_graohs))
+            self.tests.append(choice(not_critical_graohs))
 
         # Remove test graphs from the training set (self.graphs)
         self.graphs = [
             graph for graph in self.graphs if graph not in self.tests]
-        
-        # Print out
-        print(f'{self.num_critical} critical graphs')
-        print(f'{self.num_not_critical} not critical graphs')
 
-    # Return the graph matrix and graph string 
+        # Print out
+        print(f'Tests: ({len(self.tests)}) ==>> {self.tests}\n\n')
+        print(f'{self.num_critical} critical graphs')
+        print(f'{self.num_not_critical} not critical graphs\n\n')
+
+        # Wait a bit to read print out
+        time.sleep(10)
+
+    # Return the graph matrix and graph string
 
     def graph(self, graph_string):
 
@@ -146,7 +164,7 @@ class ENV(nn.Module):
     # Return a random graph from self.graphs
 
     def random_graph(self):
-        
+
         # Pick graph[0] (the graph string)
         graph_string = choice(
             [graph[0]
@@ -163,35 +181,35 @@ class ENV(nn.Module):
 
         # If the requested_graph_string is not found in the self.graphs array
         if len(label) == 0:
-            
+
             # Check if this graph is in the tests
             label = [graph[1]
-                 for graph in self.tests if graph[0] == requested_graph_string]
+                     for graph in self.tests if graph[0] == requested_graph_string]
 
             # If it's still not found
             if len(label) == 0:
 
-                # This must be a new graph 
+                # This must be a new graph
                 label = -1
             else:
-                
+
                 label = label[0]
-        
+
         else:
 
             # Else if it is found. Remove the array to get the int value (0 or 1)
             label = label[0]
-        
+
         # Return the label
         return label
 
     def step(self, graph_string, classification):
-        
+
         label = self.get_label(graph_string)
-                
+
         # If there is no label
         if label == -1:
-            
+
             # Reward is not changed
             reward = 0
 
@@ -218,8 +236,8 @@ class ENV(nn.Module):
                 done = False
 
         info = f'. . . classification: {classification} | {graph_string} | label: {label}'
-        print(info)
-        
+        # print(info)
+
         # Get a new and random graph
         graph, graph_string = self.graph(None)
 
@@ -385,7 +403,7 @@ if __name__ == "__main__":
 
     # Set start time
     start_time = time.time()
-
+    
     for round_ in range(NUMBER_OF_ROUNDS):
 
         score = 0
@@ -431,28 +449,44 @@ if __name__ == "__main__":
     # Calculate the time taken
     time_taken = end_time - start_time
 
-    print(f'TIme Taken {round(time_taken, 2)}s')
+    print(f'Time Taken {round(time_taken, 2)}s')
 
-    print(f'\n\n\nTests: {env.tests} \n\n')
+    print(f'Variables')
+    print(f'MAX_GRAPH_ORDER => {MAX_GRAPH_ORDER}')
+    print(f'NUMBER_OF_CLASSES => {NUMBER_OF_CLASSES}')
+    print(f'LEARNING_RATE => {LEARNING_RATE}')
+    print(f'CLASSIFICATIONS => {CLASSIFICATIONS}')
+    print(f'MAX_MEMORY_SIZE => {MAX_MEMORY_SIZE}')
+    print(f'BATCH_SIZE => {BATCH_SIZE}')
+    print(f'BREAK_WHEN_AVERAGE_SCORE => {BREAK_WHEN_AVERAGE_SCORE}')
+    print(f'NUMBER_OF_ROUNDS => {NUMBER_OF_ROUNDS}')
+
+    print(f'GAMMA => {GAMMA}')
+    print(f'EPSILON => {EPSILON}')
+    print(f'MIN_EPSILON => {MIN_EPSILON}')
+    print(f'DECAY_EPSILON => {DECAY_EPSILON}')
+
+    print(f'\n\n. . . Tests . . . \n\n')
 
     for test in env.tests:
-        
+
         graph_string = test[0]
 
         graph, _ = env.graph(graph_string)
-        
-        start_classify_time  = time.time()
-        
+
+        start_classify_time = time.time()
+
         classification = agent.classify(graph)
-        
-        stop_classify_time  = time.time()
+
+        stop_classify_time = time.time()
 
         _, _, _, _, info = env.step(graph_string, classification)
+        print(info)
 
-        classify_time_taken = stop_classify_time - start_classify_time
+        classify_time_taken = round(
+            stop_classify_time - start_classify_time, 7)
 
-        print(f'Time Taken TO Classify: {classify_time_taken}s')
-
+        print(f'. . . . . . Time Taken To Classify: {classify_time_taken}s')
 
     """
     while True:
@@ -481,6 +515,6 @@ if __name__ == "__main__":
             print(e)
 
 
-# Order #8 Critical Graph -> GQjuv{
-# Order #8 Not Critical Graph -> GCY^Bw
+    # Order #8 Critical Graph -> GQjuv{
+    # Order #8 Not Critical Graph -> GCY^Bw
     """
