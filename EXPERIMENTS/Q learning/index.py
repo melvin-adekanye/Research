@@ -9,20 +9,20 @@ import torch.nn.functional as F
 import torch.optim as optimizer
 from sage.all import *
 
-# The max graph order (3 - 10 vertices)
-MAX_GRAPH_ORDER = 9**2 # Raised to the power to. To get the matrix length 
-NUMBER_OF_CLASSES = 2
-LEARNING_RATE = 0.003
+MAX_GRAPH_ORDER = 9**2 # Raised to the power 2. In order to attain the flatten matrix length.
+NUMBER_OF_CLASSES = 2 # Two classes ( critical or not critical )
+LEARNING_RATE = 0.003 # Decent learning rate
 
 # Used in training to break when the agent is basically the Lebron James of classifying graphs
-BREAK_WHEN_AVERAGE_SCORE = 50
-NUMBER_OF_ROUNDS = 5000
+BREAK_WHEN_AVERAGE_SCORE = 50 # An average classification score of [X] will break the training
+NUMBER_OF_ROUNDS = 5000 # Number of training rounds 5,000 is a great start.
 
-CLASSIFICATIONS = [0, 1]
+CLASSIFICATIONS = [0, 1] # 0 = not critical 1 = critical
 
-MAX_MEMORY_SIZE = 100000
-BATCH_SIZE = 50
+MAX_MEMORY_SIZE = 100000 # The agent will have [X] number of data points to base future decisions on
+BATCH_SIZE = 50 # Batch size of 50 data points before learning
 
+# Agent variables
 GAMMA = 0.99
 EPSILON = 1
 MIN_EPSILON = 0.01
@@ -35,12 +35,16 @@ class ENV(nn.Module):
 
     def __init__(self):
         
+        # Will cOntain all grpahs
         self.graphs = []
         
+        # Will cOntain all test grpahs
         self.tests = []
 
+        # Number of critical graphs
         self.num_critical = 0
 
+        # Number of not critical graphs
         self.num_not_critical = 0
 
         # Create the path for the graphs to be stored
@@ -60,16 +64,20 @@ class ENV(nn.Module):
 
         # FOr every line in the file
         for index, graph_string in enumerate(f):
-
+            
+            # Rean in the graph string without \n 
             graph_string = graph_string.rstrip('\n')
 
+            # Create the graph
             graph = Graph(graph_string)
 
+            # If the graph order is the same as the MAX_GRAPH_ORDER^0.5. Since MAX_GRAPH_ORDER is squared... flattening matrix and stuff...
             if graph.order() == math.sqrt(MAX_GRAPH_ORDER):
 
                 # Label is 0 (not critical)
                 label = 0
-                
+
+                # Incriment the num_not_critical
                 self.num_not_critical += 1
 
                 # APpend this data to the not_critical_graphs
@@ -78,36 +86,40 @@ class ENV(nn.Module):
         # FOr every line in the file
         for index, graph_string in enumerate(cf):
 
+            # Rean in the graph string without \n 
             graph_string = graph_string.rstrip('\n')
 
+            # Create the graph
             graph = Graph(graph_string)
 
+            # If the graph order is the same as the MAX_GRAPH_ORDER^0.5. Since MAX_GRAPH_ORDER is squared... flattening matrix and stuff...
             if graph.order() == math.sqrt(MAX_GRAPH_ORDER):
 
                 # Label is 1 (critical)
                 label = 1
                 
+                # Incriment the num_critical
                 self.num_critical += 1
 
                 # APpend this data to the not_critical_graphs
                 self.graphs.append([graph_string, label])
 
-        # Add to the tests
+        # Add random graphs from self.graphs to self.tests
         if len(self.graphs) > 2:
             self.tests.append(choice(self.graphs))
             self.tests.append(choice(self.graphs))
             self.tests.append(choice(self.graphs))
             self.tests.append(choice(self.graphs))
 
-        # Remove test graphs from graphs
+        # Remove test graphs from the training set (self.graphs)
         self.graphs = [
             graph for graph in self.graphs if graph not in self.tests]
-
-        print(f'{self.num_critical} critical graphs')
         
+        # Print out
+        print(f'{self.num_critical} critical graphs')
         print(f'{self.num_not_critical} not critical graphs')
 
-    # Return the state
+    # Return the graph matrix and graph string 
 
     def graph(self, graph_string):
 
@@ -119,19 +131,23 @@ class ENV(nn.Module):
         # Create the matrix
         matrix = graph.adjacency_matrix()
 
+        # COnvetr the matrix from array to a torch tensor
         matrix = torch.tensor(
             numpy.array([matrix]),
             dtype=torch.float
         )
 
-        # COnvert the matrix to a single list
+        # COnvert the matrix tensor to a single tensor
         matrix = matrix.reshape(-1)
 
         # Return the matrix
         return matrix, graph_string
 
-    def random_graph(self):
+    # Return a random graph from self.graphs
 
+    def random_graph(self):
+        
+        # Pick graph[0] (the graph string)
         graph_string = choice(
             [graph[0]
                 for graph in self.graphs]
@@ -141,6 +157,7 @@ class ENV(nn.Module):
 
     def get_label(self, requested_graph_string):
 
+        # Pick graph[1] (the graph label. 0 or 1 for crit or not crit...)
         label = [graph[1]
                  for graph in self.graphs if graph[0] == requested_graph_string]
 
@@ -175,7 +192,10 @@ class ENV(nn.Module):
         # If there is no label
         if label == -1:
             
-            reward = -0
+            # Reward is not changed
+            reward = 0
+
+            # Done is true
             done = True
 
         else:
@@ -185,12 +205,16 @@ class ENV(nn.Module):
 
                 # Reqard is bad. End test
                 reward = -10
+
+                # Done is true
                 done = True
 
             else:
 
                 # Reqard is good. Kee going
                 reward = 1
+
+                # Done is false
                 done = False
 
         info = f'. . . classification: {classification} | {graph_string} | label: {label}'
@@ -428,8 +452,6 @@ if __name__ == "__main__":
         classify_time_taken = stop_classify_time - start_classify_time
 
         print(f'Time Taken TO Classify: {classify_time_taken}s')
-
-
 
 
     """
