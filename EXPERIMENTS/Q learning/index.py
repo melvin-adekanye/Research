@@ -417,12 +417,17 @@ if __name__ == "__main__":
 
         graph, _ = env.graph(graph_string)
         
+        start_classify_time  = time.time()
+        
         classification = agent.classify(graph)
         
+        stop_classify_time  = time.time()
+
         _, _, _, _, info = env.step(graph_string, classification)
 
+        classify_time_taken = stop_classify_time - start_classify_time
 
-
+        print(f'Time Taken TO Classify: {classify_time_taken}s')
 
 
 
