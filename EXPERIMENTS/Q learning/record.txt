@@ -202,3 +202,129 @@ New observation with Order 9 graph (May 30, 2022)
         . . . . . . Time Taken To Classify: 6.87e-05s
         . . . classification: 0 | H?`eNbx | label: 0
         . . . . . . Time Taken To Classify: 7.15e-05s
+
+    Order 7
+
+        Round 4999 / 5000 - Epsilon 0.01 - Graph Order 7.0 - Graph FCruw - Avg Score 186.72
+        Time Taken 4308.79s
+        Variables
+        MAX_GRAPH_ORDER => 49
+        NUMBER_OF_CLASSES => 2
+        LEARNING_RATE => 0.0003
+        CLASSIFICATIONS => [0, 1]
+        MAX_MEMORY_SIZE => 100000
+        BATCH_SIZE => 50
+        BREAK_WHEN_AVERAGE_SCORE => 300
+        NUMBER_OF_ROUNDS => 5000
+        GAMMA => 0.99
+        EPSILON => 1
+        MIN_EPSILON => 0.01
+        DECAY_EPSILON => 0.0001
+
+
+        . . . Tests . . . 
+
+
+        . . . classification: 1 | FCvbW | label: 1
+        . . . . . . Time Taken To Classify: 0.0003233s
+        . . . classification: 1 | FQytW | label: 1
+        . . . . . . Time Taken To Classify: 0.0002792s
+        . . . classification: 1 | FCrng | label: 1
+        . . . . . . Time Taken To Classify: 0.0002725s
+        . . . classification: 1 | FCxuw | label: 1
+        . . . . . . Time Taken To Classify: 0.0002718s
+        . . . classification: 1 | FCr^w | label: 1
+        . . . . . . Time Taken To Classify: 0.0002718s
+        . . . classification: 0 | FCRvg | label: 0
+        . . . . . . Time Taken To Classify: 0.0002735s
+        . . . classification: 0 | F?bvW | label: 0
+        . . . . . . Time Taken To Classify: 0.0002773s
+        . . . classification: 0 | FEjvg | label: 0
+        . . . . . . Time Taken To Classify: 0.000273s
+        . . . classification: 0 | FCRv_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0002713s
+        . . . classification: 0 | F?Bfo | label: 0
+        . . . . . . Time Taken To Classify: 0.0003667s
+
+    Order 6
+        Round 2999 / 3000 - Epsilon 0.01 - Graph Order 6.0 - Graph EV~w - Avg Score 174.7
+        Time Taken 682.28s
+        Variables
+        MAX_GRAPH_ORDER => 36
+        NUMBER_OF_CLASSES => 2
+        LEARNING_RATE => 0.0003
+        CLASSIFICATIONS => [0, 1]
+        MAX_MEMORY_SIZE => 100000
+        BATCH_SIZE => 50
+        BREAK_WHEN_AVERAGE_SCORE => 300
+        NUMBER_OF_ROUNDS => 3000
+        GAMMA => 0.99
+        EPSILON => 1
+        MIN_EPSILON => 0.01
+        DECAY_EPSILON => 0.0001
+
+
+        . . . Tests . . . 
+
+
+        . . . classification: 1 | EEho | label: 1
+        . . . . . . Time Taken To Classify: 0.0003343s
+        . . . classification: 1 | EUZO | label: 1
+        . . . . . . Time Taken To Classify: 0.0002947s
+        . . . classification: 0 | EQzO | label: 1
+        . . . . . . Time Taken To Classify: 0.0002837s
+        . . . classification: 1 | E?qw | label: 1
+        . . . . . . Time Taken To Classify: 0.0002806s
+        . . . classification: 1 | EElw | label: 1
+        . . . . . . Time Taken To Classify: 0.0005887s
+        . . . classification: 1 | EEr_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0003116s
+        . . . classification: 1 | E]zo | label: 0
+        . . . . . . Time Taken To Classify: 0.0003002s
+        . . . classification: 1 | EEr_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0004075s
+        . . . classification: 1 | EEr_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0010235s
+        . . . classification: 1 | E?zw | label: 0
+        . . . . . . Time Taken To Classify: 0.00032s
+
+        Round 2693 / 5000 - Epsilon 0.01 - Graph Order 6.0 - Graph ECRo - Avg Score 227.88
+        Time Taken 369.58s
+        Variables
+        MAX_GRAPH_ORDER => 36
+        NUMBER_OF_CLASSES => 2
+        LEARNING_RATE => 0.0003
+        CLASSIFICATIONS => [0, 1]
+        MAX_MEMORY_SIZE => 100000
+        BATCH_SIZE => 50
+        BREAK_WHEN_AVERAGE_SCORE => 225
+        NUMBER_OF_ROUNDS => 5000
+        GAMMA => 0.99
+        EPSILON => 1
+        MIN_EPSILON => 0.01
+        DECAY_EPSILON => 0.0001
+
+
+        . . . Tests . . . 
+
+
+        . . . classification: 1 | ECfw | label: 1
+        . . . . . . Time Taken To Classify: 0.0003743s
+        . . . classification: 1 | ECrg | label: 1
+        . . . . . . Time Taken To Classify: 0.0050571s
+        . . . classification: 1 | EEro | label: 1
+        . . . . . . Time Taken To Classify: 0.0003407s
+        . . . classification: 1 | ECRw | label: 1
+        . . . . . . Time Taken To Classify: 0.0003016s
+        . . . classification: 1 | EEnw | label: 1
+        . . . . . . Time Taken To Classify: 0.0012736s
+        . . . classification: 0 | EUZ_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0003936s
+        . . . classification: 1 | E]zo | label: 0
+        . . . . . . Time Taken To Classify: 0.0005319s
+        . . . classification: 1 | EQj_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0003116s
+        . . . classification: 0 | EEr_ | label: 0
+        . . . . . . Time Taken To Classify: 0.0002806s
+        . . . classification: 1 | ECzg | label: 0
+        . . . . . . Time Taken To Classify: 0.0060663s

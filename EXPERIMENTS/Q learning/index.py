@@ -10,7 +10,7 @@ import torch.optim as optimizer
 from sage.all import *
 
 # Raised to the power 2. In order to attain the flatten matrix length.
-MAX_GRAPH_ORDER = 7**2
+MAX_GRAPH_ORDER = 6**2
 NUMBER_OF_CLASSES = 2  # Two classes ( critical or not critical )
 LEARNING_RATE = 0.0003  # 0.003 # Decent learning rate
 
@@ -22,7 +22,7 @@ BATCH_SIZE = 50  # Batch size of 50 data points before learning
 
 # Used in training to break when the agent is basically the Lebron James of classifying graphs
 # An average classification score of [X] will break the training
-BREAK_WHEN_AVERAGE_SCORE = 300
+BREAK_WHEN_AVERAGE_SCORE = 300 # 300
 NUMBER_OF_ROUNDS = 5000  # Number of training rounds 5,000 is a great start.
 
 # Agent variables
