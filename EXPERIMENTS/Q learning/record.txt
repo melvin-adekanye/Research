@@ -87,39 +87,39 @@ New observation with Order 9 graph (May 30, 2022)
 
     Test: Order #5
 
-    MAX_GRAPH_ORDER = 5**2 # Raised to the power 2. In order to attain the flatten matrix length.
-    NUMBER_OF_CLASSES = 2 # Two classes ( critical or not critical )
-    LEARNING_RATE =  0.0003 #0.003 # Decent learning rate
+	    MAX_GRAPH_ORDER = 5**2 # Raised to the power 2. In order to attain the flatten matrix length.
+	    NUMBER_OF_CLASSES = 2 # Two classes ( critical or not critical )
+	    LEARNING_RATE =  0.0003 #0.003 # Decent learning rate
 
-    CLASSIFICATIONS = [0, 1] # 0 = not critical 1 = critical
+	    CLASSIFICATIONS = [0, 1] # 0 = not critical 1 = critical
 
-    MAX_MEMORY_SIZE = 100000 # The agent will have [X] number of data points to base future decisions on
-    BATCH_SIZE = 50 # Batch size of 50 data points before learning
+	    MAX_MEMORY_SIZE = 100000 # The agent will have [X] number of data points to base future decisions on
+	    BATCH_SIZE = 50 # Batch size of 50 data points before learning
 
-    # Used in training to break when the agent is basically the Lebron James of classifying graphs
-    BREAK_WHEN_AVERAGE_SCORE = 500 # An average classification score of [X] will break the training
-    NUMBER_OF_ROUNDS = 5000 # Number of training rounds 5,000 is a great start.
+	    # Used in training to break when the agent is basically the Lebron James of classifying graphs
+	    BREAK_WHEN_AVERAGE_SCORE = 500 # An average classification score of [X] will break the training
+	    NUMBER_OF_ROUNDS = 5000 # Number of training rounds 5,000 is a great start.
 
-    # Agent variables
-    GAMMA = 0.99
-    EPSILON = 1
-    MIN_EPSILON = 0.01
-    DECAY_EPSILON = 1e-4
+	    # Agent variables
+	    GAMMA = 0.99
+	    EPSILON = 1
+	    MIN_EPSILON = 0.01
+	    DECAY_EPSILON = 1e-4
 
-    Round 4999 / 5000 - Epsilon 0.01 - Graph Order 5.0 - Graph DV{ - Avg Score 143.76
-    TIme Taken 4360.84s
+	    Round 4999 / 5000 - Epsilon 0.01 - Graph Order 5.0 - Graph DV{ - Avg Score 143.76
+	    TIme Taken 4360.84s
 
-    Tests: [['DFw', 1], ['DCw', 1], ['DEw', 0], ['DQo', 0]] 
+	    Tests: [['DFw', 1], ['DCw', 1], ['DEw', 0], ['DQo', 0]] 
 
 
-    . . . classification: 1 | DFw | label: 1
-    . . . . . . Time Taken TO Classify: 0.0003316s
-    . . . classification: 1 | DCw | label: 1
-    . . . . . . Time Taken TO Classify: 0.0002816s
-    . . . classification: 1 | DEw | label: 0
-    . . . . . . Time Taken TO Classify: 0.0002756s
-    . . . classification: 0 | DQo | label: 0
-    . . . . . . Time Taken TO Classify: 0.0002849s
+	    . . . classification: 1 | DFw | label: 1
+	    . . . . . . Time Taken TO Classify: 0.0003316s
+	    . . . classification: 1 | DCw | label: 1
+	    . . . . . . Time Taken TO Classify: 0.0002816s
+	    . . . classification: 1 | DEw | label: 0
+	    . . . . . . Time Taken TO Classify: 0.0002756s
+	    . . . classification: 0 | DQo | label: 0
+	    . . . . . . Time Taken TO Classify: 0.0002849s
 
 
     Order #8

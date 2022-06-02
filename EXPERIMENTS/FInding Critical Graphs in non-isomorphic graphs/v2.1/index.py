@@ -18,7 +18,7 @@ os.mkdir(path)
 # Path to get the data
 path = f'../../../DATA/graphs'
 
-# Loop through all graphs with 3 - 8 vertices (if runs quickly try 8) and separate them based on their chromatic number.
+# Loop through all graphs with 3 - 9 vertices (if runs quickly try 8) and separate them based on their chromatic number.
 # Should get chromatic numbers between 2 and the number of vertices.
 
 min_vertices = 3
