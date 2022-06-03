@@ -1,0 +1,93 @@
+June 3, 2022
+
+Purpose: Classify graphs simply using the graph string.
+    Idea: The graph string would allow various orders of graphs
+            to be classified by the same agent. 
+            The graph string is simply a different way of representing the 
+            adjacency matrix.
+
+TESTS:
+
+    Round 499 / 500 - Epsilon 0.91 - Graph Order 2.6457513110645907 - Graph HCrfbjy - Avg Score -9.06
+
+        Time Taken 43.3s
+        Variables
+        MAX_GRAPH_STRING_LENGTH => 7
+        NUMBER_OF_CLASSES => 2
+        LEARNING_RATE => 0.0003
+        CLASSIFICATIONS => [0, 1]
+        MAX_MEMORY_SIZE => 100000
+        BATCH_SIZE => 50
+        BREAK_WHEN_AVERAGE_SCORE => 300
+        NUMBER_OF_ROUNDS => 500
+        GAMMA => 0.99
+        EPSILON => 1
+        MIN_EPSILON => 0.01
+        DECAY_EPSILON => 0.0001
+
+
+        . . . Tests . . . 
+
+
+        . . . classification: 0 | HCQeN^u | label: 1
+        . . . . . . Time Taken To Classify: 5.67e-05s
+        . . . classification: 1 | H?qfRt| | label: 1
+        . . . . . . Time Taken To Classify: 6.41e-05s
+        . . . classification: 1 | H?`enfZ | label: 1
+        . . . . . . Time Taken To Classify: 0.0005095s
+        . . . classification: 1 | HCpejp| | label: 1
+        . . . . . . Time Taken To Classify: 7.65e-05s
+        . . . classification: 1 | H?`eN^| | label: 1
+        . . . . . . Time Taken To Classify: 6.53e-05s
+        . . . classification: 1 | HCQeLTy | label: 0
+        . . . . . . Time Taken To Classify: 0.0005295s
+        . . . classification: 0 | H?ABvfr | label: 0
+        . . . . . . Time Taken To Classify: 6.6e-05s
+        . . . classification: 0 | GCQvf[ | label: 0
+        . . . . . . Time Taken To Classify: 6.51e-05s
+        . . . classification: 1 | H?ovCnv | label: 0
+        . . . . . . Time Taken To Classify: 6.68e-05s
+        . . . classification: 1 | H?AFfRV | label: 0
+        . . . . . . Time Taken To Classify: 7.2e-05s
+
+    Round 4999 / 5000 - Epsilon 0.01 - Graph H?bLfX~ - Avg Score -6.08
+
+        Time Taken 660.46s
+        Variables
+        MAX_GRAPH_STRING_LENGTH => 7
+        NUMBER_OF_CLASSES => 2
+        LEARNING_RATE => 0.0003
+        CLASSIFICATIONS => [0, 1]
+        MAX_MEMORY_SIZE => 100000
+        BATCH_SIZE => 50
+        BREAK_WHEN_AVERAGE_SCORE => 300
+        NUMBER_OF_ROUNDS => 5000
+        GAMMA => 0.99
+        EPSILON => 1
+        MIN_EPSILON => 0.01
+        DECAY_EPSILON => 0.0001
+
+
+        . . . Tests . . . 
+
+
+        . . . classification: 1 | H?aM^Rx | label: 1
+        . . . . . . Time Taken To Classify: 0.0003726s
+        . . . classification: 1 | HQjRvrm | label: 1
+        . . . . . . Time Taken To Classify: 0.0005133s
+        . . . classification: 1 | H?`elX^ | label: 1
+        . . . . . . Time Taken To Classify: 0.0005205s
+        . . . classification: 1 | HCR`}zy | label: 1
+        . . . . . . Time Taken To Classify: 0.0004966s
+        . . . classification: 1 | H?bBRrX | label: 1
+        . . . . . . Time Taken To Classify: 0.0005167s
+        . . . classification: 0 | H?`eJat | label: 0
+        . . . . . . Time Taken To Classify: 0.0006146s
+        . . . classification: 0 | H?`DF@s | label: 0
+        . . . . . . Time Taken To Classify: 0.0005205s
+        . . . classification: 1 | HCRbnzy | label: 0
+        . . . . . . Time Taken To Classify: 0.0004992s
+        . . . classification: 0 | HCQvfPz | label: 0
+        . . . . . . Time Taken To Classify: 0.0004911s
+        . . . classification: 1 | H?bNFP{ | label: 0
+        . . . . . . Time Taken To Classify: 0.0005345s
