@@ -37,3 +37,17 @@ Things to know:
 	
 	In LaTex, use two single quotes ' '
 	
+	
+	
+	
+	
+	
+	
+June 6 2022
+Sort circulent graphs by chromatic number
+Circ_{}_order_{}_chi_{}
+
+
+Join the talk on Chromatic number (Firday at 11am)
+
+Meet at 1pm with ben Cameron on Friday
