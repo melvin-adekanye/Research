@@ -22,7 +22,7 @@ raw_graphs = []
 graphs = []
 
 min_vertices = 5
-max_vertices = 5 # 10
+max_vertices = 50
 
 def critical_check(string):
 
@@ -126,7 +126,7 @@ for vertice in range(min_vertices, max_vertices + 1):
             for line in f:
 
                 results = line.split(None)
-                
+
                 results = list(map(int, results))
 
                 # Create a list of nauty_geng connected graphs

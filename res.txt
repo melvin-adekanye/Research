@@ -51,3 +51,5 @@ Circ_{}_order_{}_chi_{}
 Join the talk on Chromatic number (Firday at 11am)
 
 Meet at 1pm with ben Cameron on Friday
+
+https://users.cecs.anu.edu.au/~bdm/data/graphs.html

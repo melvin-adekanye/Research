@@ -10,20 +10,20 @@ import torch.optim as optimizer
 from sage.all import *
 
 # max Graph string length
-MAX_GRAPH_STRING_LENGTH = 10
+MAX_GRAPH_VERTICE_LENGTH = 15**2
 NUMBER_OF_CLASSES = 2  # Two classes ( critical or not critical )
-LEARNING_RATE = 0.0003 # 0.003 # Decent learning rate
+LEARNING_RATE = 0.0003  # 0.003 # Decent learning rate
 
 CLASSIFICATIONS = [0, 1]  # 0 = not critical 1 = critical
 
 # The agent will have [X] number of data points to base future decisions on
-MAX_MEMORY_SIZE = 100000
-BATCH_SIZE = 50  # Batch size of 50 data points before learning
+MAX_MEMORY_SIZE = 500000
+BATCH_SIZE = 500  # Batch size of 50 data points before learning
 
 # Used in training to break when the agent is basically the Lebron James of classifying graphs
 # An average classification score of [X] will break the training
 BREAK_WHEN_AVERAGE_SCORE = 300  # 300
-NUMBER_OF_ROUNDS = 50000  # Number of training rounds 5,000 is a great start.
+NUMBER_OF_ROUNDS = 10000  # Number of training rounds 5,000 is a great start.
 
 # Agent variables
 GAMMA = 0.99
@@ -134,30 +134,37 @@ class ENV(nn.Module):
 
     def graph(self, graph_string):
 
-        # Attain the graph_string
         graph_string = graph_string or self.random_graph()
 
-        # Convert string to numbers
-        graph_string_but_numbers = list(graph_string.encode())
+        # Create the graph
+        graph = Graph(graph_string)
 
-        # Add zeros if graph string but numbers is less than MAX_GRAPH_STRING_LENGTH
-        missing_length = MAX_GRAPH_STRING_LENGTH - \
-            len(graph_string_but_numbers)
+        # Create the matrix
+        matrix = graph.adjacency_matrix()
 
-        # Spacer is an array of zeros
-        spacer = [0 for i in range(missing_length)]
-
-        graph_string_but_numbers = numpy.append(
-            graph_string_but_numbers, spacer)
-
-        # COnvert graph_string_but_numbers to a tensor
-        graph_string_but_numbers = torch.tensor(
-            numpy.array(graph_string_but_numbers),
+        # COnvetr the matrix from array to a torch tensor
+        matrix = torch.tensor(
+            numpy.array([matrix]),
             dtype=torch.float
         )
 
+        # COnvert the matrix tensor to a single tensor
+        matrix = matrix.reshape(-1)
+
+        # Add zeros if graph string but numbers is less than MAX_GRAPH_VERTICE_LENGTH
+        missing_length = MAX_GRAPH_VERTICE_LENGTH - len(matrix)
+
+        # Spacer is an array of -1
+        spacer = [-1 for i in range(missing_length)]
+
+        # Convert spacer to a tensor
+        spacer = torch.tensor(spacer)
+
+        # Add spacer to matrix
+        matrix_n_spacer = torch.cat((matrix, spacer))
+
         # Return the matrix
-        return graph_string_but_numbers, graph_string
+        return matrix_n_spacer, graph_string
 
     # Return a random graph from self.graphs
 
@@ -188,7 +195,7 @@ class ENV(nn.Module):
             if len(label) == 0:
 
                 # This must be a new graph
-                label = -1
+                label = 'unknown'
             else:
 
                 label = label[0]
@@ -251,7 +258,7 @@ class DQN(nn.Module):
 
         super(DQN, self).__init__()
 
-        self.fc1 = nn.Linear(MAX_GRAPH_STRING_LENGTH, 64)
+        self.fc1 = nn.Linear(MAX_GRAPH_VERTICE_LENGTH, 64)
         self.fc2 = nn.Linear(64, 128)
         self.fc3 = nn.Linear(128, 214)
         self.fc4 = nn.Linear(214, 214)
@@ -312,9 +319,9 @@ class AGENT():
         self.evaluation = DQN()
 
         self.state_memory = numpy.zeros(
-            (self.memory_size, MAX_GRAPH_STRING_LENGTH), dtype=numpy.float32)
+            (self.memory_size, MAX_GRAPH_VERTICE_LENGTH), dtype=numpy.float32)
         self.new_state_memory = numpy.zeros(
-            (self.memory_size, MAX_GRAPH_STRING_LENGTH), dtype=numpy.float32)
+            (self.memory_size, MAX_GRAPH_VERTICE_LENGTH), dtype=numpy.float32)
         self.action_memory = numpy.zeros(
             self.memory_size, dtype=numpy.int32)
         self.reward_memory = numpy.zeros(
@@ -450,7 +457,7 @@ if __name__ == "__main__":
     print(f'\n\nTime Taken {round(time_taken, 2)}s')
 
     print(f'Variables')
-    print(f'MAX_GRAPH_STRING_LENGTH => {MAX_GRAPH_STRING_LENGTH}')
+    print(f'MAX_GRAPH_VERTICE_LENGTH => {MAX_GRAPH_VERTICE_LENGTH}')
     print(f'NUMBER_OF_CLASSES => {NUMBER_OF_CLASSES}')
     print(f'LEARNING_RATE => {LEARNING_RATE}')
     print(f'CLASSIFICATIONS => {CLASSIFICATIONS}')
@@ -488,14 +495,13 @@ if __name__ == "__main__":
 
         print(f'. . . . . . Time Taken To Classify: {classify_time_taken}s')
 
-    """
     while True:
 
         try:
 
             # Query the user for a graph stirng
             requested_graph_string = str(
-                input('\n\n. . . Test . . .\n\nEnter a graph string to check criticality? '))
+                input('\n\nEnter a graph string to check criticality? (enter q to quit) '))
 
             if requested_graph_string == 'q':
             
@@ -508,13 +514,11 @@ if __name__ == "__main__":
             classification = agent.classify(graph)
             _, _, _, _, info = env.step(graph_string, classification)
 
-            print('\n\nEvaluation\n', info)
+            print('\n', info)
 
-        except e:
+        except:
 
-            print(e)
-
+            print('( X ) Invalid Graph String')
 
     # Order #8 Critical Graph -> GQjuv{
     # Order #8 Not Critical Graph -> GCY^Bw
-    """
