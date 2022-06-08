@@ -22,7 +22,7 @@ raw_graphs = []
 graphs = []
 
 min_vertices = 5
-max_vertices = 10
+max_vertices = 5 # 10
 
 def critical_check(string):
 
@@ -119,8 +119,6 @@ for vertice in range(min_vertices, max_vertices + 1):
         graph_path = f'{raw_path}/circ{vertice}.{circulant_number}.txt'
 
         try:
-            
-
             # Open up and read the file graph
             f = open(graph_path, "r")
 
@@ -128,6 +126,7 @@ for vertice in range(min_vertices, max_vertices + 1):
             for line in f:
 
                 results = line.split(None)
+                
                 results = list(map(int, results))
 
                 # Create a list of nauty_geng connected graphs
@@ -148,6 +147,8 @@ for graph_data in raw_graphs:
 
     chromatic_number = graph.chromatic_number()
 
+    order = graph.order()
+
     if critical_check(graph_string) == True:
         
         # Save this graph
@@ -155,4 +156,4 @@ for graph_data in raw_graphs:
 
 
     # Save this graph
-    save(graph_string, graph.order(), chromatic_number)
+    save(graph_string, order, chromatic_number)
