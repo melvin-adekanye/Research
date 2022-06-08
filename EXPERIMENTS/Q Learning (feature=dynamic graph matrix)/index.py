@@ -23,7 +23,7 @@ BATCH_SIZE = 500  # Batch size of 50 data points before learning
 # Used in training to break when the agent is basically the Lebron James of classifying graphs
 # An average classification score of [X] will break the training
 BREAK_WHEN_AVERAGE_SCORE = 300  # 300
-NUMBER_OF_ROUNDS = 10000  # Number of training rounds 5,000 is a great start.
+NUMBER_OF_ROUNDS = 5000  # Number of training rounds 5,000 is a great start.
 
 # Agent variables
 GAMMA = 0.99

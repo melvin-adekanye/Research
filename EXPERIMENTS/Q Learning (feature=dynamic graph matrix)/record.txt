@@ -1,1 +1,77 @@
 June 8, 2022
+
+    Round 4999 / 5000 - Epsilon 0.01 - Graph H?`FVjk - Avg Score 29.54
+
+    Time Taken 2020.08s
+    Variables
+    MAX_GRAPH_VERTICE_LENGTH => 225
+    NUMBER_OF_CLASSES => 2
+    LEARNING_RATE => 0.0003
+    CLASSIFICATIONS => [0, 1]
+    MAX_MEMORY_SIZE => 500000
+    BATCH_SIZE => 500
+    BREAK_WHEN_AVERAGE_SCORE => 300
+    NUMBER_OF_ROUNDS => 5000
+    GAMMA => 0.99
+    EPSILON => 1
+    MIN_EPSILON => 0.01
+    DECAY_EPSILON => 0.0001
+
+        . . . Tests . . . 
+
+
+        Order #9
+        . . . Agent's Classification: 1 | HCZK|mv | Correct Classification: 1
+        . . . . . . Time Taken To Classify: 0.0003879s
+        Order #9
+        . . . Agent's Classification: 1 | HCpdrn{ | Correct Classification: 1
+        . . . . . . Time Taken To Classify: 0.0008249s
+        Order #9
+        . . . Agent's Classification: 1 | HCQRUqv | Correct Classification: 1
+        . . . . . . Time Taken To Classify: 0.0005009s
+        Order #8
+        . . . Agent's Classification: 1 | G?`c~o | Correct Classification: 1
+        . . . . . . Time Taken To Classify: 0.000483s
+        Order #9
+        . . . Agent's Classification: 1 | H?`eMf[ | Correct Classification: 1
+        . . . . . . Time Taken To Classify: 0.0004954s
+        Order #9
+        . . . Agent's Classification: 0 | HCOefbz | Correct Classification: 0
+        . . . . . . Time Taken To Classify: 0.0005267s
+        Order #9
+        . . . Agent's Classification: 0 | H?BDeRw | Correct Classification: 0
+        . . . . . . Time Taken To Classify: 0.0004718s
+        Order #9
+        . . . Agent's Classification: 0 | H?rvdrv | Correct Classification: 0
+        . . . . . . Time Taken To Classify: 0.0005028s
+        Order #9
+        . . . Agent's Classification: 0 | H?`eLfi | Correct Classification: 0
+        . . . . . . Time Taken To Classify: 0.0004785s
+        Order #9
+        . . . Agent's Classification: 0 | H?BFHyv | Correct Classification: 0
+        . . . . . . Time Taken To Classify: 6.87e-05s
+
+
+        Enter a graph string to check criticality? (enter q to quit) DUW
+
+        . . . Agent's Classification: 1 | DUW | Correct Classification: 1
+
+
+
+    Order #10
+
+        Enter a graph string to check criticality? (enter q to quit) ICpdepkL_
+
+            . . . Agent's Classification: 1 | ICpdepkL_ | Correct Classification: unknown (actually 1)
+
+    Order #12
+
+        Enter a graph string to check criticality? (enter q to quit) KQhTQiiTTTIi
+
+            . . . Agent's Classification: 1 | KQhTQiiTTTIi | Correct Classification: unknown (actually 0)
+
+    Order #8
+
+        Enter a graph string to check criticality? (enter q to quit) GQhTQg
+
+            . . . Agent's Classification: 1 | GQhTQg | Correct Classification: unknown (actually 0)
