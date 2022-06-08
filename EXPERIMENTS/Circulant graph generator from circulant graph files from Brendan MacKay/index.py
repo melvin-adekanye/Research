@@ -6,10 +6,12 @@ import shutil
 raw_path = f'{os.getcwd()}/raw graphs'
 path = f'{os.getcwd()}/graphs'
 critical_path = f'{os.getcwd()}/critical graphs'
+not_critical_path = f'{os.getcwd()}/not critical graphs'
 
 # Remove graphs
 shutil.rmtree(path, ignore_errors=True)
 shutil.rmtree(critical_path, ignore_errors=True)
+shutil.rmtree(not_critical_path, ignore_errors=True)
 
 # Wait a bit
 time.sleep(3)
@@ -17,12 +19,13 @@ time.sleep(3)
 # Then create a new folder
 os.mkdir(path)
 os.mkdir(critical_path)
+os.mkdir(not_critical_path)
 
 raw_graphs = []
 graphs = []
 
 min_vertices = 5
-max_vertices = 50
+max_vertices = 30
 
 def critical_check(string):
 
@@ -42,6 +45,8 @@ def critical_check(string):
 
     # Iterate through every vertice in graphs vertices
     for index in range(order):
+
+        print(f'. . . Deleting Vertice-{index} of {order}')
 
         # Remove the vertex at index
         graph.delete_vertex(index)
@@ -79,6 +84,17 @@ def save_c(string):
 
     # Store this graph in the grpahs folder
     f = open(f'{critical_path}/graphs.txt', "a")
+        
+    # Write to file
+    f.write(f'{string}\n')
+
+    # CLose the file
+    f.close()
+
+def save_nc(string):
+
+    # Store this graph in the grpahs folder
+    f = open(f'{not_critical_path}/graphs.txt', "a")
         
     # Write to file
     f.write(f'{string}\n')
@@ -140,20 +156,26 @@ for vertice in range(min_vertices, max_vertices + 1):
             pass
 
 # For all the raw graphs
-for graph_data in raw_graphs:
+for (index, graph_data) in enumerate(raw_graphs):
+    
+    print(f'{index} out of {len(raw_graphs)} ~ {graph_data}')
 
     # Get the graphs chromatic number and save it to a new file
     graph, graph_string = circulant(*graph_data)
 
+    print('. . . Getting graph chromatic number')
     chromatic_number = graph.chromatic_number()
-
+    
     order = graph.order()
 
     if critical_check(graph_string) == True:
         
         # Save this graph
         save_c(graph_string)
-
+        
+    else:
+        
+        save_nc(graph_string)
 
     # Save this graph
     save(graph_string, order, chromatic_number)
