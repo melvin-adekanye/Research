@@ -2,6 +2,8 @@ import os
 import time
 import shutil
 
+from sage.graphs.graph_coloring import vertex_coloring
+
 # Create the path for the graphs to be stored
 raw_path = f'{os.getcwd()}/raw graphs'
 path = f'{os.getcwd()}/graphs'
