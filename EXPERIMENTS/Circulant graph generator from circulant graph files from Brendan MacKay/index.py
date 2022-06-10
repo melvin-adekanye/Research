@@ -52,18 +52,20 @@ def critical_check(string):
         graph.delete_vertex(index)
 
         # Get the new chromatic number
-        new_chromatic_number = graph.chromatic_number()
+       # new_chromatic_number = graph.chromatic_number()
 
         # Reset the graph to replace deleted vertex
-        graph = Graph(original_graph)
+       # graph = Graph(original_graph)
 
-        # If the new chromatic number is greater or equal to the current one. Is critical is false
-        if new_chromatic_number >= chromatic_number:
+        # If the new chromatic number is not smaller than the current one. Is critical is false
+        if vertex_coloring(graph, k=chromaitc_number-1, value_only=True) == False:
 
             # Is critical is false
             is_critical = False
 
             break
+    #Reset the graph to replace deleted vertex
+    graph = Graph(original_graph)
     
     # Return is critical flag
     return is_critical
