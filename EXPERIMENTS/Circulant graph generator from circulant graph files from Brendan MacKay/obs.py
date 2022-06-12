@@ -2,13 +2,11 @@ import os
 import time
 import shutil
 
-from sage.graphs.graph_coloring import vertex_coloring
-
 # Create the path for the graphs to be stored
 raw_path = f'{os.getcwd()}/raw graphs'
-path = f'{os.getcwd()}/graphs - 22'
-critical_path = f'{os.getcwd()}/critical graphs - 22'
-not_critical_path = f'{os.getcwd()}/not critical graphs - 22'
+path = f'{os.getcwd()}/graphs'
+critical_path = f'{os.getcwd()}/critical graphs'
+not_critical_path = f'{os.getcwd()}/not critical graphs'
 
 # Remove graphs
 shutil.rmtree(path, ignore_errors=True)
@@ -26,7 +24,7 @@ os.mkdir(not_critical_path)
 raw_graphs = []
 graphs = []
 
-min_vertices = 22
+min_vertices = 5
 max_vertices = 30
 
 def critical_check(string):
@@ -54,20 +52,18 @@ def critical_check(string):
         graph.delete_vertex(index)
 
         # Get the new chromatic number
-       # new_chromatic_number = graph.chromatic_number()
+        new_chromatic_number = graph.chromatic_number()
 
         # Reset the graph to replace deleted vertex
-       # graph = Graph(original_graph)
+        graph = Graph(original_graph)
 
-        # If the new chromatic number is not smaller than the current one. Is critical is false
-        if vertex_coloring(graph, k=chromatic_number-1, value_only=True) == False:
+        # If the new chromatic number is greater or equal to the current one. Is critical is false
+        if new_chromatic_number >= chromatic_number:
 
             # Is critical is false
             is_critical = False
 
             break
-    #Reset the graph to replace deleted vertex
-    graph = Graph(original_graph)
     
     # Return is critical flag
     return is_critical
