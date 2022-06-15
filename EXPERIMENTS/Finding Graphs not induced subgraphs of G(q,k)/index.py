@@ -4,16 +4,16 @@ import time
 import shutil
 
 # Create the path for the graphs to be stored
-path = f'{os.getcwd()}/graphs'
+# path = f'{os.getcwd()}/graphs'
 
 # Remove graphs
-shutil.rmtree(path, ignore_errors=True)
+# shutil.rmtree(pth, ignore_errors=True)
 
 # Wait a bit
-time.sleep(3)
+# time.sleep(3)
 
 # Then create a new folder
-os.mkdir(path)
+# os.mkdir(path)
 
 # The following is a generalizing the Gr and Gp constructions for 4- and 5-crit graphs, resp. to create
 # an infinite family of (k+1)-crit graphs for each k>=2
@@ -58,6 +58,11 @@ max_vertices = 9
 
 starting_q = 1
 ending_q = 10
+
+# 3, 4, 5, 6
+k_value = 5
+
+print(f'starrting k = {k_value}')
 
 # Set start time
 start_time = time.time()
@@ -104,7 +109,7 @@ for index, string in enumerate(graphs):
     for q in range(starting_q, ending_q + 1):
 
         # Define the Gq graph
-        Gq_graph = Gq(q, 5)
+        Gq_graph = Gq(q, k_value)
 
         # Create the graph using the string
         graph = Graph(string)
@@ -136,13 +141,10 @@ end_time = time.time()
 # Calculate the time taken
 time_taken = end_time - start_time
 
-# Print not_induced_subgraphs
-# print('not_induced_subgraphs: ', not_induced_subgraphs)
-
 # Save to file
 
 # Store this graph in the grpahs folder
-f = open(f'./graphs/not_induced_subgraphs.txt', "a")
+f = open(f'./graphs/not induced subgraphs of k = {k_value}.txt', "a")
 
 for string in not_induced_subgraphs:
 
@@ -153,7 +155,5 @@ for string in not_induced_subgraphs:
 f.close()
 
 print(f'TIme Taken {round(time_taken, 2)}s')
-print('Done')
+print(f'Done where k = {k_value}')
 
-
-# print('not_critical: ', not_critical)
