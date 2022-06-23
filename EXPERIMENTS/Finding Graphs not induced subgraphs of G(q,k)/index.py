@@ -3,17 +3,21 @@ import os
 import time
 import shutil
 
-# Create the path for the graphs to be stored
-# path = f'{os.getcwd()}/graphs'
 
-# Remove graphs
-# shutil.rmtree(pth, ignore_errors=True)
+x = input('Delete /graphs (y/n): ')
 
-# Wait a bit
-# time.sleep(3)
+if x == 'y':
+    # Create the path for the graphs to be stored
+    path = f'{os.getcwd()}/graphs'
 
-# Then create a new folder
-# os.mkdir(path)
+    # Remove graphs
+    shutil.rmtree(path, ignore_errors=True)
+
+    # Wait a bit
+    time.sleep(3)
+
+    # Then create a new folder
+    os.mkdir(path)
 
 # The following is a generalizing the Gr and Gp constructions for 4- and 5-crit graphs, resp. to create
 # an infinite family of (k+1)-crit graphs for each k>=2
@@ -54,13 +58,13 @@ path = f'../../DATA/graphs'
 
 # Loop through all graphs with 3 - 9 vertices
 min_vertices = 3
-max_vertices = 9
+max_vertices = 5
 
 starting_q = 1
 ending_q = 10
 
 # 3, 4, 5, 6
-k_value = 5
+k_value = 3
 
 print(f'starrting k = {k_value}')
 
@@ -102,7 +106,8 @@ for vertice in range(min_vertices, max_vertices + 1):
 for index, string in enumerate(graphs):
 
     # Is a sub graph
-    graph_is_a_subgraph = False
+    graph_is_a_subgraph = None
+    graph_is_a_subgraph_array = []
 
     # For every graph in Gq()
     # Search for these graphs are not induced subgraphs of G(q,k) for all q
@@ -113,19 +118,14 @@ for index, string in enumerate(graphs):
 
         # Create the graph using the string
         graph = Graph(string)
-        original_graph = Graph(string)
 
         # CHeck if graph is a subgraph Gq_graph
         graph_is_a_subgraph = graph.is_subgraph(Gq_graph, induced=True)
 
-        # If graph is found to be a sub graph
-        if graph_is_a_subgraph == True:
-            
-            # Stop
-            break
+        graph_is_a_subgraph_array.append(graph_is_a_subgraph)
 
-    # If this is not a subgraph
-    if graph_is_a_subgraph == False:
+    # If True is found in graph_is_a_subgraph_array, then it is induced at some value of q. (Throw it away). There should be no True
+    if True not in graph_is_a_subgraph_array:
 
         # Append teh string to the not_induced_subgraphs
         not_induced_subgraphs.append(string)

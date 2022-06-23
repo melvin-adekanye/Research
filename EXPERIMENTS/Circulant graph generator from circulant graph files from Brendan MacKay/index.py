@@ -4,30 +4,34 @@ import shutil
 
 from sage.graphs.graph_coloring import vertex_coloring
 
-# Create the path for the graphs to be stored
-raw_path = f'{os.getcwd()}/raw graphs'
-path = f'{os.getcwd()}/graphs - 22'
-critical_path = f'{os.getcwd()}/critical graphs - 22'
-not_critical_path = f'{os.getcwd()}/not critical graphs - 22'
+x = input('delete "/critical graphs" and "/graphs" (y/n): ')
 
-# Remove graphs
-shutil.rmtree(path, ignore_errors=True)
-shutil.rmtree(critical_path, ignore_errors=True)
-shutil.rmtree(not_critical_path, ignore_errors=True)
+if x == 'y':
 
-# Wait a bit
-time.sleep(3)
+    # Create the path for the graphs to be stored
+    raw_path = f'{os.getcwd()}/raw graphs'
+    path = f'{os.getcwd()}/graphs'
+    critical_path = f'{os.getcwd()}/critical graphs'
 
-# Then create a new folder
-os.mkdir(path)
-os.mkdir(critical_path)
-os.mkdir(not_critical_path)
+    # Remove graphs
+    shutil.rmtree(path, ignore_errors=True)
+    shutil.rmtree(critical_path, ignore_errors=True)
+
+    # Wait a bit
+    time.sleep(3)
+
+    # Then create a new folder
+    os.mkdir(path)
+    os.mkdir(critical_path)
+
 
 raw_graphs = []
 graphs = []
 
-min_vertices = 22
-max_vertices = 30
+min_vertices = 5 # circ-5 graphs
+max_vertices = 30 # circ-50 graphs
+
+k = 5
 
 def critical_check(string):
 
@@ -37,9 +41,6 @@ def critical_check(string):
 
     # A flag to check if a graph is critical
     is_critical = True
-
-    # Get its chromatic number
-    chromatic_number = original_graph.chromatic_number()
 
     # Degrees
     degrees = original_graph.degree()
@@ -53,19 +54,14 @@ def critical_check(string):
         # Remove the vertex at index
         graph.delete_vertex(index)
 
-        # Get the new chromatic number
-       # new_chromatic_number = graph.chromatic_number()
-
-        # Reset the graph to replace deleted vertex
-       # graph = Graph(original_graph)
-
         # If the new chromatic number is not smaller than the current one. Is critical is false
-        if vertex_coloring(graph, k=chromatic_number-1, value_only=True) == False:
+        if vertex_coloring(graph, k=k-1, value_only=True) == False:
 
             # Is critical is false
             is_critical = False
 
             break
+        
     #Reset the graph to replace deleted vertex
     graph = Graph(original_graph)
     
@@ -81,25 +77,14 @@ def save(string, order, chromatic_number):
     # Write to file
     f.write(f'{string}\n')
 
-    # CLose the file
+    # CLose the filesave_c
     f.close()
 
-def save_c(string):
+def save_c(string, order):
 
     # Store this graph in the grpahs folder
-    f = open(f'{critical_path}/graphs.txt', "a")
-        
-    # Write to file
-    f.write(f'{string}\n')
+    f = open(f'{critical_path}/circ{order}_crit{k}.txt', "a")
 
-    # CLose the file
-    f.close()
-
-def save_nc(string):
-
-    # Store this graph in the grpahs folder
-    f = open(f'{not_critical_path}/graphs.txt', "a")
-        
     # Write to file
     f.write(f'{string}\n')
 
@@ -166,20 +151,16 @@ for (index, graph_data) in enumerate(raw_graphs):
 
     # Get the graphs chromatic number and save it to a new file
     graph, graph_string = circulant(*graph_data)
-
-    print('. . . Getting graph chromatic number')
-    chromatic_number = graph.chromatic_number()
     
     order = graph.order()
 
     if critical_check(graph_string) == True:
         
         # Save this graph
-        save_c(graph_string)
+        save_c(graph_string, order)
         
-    else:
-        
-        save_nc(graph_string)
 
     # Save this graph
-    save(graph_string, order, chromatic_number)
+    # print('. . . Getting graph chromatic number')
+    # chromatic_number = graph.chromatic_number()
+    # save(graph_string, order, chromatic_number)
