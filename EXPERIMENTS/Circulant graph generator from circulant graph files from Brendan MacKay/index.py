@@ -4,34 +4,42 @@ import shutil
 
 from sage.graphs.graph_coloring import vertex_coloring
 
-x = input('delete "/critical graphs" and "/graphs" (y/n): ')
+
+# The selected chromatic number
+k = 5
+
+raw_graphs = []
+graphs = []
+
+min_vertices = 5  # circ-5 graphs
+max_vertices = 30  # circ-50 graphs
+
+x = input(f'delete "/graphs - {k}" (y/n): ')
 
 if x == 'y':
 
     # Create the path for the graphs to be stored
+    alpha_path = f'{os.getcwd()}/graphs - {k}'
     raw_path = f'{os.getcwd()}/raw graphs'
-    path = f'{os.getcwd()}/graphs'
-    critical_path = f'{os.getcwd()}/critical graphs'
+
+    path = f'{alpha_path}/graph6_string'
+    path_ = f'{alpha_path}/raw'
+    critical_path = f'{alpha_path}/critical graphs'
 
     # Remove graphs
-    shutil.rmtree(path, ignore_errors=True)
-    shutil.rmtree(critical_path, ignore_errors=True)
+    shutil.rmtree(alpha_path, ignore_errors=True)
 
     # Wait a bit
     time.sleep(3)
 
     # Then create a new folder
+    os.mkdir(alpha_path)
+
+    # Create the sub paths
     os.mkdir(path)
+    os.mkdir(path_)
     os.mkdir(critical_path)
 
-
-raw_graphs = []
-graphs = []
-
-min_vertices = 5 # circ-5 graphs
-max_vertices = 30 # circ-50 graphs
-
-k = 5
 
 def critical_check(string):
 
@@ -61,24 +69,28 @@ def critical_check(string):
             is_critical = False
 
             break
-        
-    #Reset the graph to replace deleted vertex
+
+    # Reset the graph to replace deleted vertex
     graph = Graph(original_graph)
-    
+
     # Return is critical flag
     return is_critical
 
 
-def save(string, order, chromatic_number):
+def save(string, raw_string, order, chromatic_number):
 
     # Store this graph in the grpahs folder
-    f = open(f'{path}/order{order}_chi{chromatic_number}.txt', "a")
-        
+    f = open(f'{path}/circ{order}_chi{chromatic_number}.txt', "a")
+    e = open(f'{path_}/circ{order}_chi{chromatic_number}.txt', "a")
+
     # Write to file
     f.write(f'{string}\n')
+    e.write(f'{raw_string}\n')
 
     # CLose the filesave_c
     f.close()
+    e.close()
+
 
 def save_c(string, order):
 
@@ -96,19 +108,19 @@ def save_c(string, order):
 def circulant(n, L):
 
     E = []
-    
+
     for i in range(n):
 
         for j in range(i+1, n):
 
-            if(((i-j) % n) in  L):
+            if(((i-j) % n) in L):
 
-                if({i,j} not in E):
+                if({i, j} not in E):
 
-                    E.append({i,j})
-                    
+                    E.append({i, j})
+
     graph = Graph(E)
-    
+
     graph_string = graph.graph6_string()
 
     return graph, graph_string
@@ -146,21 +158,28 @@ for vertice in range(min_vertices, max_vertices + 1):
 
 # For all the raw graphs
 for (index, graph_data) in enumerate(raw_graphs):
-    
+
+    # Define the raw_graph_string
+    raw_graph_string = f"{graph_data[0]} {' '.join([str(x) for x in graph_data[1]])}"
+
     print(f'{index} out of {len(raw_graphs)} ~ {graph_data}')
 
     # Get the graphs chromatic number and save it to a new file
     graph, graph_string = circulant(*graph_data)
-    
+
     order = graph.order()
 
-    if critical_check(graph_string) == True:
-        
-        # Save this graph
-        save_c(graph_string, order)
-        
+    chromatic_number = graph.chromatic_number()
+
+    if chromatic_number == k:
+
+        if critical_check(graph_string) == True:
+
+            # Save this graph
+            save_c(graph_string, order)
+
+    save(graph_string, raw_graph_string, order, chromatic_number)
 
     # Save this graph
     # print('. . . Getting graph chromatic number')
     # chromatic_number = graph.chromatic_number()
-    # save(graph_string, order, chromatic_number)
