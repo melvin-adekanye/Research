@@ -1,47 +1,59 @@
 import os
 import time
 import shutil
-
 from sage.graphs.graph_coloring import vertex_coloring
-
 
 # The selected chromatic number
 k = 5
 
+# The raw and regular graphs
 raw_graphs = []
 graphs = []
 
 min_vertices = 5  # circ-5 graphs
 max_vertices = 30  # circ-50 graphs
 
+# Ask to delete old graph - X data
 x = input(f'delete "/graphs - {k}" (y/n): ')
 
+# If yes
 if x == 'y':
 
     # Create the path for the graphs to be stored
-    alpha_path = f'{os.getcwd()}/graphs - {k}'
+    graph_path = f'{os.getcwd()}/graphs - {k}'
     raw_path = f'{os.getcwd()}/raw graphs'
 
-    path = f'{alpha_path}/graph6_string'
-    path_ = f'{alpha_path}/raw'
-    critical_path = f'{alpha_path}/critical graphs'
+    path = f'{graph_path}/graph6_string'
+    grapH_raw_path = f'{graph_path}/raw'
+
+    critical_path = f'{graph_path}/critical graphs'
+    critical_raw_path = f'{graph_path}/critical graphs raw'
 
     # Remove graphs
-    shutil.rmtree(alpha_path, ignore_errors=True)
+    shutil.rmtree(graph_path, ignore_errors=True)
 
     # Wait a bit
     time.sleep(3)
 
     # Then create a new folder
-    os.mkdir(alpha_path)
+    os.mkdir(graph_path)
 
     # Create the sub paths
     os.mkdir(path)
-    os.mkdir(path_)
+    os.mkdir(raw_path)
     os.mkdir(critical_path)
+    os.mkdir(critical_raw_path)
+
+# Critical check. Takes in the graph6_string, graph order and the chromatic number
 
 
-def critical_check(string):
+def critical_check(string, order, chromatic_number):
+
+    # If the chromatic number is not k
+    if chromatic_number != k:
+
+        # Return not critical
+        return False
 
     # Create the graph using the string
     graph = Graph(string)
@@ -50,24 +62,22 @@ def critical_check(string):
     # A flag to check if a graph is critical
     is_critical = True
 
-    # Degrees
-    degrees = original_graph.degree()
-    order = original_graph.order()
-
     # Iterate through every vertice in graphs vertices
     for index in range(order):
 
+        # print out the vertex being deleted
         print(f'. . . Deleting Vertice-{index} of {order}')
 
         # Remove the vertex at index
         graph.delete_vertex(index)
 
-        # If the new chromatic number is not smaller than the current one. Is critical is false
+        # After deleting a vertex, can we color this graph with less colors. (Faster than re-caculating the chormatic number)
         if vertex_coloring(graph, k=k-1, value_only=True) == False:
 
             # Is critical is false
             is_critical = False
 
+            # Not critical, lets break the loop
             break
 
     # Reset the graph to replace deleted vertex
@@ -76,35 +86,41 @@ def critical_check(string):
     # Return is critical flag
     return is_critical
 
+# Save the graph in general
+
 
 def save(string, raw_string, order, chromatic_number):
 
     # Store this graph in the grpahs folder
     f = open(f'{path}/circ{order}_chi{chromatic_number}.txt', "a")
-    e = open(f'{path_}/circ{order}_chi{chromatic_number}.txt', "a")
+    e = open(f'{grapH_raw_path}/circ{order}_chi{chromatic_number}.txt', "a")
 
     # Write to file
     f.write(f'{string}\n')
     e.write(f'{raw_string}\n')
 
-    # CLose the filesave_c
+    # CLose the file save
     f.close()
     e.close()
 
 
-def save_c(string, order):
+def save_critical(string, raw_string, order):
 
     # Store this graph in the grpahs folder
     f = open(f'{critical_path}/circ{order}_crit{k}.txt', "a")
+    e = open(f'{critical_raw_path}/circ{order}_crit{k}.txt', "a")
 
     # Write to file
     f.write(f'{string}\n')
+    e.write(f'{raw_string}\n')
 
     # CLose the file
     f.close()
-
+    e.close()
 
 # Attain the graph string from circulant graph
+
+
 def circulant(n, L):
 
     E = []
@@ -129,11 +145,11 @@ def circulant(n, L):
 # Loop through all graphs with {min_vertices} to {max_vertices}
 for vertice in range(min_vertices, max_vertices + 1):
 
-    # For every grpah in the list
-    for circulant_number in range(2, max_vertices):
+    # For every grpah in the list (2 is the minimum chromatic number in raw graphs)
+    for circulant_number in range(0, max_vertices):
 
         # Defien the path of the graph
-        graph_path = f'{raw_path}/circ{vertice}.{circulant_number}.txt'
+        graph_path = f'{grapH_raw_path}/circ{vertice}.{circulant_number}.txt'
 
         try:
             # Open up and read the file graph
@@ -142,12 +158,12 @@ for vertice in range(min_vertices, max_vertices + 1):
             # FOr every line in the file
             for line in f:
 
+                # Attain the raw graph numbers
                 results = line.split(None)
-
                 results = list(map(int, results))
 
                 # Create a list of nauty_geng connected graphs
-                raw_graphs.append([vertice, results])  # add only first word
+                raw_graphs.append([vertice, results, circulant_number])  # add only first word
 
             # CLose the file
             f.close()
@@ -167,19 +183,14 @@ for (index, graph_data) in enumerate(raw_graphs):
     # Get the graphs chromatic number and save it to a new file
     graph, graph_string = circulant(*graph_data)
 
+    # get the order of the graph
     order = graph.order()
 
-    chromatic_number = graph.chromatic_number()
+    # Check if this graph is critical
+    if critical_check(graph_string, order, chromatic_number) == True:
 
-    if chromatic_number == k:
+        # Save this graph
+        save_critical(graph_string, raw_graph_string, order)
 
-        if critical_check(graph_string) == True:
-
-            # Save this graph
-            save_c(graph_string, order)
-
+    # Save the graph
     save(graph_string, raw_graph_string, order, chromatic_number)
-
-    # Save this graph
-    # print('. . . Getting graph chromatic number')
-    # chromatic_number = graph.chromatic_number()
