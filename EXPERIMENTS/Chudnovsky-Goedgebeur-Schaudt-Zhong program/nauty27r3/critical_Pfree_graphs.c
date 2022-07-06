@@ -335,6 +335,11 @@ static int test_if_contains_induced_bull = 0;
 
 static int test_if_contains_induced_gem = 0;
 
+// MA. Declare test if variable
+/*
+static int test_if_contains_induced_copy = 0;
+*/
+
 /******************************************************************************/
 
 //For contains_W5 test
@@ -424,6 +429,12 @@ static unsigned long long int times_graph_not_bullfree[MAXN + 1] = {0};
 
 static unsigned long long int times_graph_gemfree[MAXN + 1] = {0};
 static unsigned long long int times_graph_not_gemfree[MAXN + 1] = {0};
+
+// MA. Create times graph (not) induced copy free
+/*
+static unsigned long long int times_graph_induced[MAXN + 1] = {0};
+static unsigned long long int times_graph_not_induced[MAXN + 1] = {0};
+*/
 
 static unsigned long long int counts_contains_forbidden_induced_cycle[MAXN + 1] = {0};
 static unsigned long long int counts_doesnt_contain_forbidden_induced_cycle[MAXN + 1] = {0};
@@ -4603,6 +4614,50 @@ contains_induced_gem() {
 }
 
 
+// MA. Checks if graph contains_induced_copy
+/******************************************************************************/
+/*
+ * Returns 1 if the graph contains an induced copy, else returns 0.
+ */
+ /*
+static int
+contains_induced_copy() {
+    //Don't assume that the last vertex must be in it, since it can be tricky
+    //Just find every triangle and test if they can be the central triangle of a gem
+
+    int i;
+    for(i = 0; i < nv; i++) {
+        set *gv = GRAPHROW1(nautyg, i, MAXM);
+        //int neighbour_b1 = -1;
+        int neighbour_b1 = i;
+        while((neighbour_b1 = nextelement1(gv, 1, neighbour_b1)) >= 0) {
+            setword intersect_neigh_i_b1 = *GRAPHROW1(nautyg, neighbour_b1, MAXM) & *gv;
+            //int neighbour_b2 = -1;
+            int neighbour_b2 = neighbour_b1;
+            while((neighbour_b2 = nextelement1(&intersect_neigh_i_b1, 1, neighbour_b2)) >= 0) {
+                //Triangle i neighbour_b1 neighbour_b2 found with i < neighbour_b1 < neighbour_b2
+                //fprintf(stderr, "%d %d %d\n", i, neighbour_b1, neighbour_b2);
+
+                TRIANGLE triangle;
+                triangle[0] = i;
+                triangle[1] = neighbour_b1;
+                triangle[2] = neighbour_b2;
+
+                //3 possibilities for central vertex of the gem
+                if(test_if_combination_yields_gem(triangle, triangle[0], 0)
+                   || test_if_combination_yields_gem(triangle, triangle[1], 1)
+                   || test_if_combination_yields_gem(triangle, triangle[2], 2))
+                    return 1; //Induced gem found
+
+            }
+        }
+    }
+
+    return 0;
+
+}
+*/
+
 /******************************************************************************/
 
 /**
@@ -4825,6 +4880,27 @@ extend(setword isolated_vertices, unsigned char avoided_vertex,
             times_graph_gemfree[nv]++;
 
     }
+
+
+    // MA. test if graph contains an induced copy of any graph
+    /* 
+    if(test_if_contains_induced_copy) {
+
+        if(contains_induced_copy()) {
+            times_graph_not_induced[nv]++;
+            return; //not gem-free
+        } else
+            times_graph_induced[nv]++;
+
+    }
+
+    */
+
+
+
+
+
+
 
     //Seems to be slightly faster to perform this before is_col test (but after the other cheaper tests) 
     //Very important: don't run this test after noniso test, since that may lead
@@ -6426,6 +6502,23 @@ int main(int argc, char** argv) {
                     }
                     break;
                 }
+
+                // MA. "UI" functionality from adding is_incuded property
+                /*
+                // Lowercase i is taken
+                case 'I':
+                    {
+                        // strcmp compares two character strings
+                        if(strcmp(argv[i], "induced") == 0) {
+                            test_if_contains_induced_copy = 1;
+                            fprintf(stderr, "Info: Querying if graph contains this induced copy (indueced copy here)\n");
+                            edge_critical_test_is_supported = 0;
+                        }
+                        break;
+                    }
+
+                */
+
                 default:
                 {
                     fprintf(stderr, "Error: invalid option: %s\n", argv[i]);
@@ -6632,6 +6725,14 @@ int main(int argc, char** argv) {
         for(i = 8; i <= maxnv; i++)
             fprintf(stderr, "Nv=%d, times gem-free: %llu (%.2f%%)\n", i, times_graph_gemfree[i],
                     (double) times_graph_gemfree[i] / (times_graph_gemfree[i] + times_graph_not_gemfree[i]) * 100);
+
+    // MA. Print out of induced_copy results
+    /*  
+    if(test_if_contains_induced_copy)
+        for(i = 8; i <= maxnv; i++)
+            fprintf(stderr, "Nv=%d, times induced copy: %llu (%.2f%%)\n", i, times_graph_induced[i],
+                    (double) times_graph_induced[i] / (times_graph_induced[i] + times_graph_not_induced[i]) * 100);
+    */
 
     for(i = 10; i < maxnv; i++)
         fprintf(stderr, "Nv=%d, times no lemmas applicable: %llu\n", i, times_no_lemmas_applicable[i]);
