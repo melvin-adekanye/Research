@@ -687,12 +687,38 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
     unsigned char codebuffer[MAX_MUTLICODE_SIZE(num_vertices)];
     int codelength = code_multicode(codebuffer, g, adj, num_vertices);
 
-    if(fwrite(codebuffer, sizeof (unsigned char), codelength, stdout)
-       < sizeof (unsigned char) * codelength) {
-        fprintf(stderr, "Error: couldn't write graph! \n\n");
-        exit(1);
+    // Define the file path
+    char file_path[] = "./my_outputs.txt";
+
+    // Reference the file pointer
+    fopen(file_path, "w"); // Clear file to begin with
+    FILE * fp = fopen(file_path, "a"); // Append to file afterwards
+
+    // Simple, loopy loopy
+    int a;
+    for( a = 0; a < codelength; a = a + 1 ){
+
+        // Save the codebuffer at [a] to file
+        fprintf(fp, "%hhx", codebuffer[a]);
+
+        // Add space to characters
+        fprintf(fp, "%s", " ");
+
+        // print out to terminal
+        printf("%d", codebuffer[a]);
+
+        // Add space to characters
+        printf("%s", " ");
+
     }
 
+    // New line after writing output
+    fprintf(fp, "%s ", "\n");
+
+    // New line even in terminal prinout
+    printf("%s", "\n");
+
+    // Increment num of graphs written
     num_graphs_written++;
 }
 
@@ -4474,6 +4500,7 @@ static int contains_induced_bull() {
     int i;
     for(i = 0; i < nv; i++) {
         set *gv = GRAPHROW1(nautyg, i, MAXM);
+
         //int neighbour_b1 = -1;
         int neighbour_b1 = i;
         while((neighbour_b1 = nextelement1(gv, 1, neighbour_b1)) >= 0) {
