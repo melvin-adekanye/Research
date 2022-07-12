@@ -336,9 +336,7 @@ static int test_if_contains_induced_bull = 0;
 static int test_if_contains_induced_gem = 0;
 
 // MA. Declare test if variable
-/*
 static int test_if_contains_induced_copy = 0;
-*/
 
 /******************************************************************************/
 
@@ -431,10 +429,8 @@ static unsigned long long int times_graph_gemfree[MAXN + 1] = {0};
 static unsigned long long int times_graph_not_gemfree[MAXN + 1] = {0};
 
 // MA. Create times graph (not) induced copy free
-/*
 static unsigned long long int times_graph_induced[MAXN + 1] = {0};
 static unsigned long long int times_graph_not_induced[MAXN + 1] = {0};
-*/
 
 static unsigned long long int counts_contains_forbidden_induced_cycle[MAXN + 1] = {0};
 static unsigned long long int counts_doesnt_contain_forbidden_induced_cycle[MAXN + 1] = {0};
@@ -4646,11 +4642,9 @@ contains_induced_gem() {
 /*
  * Returns 1 if the graph contains an induced copy, else returns 0.
  */
- /*
+ 
 static int
 contains_induced_copy() {
-    //Don't assume that the last vertex must be in it, since it can be tricky
-    //Just find every triangle and test if they can be the central triangle of a gem
 
     int i;
     for(i = 0; i < nv; i++) {
@@ -4663,7 +4657,8 @@ contains_induced_copy() {
             int neighbour_b2 = neighbour_b1;
             while((neighbour_b2 = nextelement1(&intersect_neigh_i_b1, 1, neighbour_b2)) >= 0) {
                 //Triangle i neighbour_b1 neighbour_b2 found with i < neighbour_b1 < neighbour_b2
-                //fprintf(stderr, "%d %d %d\n", i, neighbour_b1, neighbour_b2);
+                
+                fprintf(stderr, "%d %d %d\n", i, neighbour_b1, neighbour_b2);
 
                 TRIANGLE triangle;
                 triangle[0] = i;
@@ -4683,7 +4678,7 @@ contains_induced_copy() {
     return 0;
 
 }
-*/
+
 
 /******************************************************************************/
 
@@ -4910,18 +4905,18 @@ extend(setword isolated_vertices, unsigned char avoided_vertex,
 
 
     // MA. test if graph contains an induced copy of any graph
-    /* 
+    
     if(test_if_contains_induced_copy) {
 
         if(contains_induced_copy()) {
             times_graph_not_induced[nv]++;
-            return; //not gem-free
+            return; 
         } else
             times_graph_induced[nv]++;
 
     }
 
-    */
+    
 
 
 
@@ -6531,12 +6526,11 @@ int main(int argc, char** argv) {
                 }
 
                 // MA. "UI" functionality from adding is_incuded property
-                /*
                 // Lowercase i is taken
                 case 'I':
                     {
                         // strcmp compares two character strings
-                        if(strcmp(argv[i], "induced") == 0) {
+                        if(strcmp(argv[i], "2") == 0) {
                             test_if_contains_induced_copy = 1;
                             fprintf(stderr, "Info: Querying if graph contains this induced copy (indueced copy here)\n");
                             edge_critical_test_is_supported = 0;
@@ -6544,7 +6538,6 @@ int main(int argc, char** argv) {
                         break;
                     }
 
-                */
 
                 default:
                 {

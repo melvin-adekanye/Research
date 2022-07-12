@@ -3,25 +3,42 @@ import os
 import time
 import shutil
 
+# Loop through all graphs with 3 - 9 vertices
+min_vertices = 3  # 3
+max_vertices = 9  # 9
 
-x = input('Delete /graphs (y/n): ')
+starting_q = 1  # 1
+ending_q = 10  # 10
 
+# 3, 4, 5, 6
+k_value = int(input(f'k='))
+
+# Store all read data_path graphs
+graphs = []
+
+# Path to get the data
+data_path = f'../../DATA/graphs'
+
+# Defien the file path
+file_path = f'{os.getcwd()}/not induced subgraphs of k={k_value}'
+
+# Ask to delete file path
+x = input(f'Delete {file_path} (y/n): ')
+
+# if yes. Delete and create 
 if x == 'y':
-    # Create the path for the graphs to be stored
-    path = f'{os.getcwd()}/graphs'
 
     # Remove graphs
-    shutil.rmtree(path, ignore_errors=True)
+    shutil.rmtree(file_path, ignore_errors=True)
 
     # Wait a bit
     time.sleep(3)
 
     # Then create a new folder
-    os.mkdir(path)
+    os.mkdir(file_path)
 
 # The following is a generalizing the Gr and Gp constructions for 4- and 5-crit graphs, resp. to create
 # an infinite family of (k+1)-crit graphs for each k>=2
-
 def Gq(q, k):
 
     L = []
@@ -52,27 +69,23 @@ def Gq(q, k):
 
     return Graph(L)
 
-
-# Path to get the data
-path = f'../../DATA/graphs'
-
-# Loop through all graphs with 3 - 9 vertices
-min_vertices = 3
-max_vertices = 5
-
-starting_q = 1
-ending_q = 10
-
-# 3, 4, 5, 6
-k_value = 3
-
-print(f'starrting k = {k_value}')
-
 # Set start time
 start_time = time.time()
 
-graphs = []
-not_induced_subgraphs = []
+print(f'starrting k = {k_value}')
+
+# Save to file
+def save_graph(string, chromatic_number, vertice):
+
+    # Store this graph in the grpahs folder
+    graph_path = open(f'{file_path}/order{vertice}_chi{chromatic_number}.txt', 'a')
+
+    # Write to file
+    graph_path.write(f'{string}\n')
+
+    # CLose the file
+    graph_path.close()
+
 
 # Read in the graphs
 # Loop through all graphs with min_vertices to max_vertices vertices
@@ -82,7 +95,7 @@ for vertice in range(min_vertices, max_vertices + 1):
     for chromatic_number in range(min_vertices - 1, max_vertices):
 
         # Defien the path of the graph
-        graph_path = f'{path}/order{vertice}_chi{chromatic_number}.txt'
+        graph_path = f'{data_path}/order{vertice}_chi{chromatic_number}.txt'
 
         try:
 
@@ -93,7 +106,8 @@ for vertice in range(min_vertices, max_vertices + 1):
             for line in f:
 
                 # Create a list of nauty_geng connected graphs
-                graphs.append(line.split(None, 1)[0])  # add only first word
+                # add only first word
+                graphs.append([line.split(None, 1)[0], chromatic_number, vertice])
 
             # CLose the file
             f.close()
@@ -103,37 +117,37 @@ for vertice in range(min_vertices, max_vertices + 1):
             pass
 
 # FOr every graph_string in the graphs
-for index, string in enumerate(graphs):
+for index, graph in enumerate(graphs):
 
-    # Is a sub graph
-    graph_is_a_subgraph = None
-    graph_is_a_subgraph_array = []
+    string = graph[0]
+    chromatic_number = graph[1]
+    vertice = graph[2]
 
-    # For every graph in Gq()
-    # Search for these graphs are not induced subgraphs of G(q,k) for all q
+    H = Graph(string)  # graph to test if induced subgraph
+
+    in_sub = False  # flag that will switch to True if subgraph of some value of q
+
     for q in range(starting_q, ending_q + 1):
 
-        # Define the Gq graph
-        Gq_graph = Gq(q, k_value)
+        G = Gq(q, k_value)
 
-        # Create the graph using the string
-        graph = Graph(string)
+        # subgraph search is used as we need isomorphic subgraphs not exact subgraphs
+        sub_search = G.subgraph_search(H, induced=True)
 
-        # CHeck if graph is a subgraph Gq_graph
-        graph_is_a_subgraph = graph.is_subgraph(Gq_graph, induced=True)
+        # the H is not an induced subgraph of G if and only if the previous line returns None
+        if sub_search is not None:
 
-        graph_is_a_subgraph_array.append(graph_is_a_subgraph)
+            in_sub = True
 
-    # If True is found in graph_is_a_subgraph_array, then it is induced at some value of q. (Throw it away). There should be no True
-    if True not in graph_is_a_subgraph_array:
+            break
 
-        # Append teh string to the not_induced_subgraphs
-        not_induced_subgraphs.append(string)
+    if in_sub == False:
+
+        save_graph(string, chromatic_number, vertice)
 
     # Progress report
-    if index % 1000 == 0:
+    if index % 100 == 0:
         print(f'Graph {index} of {len(graphs)}')
-
 
 # Set end time (not a Prophet tho)
 end_time = time.time()
@@ -141,19 +155,7 @@ end_time = time.time()
 # Calculate the time taken
 time_taken = end_time - start_time
 
-# Save to file
 
-# Store this graph in the grpahs folder
-f = open(f'./graphs/not induced subgraphs of k = {k_value}.txt', "a")
-
-for string in not_induced_subgraphs:
-
-    # Write to file
-    f.write(f'{string}\n')
-
-# CLose the file
-f.close()
 
 print(f'TIme Taken {round(time_taken, 2)}s')
 print(f'Done where k = {k_value}')
-
