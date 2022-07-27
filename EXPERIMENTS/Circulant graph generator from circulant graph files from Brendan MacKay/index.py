@@ -11,8 +11,10 @@ k = int(input('k='))
 raw_graphs = []
 graphs = []
 
-min_vertices = 5  # circ-5 graphs
+min_vertices = 26  # 5  # circ-5 graphs
 max_vertices = 50  # circ-50 graphs
+
+print(f'**** STARTING AT {min_vertices} Vertices ****')
 
 # Ask to delete old graph - X data
 x = input(f'delete "/graphs - {k}" (y/n): ')
