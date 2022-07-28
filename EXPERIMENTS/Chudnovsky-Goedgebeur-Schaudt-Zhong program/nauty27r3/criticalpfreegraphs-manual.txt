@@ -24,6 +24,7 @@ An overview of all options can also be found by executing "./critical_Pfree_grap
 
 Usage: ./critical_Pfree_graphs <number_of_vertices> c<x> P<x> [options]
 At least the number of vertices, c<x> and P<x> must be specified.
+./critical_Pfree_graphs 10 c4 P5
 
 Valid options are:
   c<x>: Searches for <x>-critical graphs (i.e. graphs which are NOT <x>-colourable).

@@ -41,6 +41,7 @@
  *
  */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/times.h>
@@ -661,6 +662,7 @@ copy_nauty_graph(GRAPH g, ADJACENCY adj, int num_vertices, graph *nauty_graph) {
  * Code the graph using the multicode format and returns the length of the code.
  */
 int code_multicode(unsigned char code[], GRAPH g, ADJACENCY adj, int num_of_vertices) {
+
     int i, j;
     int codelength = 0;
     code[codelength++] = num_of_vertices;
@@ -668,10 +670,12 @@ int code_multicode(unsigned char code[], GRAPH g, ADJACENCY adj, int num_of_vert
         for(j = 0; j < adj[i]; j++)
             if(g[i][j] > i)
                 code[codelength++] = g[i][j] + 1;
+
         code[codelength++] = 0;
     }
 
     return codelength;
+    
 }
 
 /******************************************************************************/
@@ -679,6 +683,23 @@ int code_multicode(unsigned char code[], GRAPH g, ADJACENCY adj, int num_of_vert
 //Outputs the graph to stdout in multicode
 static void
 output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
+
+    printf("%s", "\n\nAdjacency 'matrix': ");
+
+    // Get the length of the adjancy matrix
+    size_t adj_length = sizeof(adj);
+
+    // Loop through the matrix
+    int i;
+    for(i = 0; i < adj_length; i++) {
+
+        // Print of each value
+        printf("%d", adj[i]);
+        printf("%s", " ");
+
+    }
+
+    printf("%s", "\nGraph: ");
 
     unsigned char codebuffer[MAX_MUTLICODE_SIZE(num_vertices)];
     int codelength = code_multicode(codebuffer, g, adj, num_vertices);
@@ -691,17 +712,17 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
     FILE * fp = fopen(file_path, "a"); // Append to file afterwards
 
     // Simple, loopy loopy
-    int a;
-    for( a = 0; a < codelength; a = a + 1 ){
+    int c;
+    for( c = 0; c < codelength; c = c + 1 ){
 
         // Save the codebuffer at [a] to file
-        fprintf(fp, "%hhx", codebuffer[a]);
+        fprintf(fp, "%hhx", codebuffer[c]);
 
         // Add space to characters
         fprintf(fp, "%s", " ");
 
         // print out to terminal
-        printf("%d", codebuffer[a]);
+        printf("%d", codebuffer[c]);
 
         // Add space to characters
         printf("%s", " ");
@@ -711,8 +732,42 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
     // New line after writing output
     fprintf(fp, "%s ", "\n");
 
+    // Get the # of rows in the graph
+    size_t graph_row_length = sizeof(g);
+    printf("%s", "\n# of Rows: ");
+    printf("%ld", graph_row_length);
+    printf("%s", "\n[\n");
+
+    // For every row
+    int a;
+    for(a = 0; a < graph_row_length; a++) {
+
+        // Get the length of each row (columns)
+        size_t graph_column_length = sizeof(g[a]);
+
+        printf("%s", "\n\t# of Columns: ");
+        printf("%ld", graph_column_length);
+        printf("%s", "\n");
+
+        printf("%s", "\t[");
+
+        int b;
+        for(b = 0; b < graph_column_length; b++) {
+
+            printf("%d", g[a][b]);
+            printf("%s", " ");
+
+        }
+
+        printf("%s", "]\n");
+
+    }
+
+    printf("%s", "]\n\n");
+
+
     // New line even in terminal prinout
-    printf("%s", "\n");
+    // printf("%s", "\n");
 
     // Increment num of graphs written
     num_graphs_written++;
