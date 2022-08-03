@@ -675,10 +675,53 @@ int code_multicode(unsigned char code[], GRAPH g, ADJACENCY adj, int num_of_vert
     }
 
     return codelength;
-    
+
 }
 
+static void
+add_edge_zz(GRAPH current_graph, unsigned char adj[], unsigned char v, unsigned char w) {
+    current_graph[v][adj[v]] = w;
+    current_graph[w][adj[w]] = v;
+    adj[v]++;
+    adj[w]++;
+}
+
+
 /******************************************************************************/
+
+static void
+decode_multicode_zz(unsigned char code[], GRAPH current_graph, ADJACENCY adj, int codelength) {
+    int i;
+
+    if(nv != code[0]) {
+        fprintf(stderr, "Error: Wrong number of vertices: expected %d while found %d vertices \n", nv, code[0]);
+        exit(1);
+    }
+
+    for(i = 0; i < nv; i++) {
+        adj[i] = 0;
+        //neighbours[i] = 0;
+    }
+
+    int currentvertex = 1;
+    for(i = 1; i < codelength; i++) {
+        if(code[i] == 0) {
+            currentvertex++;
+        } else {
+            add_edge_zz(current_graph, adj, currentvertex - 1, code[i] - 1);
+        }
+    }
+
+    for(i = 0; i < nv; i++) {
+        if(adj[i] > MAXN - 1) {
+            fprintf(stderr, "Error: graph can have at most %d neighbours, but found %d neighbours\n",
+                    MAXN - 1, adj[i]);
+            exit(1);
+        }
+    }
+
+}
+
 
 //Outputs the graph to stdout in multicode
 static void
@@ -691,18 +734,23 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
 
     // Loop through the matrix
     int i;
-    for(i = 0; i < adj_length; i++) {
+    for(i = 0; i < adj_length - 1; i++) {
 
         // Print of each value
         printf("%d", adj[i]);
-        printf("%s", " ");
 
     }
 
-    printf("%s", "\nGraph: ");
+    printf("%s", "\ncode_multicode: ");
 
     unsigned char codebuffer[MAX_MUTLICODE_SIZE(num_vertices)];
     int codelength = code_multicode(codebuffer, g, adj, num_vertices);
+
+    // ./critical_Pfree_graphs 10 c4 P5
+        printf("%s", "\n Code Length \n");
+
+    printf("%d", codelength);
+
 
     // Define the file path
     char file_path[] = "./my_outputs.txt";
@@ -732,6 +780,8 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
     // New line after writing output
     fprintf(fp, "%s ", "\n");
 
+    printf("%s", "\n Before \n");
+
     // Get the # of rows in the graph
     size_t graph_row_length = sizeof(g);
     printf("%s", "\n# of Rows: ");
@@ -740,7 +790,7 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
 
     // For every row
     int a;
-    for(a = 0; a < graph_row_length; a++) {
+    for(a = 0; a < graph_row_length - 1; a++) {
 
         // Get the length of each row (columns)
         size_t graph_column_length = sizeof(g[a]);
@@ -752,7 +802,7 @@ output_graph(GRAPH g, ADJACENCY adj, int num_vertices) {
         printf("%s", "\t[");
 
         int b;
-        for(b = 0; b < graph_column_length; b++) {
+        for(b = 0; b < graph_column_length - 1; b++) {
 
             printf("%d", g[a][b]);
             printf("%s", " ");
