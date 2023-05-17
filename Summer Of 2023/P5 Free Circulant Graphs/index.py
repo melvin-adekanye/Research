@@ -113,11 +113,11 @@ print('. . . Gathering graph data files from raw graphs folder')
 # Loop through all graphs with {MAX_VERTICES} to {max_vertices}
 for order in range(MAX_VERTICES, max_vertices + 1):
 
-    # For every grpah in the list (2 is the minimum chromatic number in raw graphs)
-    for circulant_number in range(max_vertices):
+    # For every grpah in the list (2 is the minimum number_of_parameters in raw graphs)
+    for number_of_parameters in range(max_vertices):
 
         # Defien a  path to the graph (may not actually exist)
-        path = f'{SOURCE_PATH}/circ{order}.{circulant_number}.txt'
+        path = f'{SOURCE_PATH}/circ{order}.{number_of_parameters}.txt'
 
         # Try: If the GRAPH_PATH does exist
         try:
