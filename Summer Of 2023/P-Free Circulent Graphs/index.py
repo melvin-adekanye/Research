@@ -192,6 +192,8 @@ for (index, data) in enumerate(RAW_GRAPHS):
     graph6_string = graph.graph6_string()
     chromatic_number = graph.chromatic_number()
 
+    # Back searching for finding the chromatic number - shortcuts for finding K quickly
+
     # Is this a p5 free graph
     if is_p5_free(graph):
 
