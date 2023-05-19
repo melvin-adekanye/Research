@@ -14,7 +14,7 @@ P4UP1_FREE_CIRCULANT_GRAPHS = []
 RAW_GRAPHS = []
 
 MIN_VERTICES = 5  # Default=5 || In DATA/raw_graphs you'll find "circ5.x" graphs
-MAX_VERTICES = 24  # Default=50 || In DATA/raw_graphs you'll find "circ50.x" graphs
+MAX_VERTICES = 50  # Default=50 || In DATA/raw_graphs you'll find "circ50.x" graphs
 
 print(
     f'**** STARTING AT {MIN_VERTICES} to {MAX_VERTICES} Vertices - Finding PX Free Circulant Graphs ****')
@@ -27,6 +27,8 @@ P5_SAVE_PATH = f'{os.getcwd()}/P5 Free'
 P4UP1_SAVE_PATH = f'{os.getcwd()}/P4+P1 Free'
 GRAPHS_PATH = '/graphs'
 GRAPHS_PARAMS_PATH = '/graphs params'
+TEMP_P5_SAVE_PATH = f'{os.getcwd()}/temp/P5 Free'
+TEMP_P4UP1_SAVE_PATH = f'{os.getcwd()}/temp/P4+P1 Free'
 
 
 # Define the path manager
@@ -166,6 +168,13 @@ for order in range(MIN_VERTICES, MAX_VERTICES + 1):
             # If the graph path doesn't exist skip
             pass
 
+
+# Before saving
+# Create paths if they doesn't exist
+print('. . . Creating TEMP directory')
+path_manager(TEMP_P5_SAVE_PATH, TEMP_P4UP1_SAVE_PATH)
+
+
 print('. . . Analyzing graph data')
 # For all the raw graphs
 for (index, data) in enumerate(RAW_GRAPHS):
@@ -201,17 +210,24 @@ for (index, data) in enumerate(RAW_GRAPHS):
         P5_FREE_CIRCULANT_GRAPHS.append(
             (graph, graph6_string, graph6_raw_array_to_string, order, chromatic_number))
 
+        # Save the graph
+        save(TEMP_P5_SAVE_PATH, graph6_string,
+             graph6_raw_array_to_string, order, chromatic_number)
+
     # Check out the p4+p1 free graphs
     if is_p4Up1_free(graph):
 
         P4UP1_FREE_CIRCULANT_GRAPHS.append(
             (graph, graph6_string, graph6_raw_array_to_string, order, chromatic_number))
 
+        # Save the graph
+        save(TEMP_P4UP1_SAVE_PATH, graph6_string,
+             graph6_raw_array_to_string, order, chromatic_number)
+
 
 # Before saving
 # Create paths if they doesn't exist
 path_manager(P5_SAVE_PATH, P4UP1_SAVE_PATH)
-
 
 # Print the generated graphs
 for graph in P5_FREE_CIRCULANT_GRAPHS:
