@@ -108,3 +108,25 @@ for p in range(3, 12 + 1):
 
     # Check if graph is critical
     print(f'Is {k} Critical: {is_k_critical(G, k)}')
+
+
+"""
+May 18, 2023
+-----------------------------
+GRAPH %
+# Pattern 1112121111
+- 5 6 7 8 10 11 13 14 15 16 (circ21_chi5)
+- 6 7 8 9 10 11 14 15 16 17 18 19 (circ25_chi5)
+
+[1111] then [2] [1] [2] and [1111]
+the number of starting and ending 1's are equal to the first digit minus one [5 - 1] = 4 one's to start and end the sequence
+-------------------------------
+GRAPH 6
+# Pattern 2 2 1 [2 2] 1 2 2
+
+- 5 7 9 10 12 14 16 17 19 21 (circ 26 crit 6)
+
+
+# Pattern 3 2 1 1 1 1 1 1 1 2 3
+
+"""
