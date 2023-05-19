@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+\title{Graphz}
+\date{\today}
+
+\begin{document}
+Let $G$ be a graph. Let $S$ be the maximal independent set of $G$. The subgraph $V(G) - S$ has order $|V(G) - S|$, thus it is at most $|V(G) - S|$-colourable. The remaining vertices $S$ are 1-colourable, since they are an independent set and are not adjacent in $G$. So then our graph is at most $|V(G) - S| + 1$colourable
+
+Let $G$ be a $k$-vertex-critical $(P_4 + P_1, 2P_2)$-free graph. Let $S$ be a maximum independent set in $G$. Let the vertices outside $S$, $V(G) - S$, be partitioned by $A$ and $B$, where $A = \{v \in V(G) - S : |N(v) \cap S = 1\}$. Then let $B = V(G) - S - A$.
+Let $\forall v \in S$, $v_A = N(v) \cap A$\\
+Claim 1: $\forall v,v' \in S$, $v_A$ is complete to $v'_A$\\
+Proof: If $a \in v_A$ and $a' \in v'_A$ such that $a \not \sim a'$, then $\{v, v', a, a'\}$ induces a $2P_2$--- a contradiction.\\
+Claim 2: $|S_A| \leq 1$\\
+Proof: If $|S_A| \geq 2$, then let $v, v' \in S_A$ with $a\in v_A and a' \in v'_A$. From claim 1 we know that $a \sim a'$, so $\{v, v', a, a', x\}$ induces a $P_4 + P_1$.
+
+For this graph to be $k$-vertex critical we can also assert that it has no comparable vertices.
+Which is to say, $\forall u, v \in S$, $N(u) \not \subseteq N(v)$, or every vertex in $S$ has at least one unique neighbour compared to another vertex.\\
+Let $v_1, v_2$ be two vertices in $V(G) - S$ s.t. $v_1 \sim S_A$ and $v_2 \sim $some stuff in $S_B$.
+We can now assert that any element in $B$ has no neighbours in $S_A$. And that $S_A$ has no neighbours in $B$.
+
+Let us find what happens when we look for a $(P_4 + P_1, K_3 + P_1, 2P_2)$-free graph.
+Let $S$ be the maximum independent set. Let $A = \{v \in V(G) - S : |N(V) \cap S| = 1\}$
+Let $B = V(G) - S - A$.
+Let $S_A = \{ v \in S : N(V) \cap A \not = \emptyset \}$
+Claim 3: $\forall v, v' \in S$, $v_A$ is complete to $v'_a$.
+Proof: Assume $v_A \not \sim v'_A$. Then, $\{ v, v', v_A, v'_A \}$ induces a $2P_2$, a contradiction.
+
+Claim 4: $|S_A| \leq 1 $
+Proof: Assume $|S_A| \geq 2$. Then let $u, u' \in S_A$ with $a \in v_A$ and $a' \in v'_A$. From claim 1 we know that $a \sim a'$, so $\{v, v' a, a', x\}$ induces a $P_4 + P_1$ for any $x \in S - \{v, v'\}$. Note that $x$ exists, other wise the independence number of this graph is 2.
+%What are the implications of this?
+
+Claim 5: $|A| \leq 1$
+First lets make a new notation. Since $|S_A| \leq 1$, let us name that potential vertex $v_S$.
+Proof: Assume $|A| \geq 2$. Then we have any two vertices in $A$ $v, v'$. From claim 4 we know that $|S_A| \leq 1$ and from claim 3 that $v$ is complete to $v'$. Since both $v, v'$ are adjacent to $v_S$, then  $\{v, v', v_S, x \}$ induces a $K_3 + P_1$, where $x \in S_B$
+
+\end{document}
