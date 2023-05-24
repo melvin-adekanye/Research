@@ -18,7 +18,7 @@ MAX_VERTICES = 14  # Default=14 || In DATA/raw_graphs you'll find "crit_14_x.g6"
 
 
 # Define the CHROMATIC_NUMBER
-CHROMATIC_NUMBER = 7
+CHROMATIC_NUMBER = 5
 
 # Graph of study path
 GRAPH_OF_STUDY_PATH = f'graph-{CHROMATIC_NUMBER}'
