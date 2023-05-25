@@ -16,9 +16,8 @@ ALL_GRAPH6_STRINGS = []
 MIN_VERTICES = 4  # Default=4 || In DATA/raw_graphs you'll find "crit_4_x.g6" graphs
 MAX_VERTICES = 14  # Default=14 || In DATA/raw_graphs you'll find "crit_14_x.g6" graphs
 
-
-# Define the CHROMATIC_NUMBER
-CHROMATIC_NUMBER = 5
+# Define the CHROMATIC_NUMBER "./DATA/graph-[CHROMATIC_NUMBER]"
+CHROMATIC_NUMBER = 9
 
 # Graph of study path
 GRAPH_OF_STUDY_PATH = f'graph-{CHROMATIC_NUMBER}'
