@@ -170,6 +170,11 @@ def analyze(data):
         # Get he order from the filename
         order = int(filename.split('circ')[1].split('_')[0])
 
+        # [REMOVE AFTER MAY 25, 2023]
+        if order < 13:
+
+            break
+
         # Get he chromatic_number from the filename
         chromatic_number = int(filename.split(
             '_chi')[1].split('_params.txt')[0])
@@ -240,6 +245,7 @@ for (index, data) in enumerate(RAW_GRAPHS):
     graph6_string = graph.graph6_string()
 
     # critical_check
+    print('. . .  Critical Check')
     is_critical = critical_check(graph, order, chromatic_number)
 
     # If this is critical
@@ -253,6 +259,9 @@ for (index, data) in enumerate(RAW_GRAPHS):
         # Save the graph
         save(DESTINATION_TEMP_PATH, graph6_string,
              graph6_raw_array_to_string, order, chromatic_number)
+        
+        # print
+        print(f'[TEMP] Saving to {DESTINATION_TEMP_PATH}')
 
 # Before saving
 # Create paths if they doesn't exist
