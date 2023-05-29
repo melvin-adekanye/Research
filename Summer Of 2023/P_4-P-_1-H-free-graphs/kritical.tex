@@ -1,4 +1,6 @@
 \documentclass[12pt]{article}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 \title{Graphz}
 \date{\today}
 
@@ -28,8 +30,41 @@ Claim 4: $|S_A| \leq 1 $
 Proof: Assume $|S_A| \geq 2$. Then let $u, u' \in S_A$ with $a \in v_A$ and $a' \in v'_A$. From claim 1 we know that $a \sim a'$, so $\{v, v' a, a', x\}$ induces a $P_4 + P_1$ for any $x \in S - \{v, v'\}$. Note that $x$ exists, other wise the independence number of this graph is 2.
 %What are the implications of this?
 
+\begin{tikzpicture}[roundnode/.style={circle, draw=black, thick, minimum size = 5mm}]
+\node[roundnode] (maintopic) {$v$};
+\node[roundnode] (vprime) [right=of maintopic] {$v'$};
+
+\draw[-] (maintopic.east) -- (vprime.west);
+\end{tikzpicture}
+
 Claim 5: $|A| \leq 1$
 First lets make a new notation. Since $|S_A| \leq 1$, let us name that potential vertex $v_S$.
 Proof: Assume $|A| \geq 2$. Then we have any two vertices in $A$ $v, v'$. From claim 4 we know that $|S_A| \leq 1$ and from claim 3 that $v$ is complete to $v'$. Since both $v, v'$ are adjacent to $v_S$, then  $\{v, v', v_S, x \}$ induces a $K_3 + P_1$, where $x \in S_B$
+
+Once again, another claim:
+
+There are three cases we have to work with.
+For any given  $v \in B$, $v$ is either adjacent to $v_S, a,$ or both. Let's look at when $v \sim v_S$
+
+If $v \sim v_S$, $v$ is complete to $S_B$. Proof: Assume that $v$ is not complete to $S_B$, then there exists some vertex $u \in S_B$ s.t $u \not \sim v$. we also know there is a vertexss $u' \in S_B$ that is adjacent to $v$, since $v$ is adjacent to at least 2 vertices in $S$. Then $\{v_S, a, v, u, u'\}$ induces a $P_4 + P_1$.
+
+Claim: let there be a vertex $v'$ in $B$ s.t $v' \not \sim a$ and $v' \not \sim v_S$.
+
+Claim: let there be a vertex $v'$ in $B$ s.t $v' \not \sim v_S$. $v'$ is not adjacent to anything in $S$ and other things.
+Proof: Assume at $v'$ is adjacent to some vertex $u$ in $S_B$. Then, $\{ v', u, v_S, a \}$ induces a $2P_2$.
+
+Some random other claim: Let $v' \not \sim v$ and $v \sim a$, then $v'$ is complete to $S$.
+Proof: Assume that $v'$ is not complete to $S_B$, at least. Then, let $u$ be some vertex $\in S_B$ such that $u \sim v$ and $u \not \sim v'$. Then, $\{v_S, a, v, u, v' \}$ induces a $P_4 + P_1$. Further, if $v' \not \sim v_S$, then this leaves us with comparable vertices and thus a non-k-critical graph. Therefore, $v' \sim v_S$ and $v'$ is complete to $S$.
+
+Let $s = S - S_B$ and $a = V(G) - B$
+Let us further split $B$ into three partitions. Let $B_1 = \{v \in B : v \sim s$ and $v \not \sim a \}$ and $B_2  =\{v \in B : v \sim a$ and $v \not \sim s \}$ and finally $B_3 = \{v \in B : v \sim s$ and $v \sim a \}$.
+Claim: $B_1 \cup B_3$ is complete to $S$ and $B_2$ is complete to $S - \{s\}$
+$\forall s_1, s_2 \in S - \{ s \}$, $N(s_1) = B_1 \cup B_2 \cup B_3 = N(s_2)$, this makes $s_1$ and $s_2$ comparable, contradicting the criticality of the graph.
+%
+Now we must test the case for when $|A| = 0$. In this, we have $S$ as the maximum independent set. For this to be critical, each vertex in $S$ must have a unique neighbour such that for two vertices $s_1, s_2 \in S$, $N(s_1) \not \subset N(s_2)$ and $N(s_2) \not \subset N(s_1)$.
+Let us call the set of unique neighbours $U$ and the common neighbours $C$.
+Common neighbours are defined $\{ v_1, v_2 \in V - S : N(v_1) \cap S = N(v_2) \cap S \}$
+
+Wow look at these graphs!
 
 \end{document}
