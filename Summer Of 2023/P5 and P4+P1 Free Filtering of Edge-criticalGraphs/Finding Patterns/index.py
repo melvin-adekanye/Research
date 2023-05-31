@@ -78,7 +78,7 @@ for (index, string) in enumerate(GRPAH6_STRING):
     # print(G.distance_matrix())
     # print("===============")
     # print(G.adjacency_matrix())
-    print("\n\n")
+    print(f"\n\n{string}")
 
 
     p = G.plot(layout=LAYOUT)
