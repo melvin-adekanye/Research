@@ -12,7 +12,7 @@ GRPAH6_STRING = []
 GRAPH_K = 5
 
 # Create the path for the graphs to be stored
-SOURCE_PATH = f'../DATA/graph-{GRAPH_K}'
+SOURCE_PATH = f'../graph-{GRAPH_K}/P4+P1 Free'
 DESTINATION_PATH = f"{os.getcwd()}/graph-{GRAPH_K}"
 GRAPHS_PATH = '/graphs'
 
@@ -90,32 +90,22 @@ def is_p4Up1_free(G):
 
 def is_2P2_free(G):
 
-    for v in G.vertices():
-
-        neighbors_v = G.neighbors(v)
-
-        # Iterate over each pair of distinct neighbors of v
-        for i in range(len(neighbors_v)):
-
-            for j in range(i + 1, len(neighbors_v)):
-
-                u = neighbors_v[i]
-                w = neighbors_v[j]
-
-                # Check if there is an edge between u and w
-                if G.has_edge(u, w):
-
-                    return False
-
+    for v in graph.vertices():
+        neighbors = set(graph.neighbors(v))
+        if len(neighbors) >= 2:
+            # Check for 2P2
+            for u in neighbors:
+                for w in neighbors - {u}:
+                    if u != w and not graph.has_edge(u, w):
+                        return False
     return True
-
 
 # The save function
 def save(SAVE_PATH, string, filename):
 
     # Store this graph in the grpahs folder
     f = open(
-        f'{SAVE_PATH}/{filename}.g6', "a+")
+        f'{SAVE_PATH}/{filename}', "a+")
 
     # Write to file
     f.write(f'{string}\n')
@@ -144,15 +134,17 @@ for (index, data) in enumerate(GRPAH6_STRING):
     # Create graphs and get details
     graph = Graph(graph6_string)
 
-    # Is this a 2p2 free graph
-    if is_p4Up1_free(graph) and is_2p2_free(graph):
+    if is_p4Up1_free(graph):
 
-        # iF so, append it to the _2P2_FREE_CIRCULANT_GRAPHS
-        P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS.append(
-            (graph6_string, filename))
+        # Is this a 2p2 free graph
+        if is_2P2_free(graph):
 
-        # Save the graph
-        save(TEMP__2p2_SAVE_PATH, graph6_string, filename)
+            # iF so, append it to the _2P2_FREE_CIRCULANT_GRAPHS
+            P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS.append(
+                (graph6_string, filename))
+
+            # Save the graph
+            save(TEMP__2p2_SAVE_PATH, graph6_string, filename)
 
 
 # Before saving

@@ -1,0 +1,1 @@
+Search all the 5-edge-critical for ones that are P5-free AND (claw +P1)-free  

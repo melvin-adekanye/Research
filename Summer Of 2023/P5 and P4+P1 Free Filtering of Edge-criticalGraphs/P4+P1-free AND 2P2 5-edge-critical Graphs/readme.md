@@ -1,0 +1,1 @@
+Search all the 5-edge-critical for ones that are P4+P1-free AND 2P2-free (is P2 disoint union with P2). 

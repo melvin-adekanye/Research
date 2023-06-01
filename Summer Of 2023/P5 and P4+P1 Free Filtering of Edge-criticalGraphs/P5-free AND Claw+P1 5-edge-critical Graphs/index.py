@@ -102,7 +102,7 @@ def save(SAVE_PATH, string, filename):
 
     # Store this graph in the grpahs folder
     f = open(
-        f'{SAVE_PATH}/{filename}.g6', "a+")
+        f'{SAVE_PATH}/{filename}', "a+")
 
     # Write to file
     f.write(f'{string}\n')
