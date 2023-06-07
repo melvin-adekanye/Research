@@ -99,8 +99,6 @@ def critical_check(graph, chromatic_number):
 
 
 # Save the graph in general
-
-
 def save(type, string, raw_string, order, chromatic_number):
 
     if type == 'default':
@@ -152,9 +150,8 @@ def convert_array_to_string(array):
     # Return the total string
     return total_string
 
+
 # Attain the graph string from circulant graph
-
-
 def circulant(n, L):
 
     E = []
