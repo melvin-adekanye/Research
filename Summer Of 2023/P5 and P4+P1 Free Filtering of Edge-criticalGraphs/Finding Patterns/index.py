@@ -71,28 +71,11 @@ for file in os.listdir(directory):
 path_manager(IMAGE_PATH)
 
 def is_C5_free(graph):
-    for v in graph.vertices():
-        visited = set()
-        stack = [(v, None)]  # Stack to keep track of vertices and their predecessors
 
-        while stack:
-            current, parent = stack.pop()
+    c5 = graphs.CycleGraph(5)
 
-            if current in visited:
-                continue
+    return graph.subgraph_search(c5, induced=True)
 
-            visited.add(current)
-
-            for neighbor in graph.neighbors(current):
-                if neighbor == parent:
-                    continue  # Skip the predecessor
-
-                if neighbor in visited:
-                    return False  # Cycle detected
-
-                stack.append((neighbor, current))
-
-    return True
 
 # Saving graph images to
 print(f"Saving graphs to {IMAGE_PATH}")
@@ -100,7 +83,7 @@ for (index, string) in enumerate(GRPAH6_STRING):
 
     G = Graph(string)
 
-    if is_C5_free(G):
+    if is_C5_free(G) == True:
 
         print(string, " C5 Free")
         
