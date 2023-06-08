@@ -74,7 +74,7 @@ def is_C5_free(graph):
 
     c5 = graphs.CycleGraph(5)
 
-    return graph.subgraph_search(c5, induced=True)
+    return graph.subgraph_search(c5, induced=True) == None
 
 
 # Saving graph images to
@@ -85,7 +85,7 @@ for (index, string) in enumerate(GRPAH6_STRING):
 
     if is_C5_free(G) == True:
 
-        print(string, " C5 Free")
+        print(index, " ", string, " C5 Free")
         
     
     # print(G.distance_matrix())
