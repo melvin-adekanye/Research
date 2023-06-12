@@ -5,7 +5,7 @@ import numpy
 
 GRAPH_K = 5
 GRPAH6_STRING = []
-SOURCE_PATH = f"../graph-{GRAPH_K}/" + "P4+P1 Free"
+SOURCE_PATH = f"../DATA/graph-{GRAPH_K}" # + "P4+P1 Free"
 LAYOUT = "circular"
 IMAGE_PATH = f"images/{LAYOUT}/"
 
@@ -94,7 +94,7 @@ for (index, string) in enumerate(GRPAH6_STRING):
     # print(f"\n\n{string}")
 
 
-    p = G.plot(layout=LAYOUT)
-    p.save_image(IMAGE_PATH + str(index) + ".png")
+    # p = G.plot(layout=LAYOUT)
+    # p.save_image(IMAGE_PATH + str(index) + ".png")
 
 print("Completed ⭐")
