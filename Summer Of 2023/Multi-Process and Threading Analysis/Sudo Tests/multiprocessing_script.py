@@ -7,15 +7,15 @@ import copy
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing
 from sage.graphs.graph_coloring import vertex_coloring
-import foo
 import random
+
 SOURCE_PATH = f'./raw graphs'
 
 # K = chromatic number
 GRAPH_K = 5
 
-min_vertices = 5 # 5  # circ-5 graphs
-max_vertices = 20 # 20  # circ-50 graphs
+min_vertices = 5  # 5  # circ-5 graphs
+max_vertices = 20  # 20  # circ-50 graphs
 
 writeToFile = True
 
@@ -44,7 +44,6 @@ graph6Cache = {}
 
 # This is where the g6 files will be stored
 DESTINATION_PATH = "critical graphs"
-
 
 
 def critical_check(graph):
@@ -91,16 +90,15 @@ def critical_check(graph):
     # Return not critical to k value
     return False
 
-def multiprocess_critical_check(original_graph_and_index, flag):
+
+def multiprocess_critical_check(original_graph_and_index, chromatic_number, flag):
 
     if flag.value:
+
         return
-    
+
     graph, index = original_graph_and_index
     print(f". . . . . . Recieved {graph.graph6_string()} - {index}")
-
-    # Get it from the graph
-    chromatic_number = graph.chromatic_number()
 
     # Only if the CN is K
     if chromatic_number == GRAPH_K:
@@ -121,10 +119,10 @@ def multiprocess_critical_check(original_graph_and_index, flag):
 
     return flag.value
 
-def multiprocess_critical_check_manager(graph):
-        
-    print(f". . . Analyzing {graph.graph6_string()}")
 
+def multiprocess_critical_check_manager(graph):
+
+    print(f". . . Analyzing {graph.graph6_string()}")
 
     original_graphs = []
 
@@ -132,18 +130,33 @@ def multiprocess_critical_check_manager(graph):
 
     is_critical = False
 
-    # Set the original graph before messing with it
-    original_graph = Graph(graph)
+
+    print("Starting!")
+
+    start_time = datetime.datetime.now()
 
     # Get it from the graph
-    chromatic_number = original_graph.chromatic_number()
+    chromatic_number = graph.chromatic_number()
 
+    end_time = datetime.datetime.now()
+
+    elapsed_time = end_time - start_time
+    totalSeconds = elapsed_time.total_seconds()
+
+    hours, remainder = divmod(int(totalSeconds), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    roundSeconds = float("{:.2f}".format(math.modf(totalSeconds)[0] + seconds))
+    print(f"Finding Chromatic Number:")
+    print("Elapsed time: {} hours, {} minutes, {} seconds".format(
+        int(hours), int(minutes), roundSeconds))
+
+    """
     # Only if the CN is K
     if chromatic_number == GRAPH_K:
 
-        for i in range(original_graph.order()):
+        for i in range(graph.order()):
 
-            original_graphs.append([Graph(original_graph), i])
+            original_graphs.append([Graph(graph), i])
 
         # Create a shared flag variable
         flag = multiprocessing.Value('b', False)
@@ -153,7 +166,8 @@ def multiprocess_critical_check_manager(graph):
         # For every node in the original_graph create a process
         for original_graph_and_index in original_graphs:
 
-            process = multiprocessing.Process(target=multiprocess_critical_check, args=(original_graph_and_index, flag))
+            process = multiprocessing.Process(target=multiprocess_critical_check, args=(
+                original_graph_and_index, chromatic_number, flag))
             process.start()
             processes.append(process)
 
@@ -167,10 +181,11 @@ def multiprocess_critical_check_manager(graph):
 
                 break
 
-
         print(is_critical)
-        
+    """
+    
     return is_critical
+
 
 def saveFiles(writeToFile):
 
@@ -199,11 +214,14 @@ def saveFiles(writeToFile):
     # CLose up shop
     outputStream.close()
 
+
 def multithreading():
 
     print("multiFoo() is RUNNING")
 
     for (index, graph) in enumerate(GRPAH6_STRING):
+
+        graph = Graph(graph)
 
         print(index, f" out of {len(GRPAH6_STRING)} ", graph.graph6_string())
 
@@ -213,9 +231,11 @@ def multithreading():
         # is_critical = critical_check(graph) #multiprocess_critical_check_manager(graph)
         is_critical = multiprocess_critical_check_manager(graph)
 
+        print(f"main(): {is_critical}")
+
         # CHeck if the graph is critical
         if is_critical == True:
-        # if critical_check(graph):
+            # if critical_check(graph):
 
             outputLineArray.append(graph_string)
 
@@ -223,6 +243,8 @@ def multithreading():
     saveFiles(True)
 
 # Convert array to string
+
+
 def convert_array_to_string(array):
 
     total_string = ''
@@ -241,6 +263,8 @@ def convert_array_to_string(array):
     return total_string
 
 # Attain the graph string from circulant graph
+
+
 def circulant(n, L):
 
     E = []
@@ -249,14 +273,15 @@ def circulant(n, L):
 
         for j in range(i+1, n):
 
-            if(((i-j) % n) in L):
+            if (((i-j) % n) in L):
 
-                if({i, j} not in E):
+                if ({i, j} not in E):
 
                     E.append({i, j})
 
     # Return the graph
     return E
+
 
 if __name__ == '__main__':
 
@@ -270,6 +295,7 @@ if __name__ == '__main__':
     raw_graphs = []
     GRPAH6_STRING = []
 
+    """
     # Read in the 5-critical graphs
     print('. . . Gathering graph data files from raw graphs folder')
     # Loop through all graphs with {min_vertices} to {max_vertices}
@@ -329,8 +355,27 @@ if __name__ == '__main__':
         graph = Graph(E)
         graph6_string = graph.graph6_string()
 
-        GRPAH6_STRING.append(graph)
+        GRPAH6_STRING.append(graph6_string)
 
+
+    with open('GRPAH6_STRING.txt', 'w') as file:
+        # Write each item from the list to a new line in the file
+        for item in GRPAH6_STRING:
+            file.write(item + '\n')
+
+    """
+
+    # Open up and read the file graph
+    f = open("GRPAH6_STRING.txt", "r")
+
+    # FOr every line in the file
+    for line in f:
+
+        # Attain the raw graph numbers
+        string = line.split(None)[0]
+
+        # Append a list to the raw graph
+        GRPAH6_STRING.append(string)
 
     start_time = datetime.datetime.now()
 

@@ -3,12 +3,18 @@ import os
 import shutil
 import numpy
 
-GRAPH_K = 5
+GRAPH_K = 6
 GRPAH6_STRING = []
-SOURCE_PATH = f"../DATA/graph-{GRAPH_K}" # + "P4+P1 Free"
-LAYOUT = "circular"
-IMAGE_PATH = f"images/{LAYOUT}/"
+GRAPH_FILENAME = f"graph-{GRAPH_K}"
+PATH_FREE_PATH = "P4+P1 Free" 
+SOURCE_PATH = f"../{GRAPH_FILENAME}/{PATH_FREE_PATH}"
+LAYOUTS = ["circular", "spring"]
+IMAGE_PATHS = []
+BASE_IMAGE_PATH = f"Images/{GRAPH_FILENAME}/{PATH_FREE_PATH}"
+for LAYOUT in LAYOUTS:
+    IMAGE_PATHS.append(f"{BASE_IMAGE_PATH}/{LAYOUT}/")
 
+LEGEND = []
 
 # Define the path manager
 def path_manager(*paths):
@@ -38,8 +44,6 @@ for file in os.listdir(directory):
 
     filename = os.fsdecode(file)
 
-    print(f"\n\n====={filename}")
-
     # Defien a path to the graph (may not actually exist)
     path = f'{SOURCE_PATH}/{filename}'
 
@@ -66,35 +70,29 @@ for file in os.listdir(directory):
         # If the graph path doesn't exist skip
         pass
 
-    print(GRPAH6_STRING)
-
-path_manager(IMAGE_PATH)
-
-def is_C5_free(graph):
-
-    c5 = graphs.CycleGraph(5)
-
-    return graph.subgraph_search(c5, induced=True) == None
-
+path_manager(BASE_IMAGE_PATH, *IMAGE_PATHS)
 
 # Saving graph images to
-print(f"Saving graphs to {IMAGE_PATH}")
+print(f"Saving graphs to {IMAGE_PATHS}")
 for (index, string) in enumerate(GRPAH6_STRING):
 
     G = Graph(string)
 
-    if is_C5_free(G) == True:
+    print(f"{index} - {string}")
 
-        print(index, " ", string, " C5 Free")
-        
-    
-    # print(G.distance_matrix())
-    # print("===============")
-    # print(G.adjacency_matrix())
-    # print(f"\n\n{string}")
+    for (image_index, LAYOUT) in enumerate(LAYOUTS):
+        p = G.plot(layout=LAYOUT)
+        p.save_image(IMAGE_PATHS[image_index] + str(index) + ".png")
 
+    LEGEND.append((index, string))
 
-    # p = G.plot(layout=LAYOUT)
-    # p.save_image(IMAGE_PATH + str(index) + ".png")
+# Open the file in write mode
+with open(f'{BASE_IMAGE_PATH}/Image Legend.txt', 'w') as file:
+
+    # Perform the loop and write to the file
+    for i in LEGEND:
+        index, string = i
+        line = f"{index} => {string} \n"
+        file.write(line)
 
 print("Completed ⭐")

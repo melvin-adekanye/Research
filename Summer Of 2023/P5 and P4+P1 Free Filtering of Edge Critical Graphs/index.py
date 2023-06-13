@@ -4,14 +4,6 @@ from sage import *
 
 # Parallelism().set(nproc=8)
 
-# Store all the P5_FREE_EDGE_CRITICAL_GRAPHS
-P5_FREE_EDGE_CRITICAL_GRAPHS = []
-
-# Store all the P4UP1_FREE_EDGE_CRITICAL_GRAPHS
-P4UP1_FREE_EDGE_CRITICAL_GRAPHS = []
-
-# The p7 free storage unit
-P7_FREE_EDGE_CRITICAL_GRAPHS = []
 
 # Store all the graph strings
 ALL_GRAPH6_STRINGS = []
@@ -20,31 +12,39 @@ MIN_VERTICES = 4  # Default=4 || In DATA/raw_graphs you'll find "crit_4_x.g6" gr
 MAX_VERTICES = 14  # Default=14 || In DATA/raw_graphs you'll find "crit_14_x.g6" graphs
 
 # Define the CHROMATIC_NUMBER "./DATA/graph-[CHROMATIC_NUMBER]"
-CHROMATIC_NUMBER = 4
+CHROMATIC_NUMBER = 9
 
 # Graph of study path
-GRAPH_OF_STUDY_PATH = f'graph-{CHROMATIC_NUMBER}'
+GRAPH_OF_STUDY_FILENAME = f'graph-{CHROMATIC_NUMBER}'
 
 print(
-    f'**** STARTING AT {MIN_VERTICES} to {MAX_VERTICES} Vertices - Finding {GRAPH_OF_STUDY_PATH} Free Edge Critical Graphs ****')
+    f'**** STARTING AT {MIN_VERTICES} to {MAX_VERTICES} Vertices - Finding {GRAPH_OF_STUDY_FILENAME} Free Edge Critical Graphs ****')
 
 # Create the path for the graphs to be stored
-SOURCE_PATH = f'{os.getcwd()}/DATA/{GRAPH_OF_STUDY_PATH}'
+SOURCE_PATH = f'{os.getcwd()}/DATA/{GRAPH_OF_STUDY_FILENAME}'
 
 # Create the path for the graphs to be stored
-P5_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_PATH}/P5 Free'
-P4UP1_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_PATH}/P4+P1 Free'
-P7_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_PATH}/P7 Free'
+P5_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_FILENAME}/P5 Free'
+P4UP1_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_FILENAME}/P4+P1 Free'
+P7_SAVE_PATH = f'{os.getcwd()}/{GRAPH_OF_STUDY_FILENAME}/P7 Free'
 
-TEMP_PATH = f'{SOURCE_PATH}/temp'
+TEMP_PATH = f'{os.getcwd()}/temp/{GRAPH_OF_STUDY_FILENAME}'
 TEMP_P5_SAVE_PATH = f'{TEMP_PATH}/P5 Free'
 TEMP_P4UP1_SAVE_PATH = f'{TEMP_PATH}/P4+P1 Free'
 TEMP_P7_SAVE_PATH = f'{TEMP_PATH}/P7 Free'
 
 # Define all the temp paths
-TEMP_PATHs = [TEMP_P5_SAVE_PATH, TEMP_P4UP1_SAVE_PATH, TEMP_P7_SAVE_PATH]
+TEMP_PATHs = [TEMP_PATH, TEMP_P5_SAVE_PATH, TEMP_P4UP1_SAVE_PATH, TEMP_P7_SAVE_PATH]
 SAVE_PATHs = [P5_SAVE_PATH, P4UP1_SAVE_PATH, P7_SAVE_PATH]
 
+# Store all the P5_FREE_EDGE_CRITICAL_GRAPHS
+P5_FREE_EDGE_CRITICAL_GRAPHS = []
+
+# Store all the P4UP1_FREE_EDGE_CRITICAL_GRAPHS
+P4UP1_FREE_EDGE_CRITICAL_GRAPHS = []
+
+# The p7 free storage unit
+P7_FREE_EDGE_CRITICAL_GRAPHS = []
 
 # Define the path manager
 def path_manager(*paths):
@@ -76,16 +76,14 @@ def is_p5_free(G):
     # Return True or False
     return (sub_search == None)
 
-
-# Is p4Up1 free boolean flag function
+# Is p4Up1 free boolean flag function [Corrected]
 def is_p4Up1_free(G):
 
-    P4UP1 = graphs.PathGraph(4).join(Graph(1))
+    P4UP1 = graphs.PathGraph(4).disjoint_union(Graph(1))
     sub_search = G.subgraph_search(P4UP1, induced=True)
 
     # Return True or False
     return (sub_search == None)
-
 
 def is_p7_free(G):
 
@@ -163,6 +161,9 @@ for (index, data) in enumerate(ALL_GRAPH6_STRINGS):
     # Create graphs and get details
     graph = Graph(graph6_string)
 
+
+
+
     # Is this a p5 free graph
     if is_p5_free(graph):
 
@@ -193,38 +194,25 @@ for (index, data) in enumerate(ALL_GRAPH6_STRINGS):
 # Create paths if they doesn't exist
 path_manager(*SAVE_PATHs)
 
-# Print the generated graphs
-for graph in P5_FREE_EDGE_CRITICAL_GRAPHS:
+# Define the save manager
+def save_manager(SAVE_PATH, ARRAY_TO_SAVE):
 
-    # Unpack the graph data
-    graph6_string, order = graph
+    # Print the generated graphs
+    for graph in ARRAY_TO_SAVE:
 
-    # Save the graph
-    save(P5_SAVE_PATH, graph6_string, order)
+        # Unpack the graph data
+        graph6_string, order = graph
 
+        # Save the graph
+        save(SAVE_PATH, graph6_string, order)
 
-# Print the generated graphs
-for graph in P4UP1_FREE_EDGE_CRITICAL_GRAPHS:
-
-    # Unpack the graph data
-    graph6_string, order = graph
-
-    # Save the graph
-    save(P4UP1_SAVE_PATH, graph6_string, order)
-
-
-# Print the generated graphs
-for graph in P7_FREE_EDGE_CRITICAL_GRAPHS:
-
-    # Unpack the graph data
-    graph6_string, order = graph
-
-    # Save the graph
-    save(P7_SAVE_PATH, graph6_string, order)
-
+# Call the save manager
+save_manager(P5_SAVE_PATH, P5_FREE_EDGE_CRITICAL_GRAPHS)
+save_manager(P4UP1_SAVE_PATH, P4UP1_FREE_EDGE_CRITICAL_GRAPHS)
+save_manager(P7_SAVE_PATH, P7_FREE_EDGE_CRITICAL_GRAPHS)
 
 print(
-    f'. . . Success! Saved to {P5_SAVE_PATH} and {P4UP1_SAVE_PATH}')
+    f'. . . Success! Saved {GRAPH_OF_STUDY_FILENAME}')
 
 # Delete the temp folder
 shutil.rmtree(TEMP_PATH)
