@@ -81,21 +81,19 @@ for file in os.listdir(directory):
 
 def is_CLAW_U_P1_free(G):
 
-    for v in G.vertices():
-        neighbors_v = G.neighbors(v)
-        # Check if the vertex v has at least 3 neighbors
-        if len(neighbors_v) >= 3:
-            # Check if v is connected to every pair of its neighbors
-            for i in range(len(neighbors_v)):
-                for j in range(i + 1, len(neighbors_v)):
-                    u = neighbors_v[i]
-                    w = neighbors_v[j]
-                    if not G.has_edge(u, w):
-                        # Check if there is an isolated vertex x
-                        for x in G.vertices():
-                            if x != v and not G.has_edge(x, u) and not G.has_edge(x, w):
-                                return False
-    return True
+    # Create a claw graph
+    claw_graph = graphs.CompleteBipartiteGraph(3, 1)
+
+    # Create a PathGraph(1)
+    path_graph = graphs.PathGraph(1)
+
+    # Perform a disjoint union
+    claw_union_path_1 = claw_graph.disjoint_union(path_graph)
+
+    sub_search = G.subgraph_search(claw_union_path_1, induced=True)
+
+    # Return True or False
+    return (sub_search == None)
 
 
 # The save function
