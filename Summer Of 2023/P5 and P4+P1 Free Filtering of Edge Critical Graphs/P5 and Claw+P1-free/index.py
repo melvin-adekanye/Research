@@ -2,8 +2,8 @@ import os
 import shutil
 from sage import *
 
-# Store all the _2P2_FREE_CIRCULANT_GRAPHS
-P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS = []
+# Store all the CLAW_U_P1_FREE_CIRCULANT_GRAPHS
+P5_AND_CLAW_U_P1_FREE_CIRCULANT_GRAPHS = []
 
 # The raw and regular graphs
 GRPAH6_STRING = []
@@ -12,13 +12,14 @@ GRPAH6_STRING = []
 GRAPH_K = 5
 
 # Create the path for the graphs to be stored
-SOURCE_PATH = f'../graph-{GRAPH_K}/P4+P1 Free'
+SOURCE_PATH = f'../graph-{GRAPH_K}/P5 Free'
 DESTINATION_PATH = f"{os.getcwd()}/graph-{GRAPH_K}"
 GRAPHS_PATH = '/graphs'
 
 # Create the path for the graphs to be stored
-_2p2_SAVE_PATH = f'{DESTINATION_PATH}/2P2 Free'
-TEMP__2p2_SAVE_PATH = f'{DESTINATION_PATH}/temp/2P2 Free'
+CLAW_U_P1_SAVE_PATH = f'{DESTINATION_PATH}/claw_U_P1 Free'
+TEMP = f"{DESTINATION_PATH}/temp"
+TEMP_CLAW_U_P1_SAVE_PATH = f'{TEMP}/claw_U_P1 Free'
 
 
 # Define the path manager
@@ -78,27 +79,24 @@ for file in os.listdir(directory):
         pass
 
 
-# Is p4Up1 free boolean flag function [Corrected]
-def is_p4Up1_free(G):
+def is_CLAW_U_P1_free(G):
 
-    P4UP1 = graphs.PathGraph(4).disjoint_union(Graph(1))
-    sub_search = G.subgraph_search(P4UP1, induced=True)
-
-    # Return True or False
-    return (sub_search == None)
-
-
-def is_2P2_free(G):
-
-    for v in graph.vertices():
-        neighbors = set(graph.neighbors(v))
-        if len(neighbors) >= 2:
-            # Check for 2P2
-            for u in neighbors:
-                for w in neighbors - {u}:
-                    if u != w and not graph.has_edge(u, w):
-                        return False
+    for v in G.vertices():
+        neighbors_v = G.neighbors(v)
+        # Check if the vertex v has at least 3 neighbors
+        if len(neighbors_v) >= 3:
+            # Check if v is connected to every pair of its neighbors
+            for i in range(len(neighbors_v)):
+                for j in range(i + 1, len(neighbors_v)):
+                    u = neighbors_v[i]
+                    w = neighbors_v[j]
+                    if not G.has_edge(u, w):
+                        # Check if there is an isolated vertex x
+                        for x in G.vertices():
+                            if x != v and not G.has_edge(x, u) and not G.has_edge(x, w):
+                                return False
     return True
+
 
 # The save function
 def save(SAVE_PATH, string, filename):
@@ -117,7 +115,7 @@ def save(SAVE_PATH, string, filename):
 # Before saving
 # Create paths if they doesn't exist
 print('. . . Creating TEMP directory')
-path_manager(TEMP__2p2_SAVE_PATH)
+path_manager(TEMP_CLAW_U_P1_SAVE_PATH)
 
 print('. . . Analyzing graph data')
 # Loop through all the GRPAH6_STRING
@@ -129,36 +127,36 @@ for (index, data) in enumerate(GRPAH6_STRING):
     # Progress report
     if (index % int(0.1 * len(GRPAH6_STRING))) == 0:
 
-        print(f'{index} out of {len(GRPAH6_STRING)} — {len(P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS)} Graphs Added')
+        print(f'{index} out of {len(GRPAH6_STRING)} — {len(P5_AND_CLAW_U_P1_FREE_CIRCULANT_GRAPHS)} Graphs Added')
 
     # Create graphs and get details
     graph = Graph(graph6_string)
+    
+    # Is this a claw_U_P1 free graph
+    if is_CLAW_U_P1_free(graph):
 
-    if is_p4Up1_free(graph):
+        # iF so, append it to the CLAW_U_P1_FREE_CIRCULANT_GRAPHS
+        P5_AND_CLAW_U_P1_FREE_CIRCULANT_GRAPHS.append(
+            (graph6_string, filename))
 
-        # Is this a 2p2 free graph
-        if is_2P2_free(graph):
-
-            # iF so, append it to the _2P2_FREE_CIRCULANT_GRAPHS
-            P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS.append(
-                (graph6_string, filename))
-
-            # Save the graph
-            save(TEMP__2p2_SAVE_PATH, graph6_string, filename)
+        # Save the graph
+        save(TEMP_CLAW_U_P1_SAVE_PATH, graph6_string, filename)
 
 
 # Before saving
 # Create paths if they doesn't exist
-path_manager(_2p2_SAVE_PATH)
+path_manager(CLAW_U_P1_SAVE_PATH)
 
 # Print the generated graphs
-for graph in P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS:
+for graph in P5_AND_CLAW_U_P1_FREE_CIRCULANT_GRAPHS:
 
     graph6_string, filename = graph
 
     # Save the graph
-    save(_2p2_SAVE_PATH, graph6_string, filename)
+    save(CLAW_U_P1_SAVE_PATH, graph6_string, filename)
 
 
 print(
-    f'. . . Success! Saved to {_2p2_SAVE_PATH}')
+    f'. . . Success! Saved to {CLAW_U_P1_SAVE_PATH}')
+
+shutil.rmtree(TEMP)
