@@ -1,4 +1,4 @@
-### Unkown Graphs
+### Unknown Graphs
 - Claw + P1
 - P4 + P1
 - ~(diamond + P1)
