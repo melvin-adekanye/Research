@@ -13,11 +13,8 @@ P4UP1_FREE_CIRCULANT_GRAPHS = []
 # The raw and regular graphs
 RAW_GRAPHS = []
 
-MIN_VERTICES = 5  # Default=5 || In DATA/raw_graphs you'll find "circ5.x" graphs
-MAX_VERTICES = 50  # Default=50 || In DATA/raw_graphs you'll find "circ50.x" graphs
-
 print(
-    f'**** STARTING AT {MIN_VERTICES} to {MAX_VERTICES} Vertices - Finding PX Free Circulant Graphs ****')
+    f'**** STARTING - Finding PX Free Circulant Graphs ****')
 
 # Create the path for the graphs to be stored
 SOURCE_PATH = f'{os.getcwd()}/../DATA/raw graphs'
@@ -27,8 +24,9 @@ P5_SAVE_PATH = f'{os.getcwd()}/P5 Free'
 P4UP1_SAVE_PATH = f'{os.getcwd()}/P4+P1 Free'
 GRAPHS_PATH = '/graphs'
 GRAPHS_PARAMS_PATH = '/graphs params'
-TEMP_P5_SAVE_PATH = f'{os.getcwd()}/temp/P5 Free'
-TEMP_P4UP1_SAVE_PATH = f'{os.getcwd()}/temp/P4+P1 Free'
+TEMP_PATH = f"{os.getcwd()}/temp"
+TEMP_P5_SAVE_PATH = f'{TEMP_PATH}/P5 Free'
+TEMP_P4UP1_SAVE_PATH = f'{TEMP_PATH}/P4+P1 Free'
 
 
 # Define the path manager
@@ -134,14 +132,23 @@ def save(SAVE_PATH, string, raw_string, order, chromatic_number):
 
 
 print('. . . Gathering graph data files from raw graphs folder')
-# Loop through all graphs with {MIN_VERTICES} to {MAX_VERTICES}
-for order in range(MIN_VERTICES, MAX_VERTICES + 1):
+directory = os.fsencode(SOURCE_PATH)
+for file in os.listdir(directory):
 
-    # For every grpah in the list (2 is the minimum number_of_parameters in raw graphs)
-    for number_of_parameters in range(MAX_VERTICES):
+    filename = os.fsdecode(file)
 
-        # Defien a  path to the graph (may not actually exist)
-        path = f'{SOURCE_PATH}/circ{order}.{number_of_parameters}.txt'
+    print(filename)
+
+    # Defien a path to the graph (may not actually exist)
+    path = f'{SOURCE_PATH}/{filename}'
+    
+    try:
+            
+        # Order
+        order = int(filename.split(".")[0].split('circ')[1])
+
+        # Number of the parameters
+        number_of_parameters = int(filename.split(".")[1].split('.txt')[0])
 
         # Try: If the GRAPH_PATH does exist
         try:
@@ -168,6 +175,11 @@ for order in range(MIN_VERTICES, MAX_VERTICES + 1):
             # If the graph path doesn't exist skip
             pass
 
+    except:
+
+        # If the graph path doesn't exist skip
+        pass
+
 
 # Before saving
 # Create paths if they doesn't exist
@@ -179,8 +191,10 @@ print('. . . Analyzing graph data')
 # For all the raw graphs
 for (index, data) in enumerate(RAW_GRAPHS):
 
+    checkpoint = int(0.1 * len(RAW_GRAPHS)) if int(0.1 * len(RAW_GRAPHS)) > 0 else 1
+
     # Progress report
-    if (index % int(0.1 * len(RAW_GRAPHS))) == 0:
+    if (index % checkpoint) == 0:
 
         print(f'{index} out of {len(RAW_GRAPHS)}')
 
@@ -253,3 +267,5 @@ for graph in P4UP1_FREE_CIRCULANT_GRAPHS:
 
 print(
     f'. . . Success! Saved to {P5_SAVE_PATH} and {P4UP1_SAVE_PATH}')
+
+shutil.rmtree(TEMP_PATH)
