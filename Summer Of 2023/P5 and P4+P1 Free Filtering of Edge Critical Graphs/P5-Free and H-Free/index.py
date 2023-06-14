@@ -17,7 +17,7 @@ DESTINATION_PATH = f"{os.getcwd()}/graph-{GRAPH_K}"
 GRAPHS_PATH = '/graphs'
 
 # Create the path for the graphs to be stored
-H_FREE_SAVE_PATH = f'{DESTINATION_PATH}/H Free'
+H_FREE_SAVE_PATHS = ["", ""] # f'{DESTINATION_PATH}/H Free'
 TEMP_H_FREE_SAVE_PATH = f'{DESTINATION_PATH}/temp/H Free'
 
 
@@ -100,17 +100,15 @@ def is_H_free(graph):
                                     return False
         return True
 
-    def is_p4_U_p1_free(graph):
-        for v in graph.vertices():
-            neighbors = set(graph.neighbors(v))
-            for u in neighbors:
-                # Check for a P4
-                for w in neighbors.intersection(set(graph.neighbors(u))):
-                    if w != v and w not in graph.neighbors(v):
-                        # Check for a P1
-                        if any(w in graph.neighbors(x) for x in graph.neighbors(v)):
-                            return False
-        return True
+    # Is p4Up1 free boolean flag function [Corrected]
+    def is_p4Up1_free(G):
+
+        P4UP1 = graphs.PathGraph(4).disjoint_union(Graph(1))
+        sub_search = G.subgraph_search(P4UP1, induced=True)
+
+        # Return True or False
+        return (sub_search == None)
+
 
     def complement_diamond_p1_free(graph):
         complement_graph = graph.complement()  # Create the complement graph
@@ -239,7 +237,7 @@ def is_H_free(graph):
         return not any(graph.subgraph_search(k5).count() == 5 for k5_e_subgraph in graph.subgraph_search_iterator(k5) if k5_e_subgraph == 9)
 
     checks = [
-              is_p4_U_p1_free,
+              is_p4Up1_free,
               complement_diamond_p1_free,
               is_c4_p1_free,
               is_chair_free,
