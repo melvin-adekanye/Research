@@ -9,7 +9,7 @@ P4UP1_AND_2P2_FREE_CIRCULANT_GRAPHS = []
 GRPAH6_STRING = []
 
 # Get the K value
-GRAPH_K = 5
+GRAPH_K = 7
 
 # Create the path for the graphs to be stored
 SOURCE_PATH = f'../graph-{GRAPH_K}/P4+P1 Free'

@@ -130,27 +130,9 @@ def multiprocess_critical_check_manager(graph):
 
     is_critical = False
 
-
-    print("Starting!")
-
-    start_time = datetime.datetime.now()
-
     # Get it from the graph
     chromatic_number = graph.chromatic_number()
 
-    end_time = datetime.datetime.now()
-
-    elapsed_time = end_time - start_time
-    totalSeconds = elapsed_time.total_seconds()
-
-    hours, remainder = divmod(int(totalSeconds), 3600)
-    minutes, seconds = divmod(remainder, 60)
-    roundSeconds = float("{:.2f}".format(math.modf(totalSeconds)[0] + seconds))
-    print(f"Finding Chromatic Number:")
-    print("Elapsed time: {} hours, {} minutes, {} seconds".format(
-        int(hours), int(minutes), roundSeconds))
-
-    """
     # Only if the CN is K
     if chromatic_number == GRAPH_K:
 
@@ -182,7 +164,6 @@ def multiprocess_critical_check_manager(graph):
                 break
 
         print(is_critical)
-    """
     
     return is_critical
 
