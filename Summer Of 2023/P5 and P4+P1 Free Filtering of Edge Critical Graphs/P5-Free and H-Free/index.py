@@ -6,7 +6,7 @@ from sage import *
 GRPAH6_STRING = []
 
 # Get the K value
-GRAPH_K = 5
+GRAPH_K = 7
 
 # Create the path for the graphs to be stored
 SOURCE_PATH = f'../graph-{GRAPH_K}/P5 Free'
@@ -36,6 +36,7 @@ def path_manager(*paths):
             # Clear file path for new data
             shutil.rmtree(path)
             path_manager(path)
+
 
 def make_graph(type):
 
@@ -138,6 +139,24 @@ def make_graph(type):
             ('B', 'E'),
         ])
 
+    if type == "compliment_k3+2p2":
+
+        return Graph([(0, 3), (0, 4), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)])
+
+    if type == "claw+p1":
+
+        # Create a claw graph
+        claw = Graph([(0, 1), (2, 1), (1, 3)])
+
+        # Create a single vertex graph
+        p1 = Graph()
+        p1.add_vertex(0)
+
+        # Perform the disjoint union of the two graphs
+        claw_p1 = claw.disjoint_union(p1)
+
+        return claw_p1
+
 
 SOURCE_DATA = [
     ("P4 + P1", make_graph("p4+p1"), []),
@@ -148,6 +167,8 @@ SOURCE_DATA = [
     ("Compliment P3 + 2P1 Free", make_graph("compliment_p3+2p1"), []),
     ("W4 Free", make_graph("w4"), []),
     ("K5 + E Free", make_graph("k5+e"), []),
+    ("Compliment K3 + 2P2 Free", make_graph("compliment_k3+2p2"), []),
+    ("Claw + P1 Free", make_graph("claw+p1"), []),
 ]
 
 if GRAPH_K >= 6:
