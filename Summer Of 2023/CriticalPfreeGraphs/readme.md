@@ -1,6 +1,6 @@
 # Chudnovsky-Goedgebeur-Schaudt-Zhong program
 
-### How to run .
+### How to run:
 	Enter the nauty folder directory
 
 	To Run CriticalPfreeGraphs

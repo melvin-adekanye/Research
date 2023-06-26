@@ -6791,17 +6791,6 @@ init_construction()
     }
     else
         fprintf(stderr, "Info: not extending antiholes as they all contain a triangle\n");
-#else
-    // Initialise construction from the isolated vertex
-    nv = 1;
-    adj[0] = 0;
-
-    copy_nauty_graph(current_graph, adj, nv, nautyg);
-
-    // printgraph(current_graph, adj, nv);
-    // printgraph_nauty(nautyg, nv);
-
-    extend(isolated_vertices, 0, 0, 0, 1);
 
 #endif
 }
@@ -7163,7 +7152,7 @@ int main(int argc, char **argv)
             }
 
             // M+C June 26, 2023
-            case 'F':
+            case 'Z':
             {
                 if (strcmp(argv[i], "p4_p1") == 0)
                 {
