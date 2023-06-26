@@ -23,3 +23,15 @@
 ### 📂 P5 and P4+P1 Free Filtering of Edge Critical Graphs
 
     Analyzing edge critical graphs that are path free properties. 
+
+### 📂 Chudnovsky-Goedgebeur-Schaudt-Zhong program
+
+    Do you like C? Well, this is written in 100% C code.
+    It is optimized to find and classify graphs.
+
+    📂 "nauty273"
+        Contains all the neccessary files to run ./critical_Pfree_graphs
+        In this folder, your ./critical_Pfree_graphs.c and ./list_critical_Pfree_graphs.c must stay
+
+        To run ⚙️:
+        ....\...\nauty273> ./critical_Pfree_graphs c5 p2
