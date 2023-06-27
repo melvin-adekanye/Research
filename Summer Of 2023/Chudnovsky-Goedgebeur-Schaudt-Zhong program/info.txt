@@ -1,8 +1,0 @@
-While in nauty directory
-
-Run CriticalPfreeGraphs
-- https://caagt.ugent.be/criticalpfree/criticalpfreegraphs-manual.txt
-
-Run ListCriticalPfreeGraphs
-- https://caagt.ugent.be/listcriticalpfree/listcriticalpfreegraphs-manual.txt
-
