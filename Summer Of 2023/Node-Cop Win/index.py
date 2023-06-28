@@ -65,7 +65,7 @@ def NCRel(G, p):
             k = H.order()
 
             # Update the value of P by adding p raised to the power of (k * (1-p) raised to the power of (n-k)).
-            P += p**(k*(1-p)**(n-k))
+            P += (p**(k))*((1-p)**(n-k))
 
     # Return the calculated non-cooperative reliability P.
     return P
@@ -157,7 +157,7 @@ def cop_win(graphs):
             # Find the real roots of the difference polynomial
             try:
                 rts = N.roots(multiplicities=False, ring=RDF)
-                print(rts)
+                # print(rts)
 
                 rts = diff.roots(multiplicities=False, ring=RDF)
 
@@ -191,42 +191,22 @@ def cop_win(graphs):
 
 
 # Function to create a regular graph with n vertices and degree k.
-def create_regular_graph(n, k):
-
-    # Check if k is less than 3, raise an error.
-    if k < 3:
-        raise ValueError("k must be greater than or equal to 3.")
-
-    # Check if k is greater than or equal to n, raise an error.
-    if k >= n:
-        raise ValueError("k must be less than n.")
-
-    # Create an empty graph object with n vertices.
-    graph = Graph(n)
-    vertices = graph.vertices()  # Get the vertices of the graph.
-
-    # Add edges to ensure each vertex has degree k.
-    for i in range(n):
-        for j in range(k // 2):
-            # Determine the neighbor vertex based on the current index and j.
-            neighbor = vertices[(i + j + 1) % n]
-            # Add an edge between the current vertex and the neighbor.
-            graph.add_edge(vertices[i], neighbor)
-
-    return graph
-
+def generate_k_regular_graphs(n, k):
+    # Use the nauty_geng function to generate k-regular graphs
+    graphs_iter = graphs.nauty_geng(f'-c -d{k} {n}')
+    # Create a list to store the generated k-regular graphs
+    k_regular_graphs = [G for G in graphs_iter]
+    # Return the list of generated k-regular graphs
+    return k_regular_graphs
 
 # Example usage
-n = 8  # Number of vertices
-k_values = [3, 4, 5]
-k_graphs = []
+n = 6  # Order of the graph
+k = 3  # Regularity
+k_regular_graphs = generate_k_regular_graphs(n, k)
 
-for k in k_values:
-    graph = create_regular_graph(n, k)
-    k_graphs.append(graph)
-
+# Print the generated graphs
 print(f"Analyzing Cop Win — K-Regular Graphs")
-cop_win(k_graphs)
+cop_win(k_regular_graphs)
 
 # Graphs with n vertices and (n choose 2)-(n-j) edges (graphs that are only missing j edges) for j=1, 0, -1, -2.
 def create_graph_n_C_2(n, j):
@@ -256,8 +236,6 @@ j_graphs = []
 for j in j_values:
     graph = create_graph_n_C_2(n, j)
     # graph.show()
-    # print(graph)
-    # print()
 
 print(f"Analyzing Cop Win — nC2 Graphs")
 cop_win(j_graphs)
