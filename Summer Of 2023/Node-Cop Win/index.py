@@ -2,6 +2,8 @@ from sage.graphs.graph import Graph
 from math import factorial
 
 # Combinations
+
+
 def combinations(n, k):
     if k < 0 or k > n:
         return 0
@@ -108,6 +110,11 @@ def cop_win(graphs):
     noOptimal = False  # Flag to track if an optimal solution is found
     index = 0  # Keeps track of the position in the list of graphs
 
+    maxGraph = None
+    maxRel = None
+    maxIndex = None
+    N = None
+
     for graph in graphs:
 
         # Incriment
@@ -120,7 +127,7 @@ def cop_win(graphs):
         val = N.subs(x=1/2)
 
         # If a larger value is found at 1/2, update the variables
-        if val > m:  
+        if val > m:
             m = val
             maxGraph = G
             maxRel = N
@@ -131,6 +138,7 @@ def cop_win(graphs):
 
     index = 0  # Reset the index counter
 
+    #loopError = False
     # Loop to check for crossings in the interval (0, 1) for all NCRels except the maximum one
     for equation in equations:
 
@@ -140,23 +148,38 @@ def cop_win(graphs):
 
             # Convert the equation string back to a polynomial in the symbolic ring
             N = SR(equation)
+            # print(RDF)
+
             # Calculate the difference between the polynomial and the maximum polynomial
             diff = N - maxRel
+            # print(diff)
+
             # Find the real roots of the difference polynomial
-            rts = diff.roots(multiplicities=False, ring=RDF)
+            try:
+                rts = N.roots(multiplicities=False, ring=RDF)
+                print(rts)
 
-            for r in rts:
+                rts = diff.roots(multiplicities=False, ring=RDF)
 
-                if 0 < r < 1:  # Check if the root lies in the interval (0, 1)
-                    noOptimal = True
-                    break
+                for r in rts:
+
+                    # Check if the root lies in the interval (0, 1)
+                    if 0 < r < 0.99999999999:
+                        noOptimal = True
+                        break
+            except:
+                noOptimal = False
 
             if noOptimal:
                 break
 
-    if noOptimal == False:
+    if maxGraph == None:
+        print('Inconclusive. No max grah or max reliability')
+    elif noOptimal == False:
+        
         maxGraph.show()  # Display the maximum graph
         print(maxRel)  # Display the maximum non-cooperative reliability polynomial
+
     else:
         print('More investigation required:')
         print(N)  # Display the polynomial with a crossing
@@ -205,7 +228,6 @@ for k in k_values:
 print(f"Analyzing Cop Win — K-Regular Graphs")
 cop_win(k_graphs)
 
-
 # Graphs with n vertices and (n choose 2)-(n-j) edges (graphs that are only missing j edges) for j=1, 0, -1, -2.
 def create_graph_n_C_2(n, j):
     m = combinations(n, 2) - (n - j)  # Number of edges
@@ -226,16 +248,16 @@ def create_graph_n_C_2(n, j):
 
     return graph
 
+
 n = 6  # Number of vertices
 j_values = [1, 0, -1, -2]
 j_graphs = []
 
 for j in j_values:
     graph = create_graph_n_C_2(n, j)
-    print(f"Graph for j={j}:")
     # graph.show()
-    print(graph)
-    print()
+    # print(graph)
+    # print()
 
 print(f"Analyzing Cop Win — nC2 Graphs")
 cop_win(j_graphs)
