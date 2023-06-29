@@ -47,9 +47,8 @@ if x == 'y':
     os.mkdir(critical_graph6_string_path)
     os.mkdir(critical_params_path)
 
+
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
-
-
 def critical_check(graph, chromatic_number):
 
     # Set the original graph before messing with it

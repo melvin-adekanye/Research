@@ -1,9 +1,8 @@
 from sage.graphs.graph import Graph
 from math import factorial
 
+
 # Combinations
-
-
 def combinations(n, k):
     if k < 0 or k > n:
         return 0
@@ -227,7 +226,6 @@ def create_graph_n_C_2(n, j):
                 return graph
 
     return graph
-
 
 n = 6  # Number of vertices
 j_values = [1, 0, -1, -2]
