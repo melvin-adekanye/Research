@@ -1,6 +1,10 @@
 import os
 import shutil
 from sage import *
+from sage.graphs.graph_coloring import vertex_coloring
+
+print(
+    f'****  Finding Critical Vertex-transitive Graphs ****')
 
 # Get the source of the data
 SOURCE_PATH = f'{os.getcwd()}/DATA'
@@ -10,6 +14,35 @@ GRAPH6_STRINGS = []
 CRITICAL_GRAPH6_STRINGS = []
 
 
+SAVE_PATH =f'{os.getcwd()}/critical'
+TEMP_PATH = f'{os.getcwd()}/temp'
+TEMP_SAVE_PATH = f"{TEMP_PATH}/critical"
+
+# Define the path manager
+def path_manager(*paths):
+
+    for path in paths:
+
+        # Check whether the specified path exists or not
+        isExist = os.path.exists(path)
+
+        if not isExist:
+
+            # Create a new directory because it does not exist
+            os.makedirs(path)
+            print(f"The new directory {path} has been created!")
+
+        else:
+
+            # Clear file path for new data
+            shutil.rmtree(path)
+            path_manager(path)
+
+
+print('. . . Creating TEMP directory')
+path_manager(TEMP_PATH, TEMP_SAVE_PATH)
+
+
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 def critical_check(graph, chromatic_number):
 
@@ -17,38 +50,46 @@ def critical_check(graph, chromatic_number):
     if chromatic_number == None:
 
         # Get it from the graph
-        chromatic_number = graph.chromatic_number()
+        print("Error Occured with CN")
+        return False
 
-    # Only if the CN is K
-    if chromatic_number == k:
+    # A flag to check if a graph is critical
+    is_critical = True
 
-        # Get the order of the graph
-        order = graph.order()
+    # First node
+    first_node = 0
 
-        # A flag to check if a graph is critical
-        is_critical = True
+    # Remove the vertex at index
+    graph.delete_vertex(first_node)
 
-        # First node
-        first_node = 0
+    # Determinging vertex critical
+    print(". . . Determining Vertex Critical")
+    # After deleting a vertex, can we color this graph with less colors. (Faster than re-caculating the chormatic number)
+    if vertex_coloring(graph, k=chromatic_number-1, value_only=True) == False:
 
-        # print out the vertex being deleted
-        print(f'. . . Deleting Vertice-{first_node} of {order}')
+        # Is critical is false
+        is_critical = False
 
-        # Remove the vertex at index
-        graph.delete_vertex(first_node)
+    print(". . . . . . Found!! Vertex Critical")
 
-        # After deleting a vertex, can we color this graph with less colors. (Faster than re-caculating the chormatic number)
-        if vertex_coloring(graph, k=chromatic_number-1, value_only=True) == False:
-
-            # Is critical is false
-            is_critical = False
+    # Return is_critical
+    return is_critical
 
 
-        # Return is_critical
-        return is_critical
+# The save function
+def save(SAVE_PATH, string, filename):
 
-    # Return not critical to k value
-    return False
+    DEFAULT_GRAPH6_STRING_SAVE_PATH = f'{SAVE_PATH}'
+
+    # Store this graph in the grpahs folder
+    f = open(
+        f'{DEFAULT_GRAPH6_STRING_SAVE_PATH}/{filename}.g6', "a+")
+
+    # Write to file
+    f.write(f'{string}\n')
+
+    # CLose the file save
+    f.close()
 
 
 # Define the path manager
@@ -86,12 +127,14 @@ for folder in os.listdir(directory):
     for file in os.listdir(sub_directory):
 
         filename = os.fsdecode(file)
+        chromatic_number = int(filename.split("k=")[1])
+
 
         # Try: If the GRAPH_PATH does exist
         try:
 
             # Open up and read the file graph
-            f = open(sub_path, "r")
+            f = open(sub_path + "/" + filename, "r")
 
             # FOr every line in the file
             for line in f:
@@ -100,23 +143,25 @@ for folder in os.listdir(directory):
                 string = line.split(None)[0]
 
                 # Append a list to the raw graph
-                GRAPH6_STRINGS.append((string, filename))
+                GRAPH6_STRINGS.append((string, chromatic_number, filename))
+
 
             # CLose the file
             f.close()
 
-        except:
+        except e:
+
+            print(e)
 
             # If the graph path doesn't exist skip
             pass
-
 
 print('. . . Analyzing graph data')
 # Loop through all the GRPAH6_STRING
 for (index, data) in enumerate(GRAPH6_STRINGS):
 
     # Get the graph6 string and file name
-    graph6_string, filename = data
+    graph6_string, chromatic_number, filename = data
 
     # Progress report
     if (index % int(0.1 * len(GRAPH6_STRINGS))) == 0:
@@ -126,7 +171,8 @@ for (index, data) in enumerate(GRAPH6_STRINGS):
 
     # Create graphs and get details
     graph = Graph(graph6_string)
-    chromatic_number = graph.chromatic_number()
+
+    print(f"{graph6_string} - Critical Check")
 
     # Check if this graph is critical
     is_critical = critical_check(graph, chromatic_number)
@@ -134,4 +180,22 @@ for (index, data) in enumerate(GRAPH6_STRINGS):
     # If this graph is critical
     if is_critical == True:
 
-        CRITICAL_GRAPH6_STRINGS.append(graph6_string)
+        CRITICAL_GRAPH6_STRINGS.append((graph6_string, filename))
+
+        # Save the graph
+        save(TEMP_SAVE_PATH, graph6_string, filename)
+
+
+# Print the generated graphs
+for graph in CRITICAL_GRAPH6_STRINGS:
+
+    # Unpack the graph data
+    graph6_string, filename = graph
+
+    # Save the graph
+    save(SAVE_PATH, graph6_string, filename)
+
+
+
+# Delete the temp folder
+shutil.rmtree(TEMP_PATH)

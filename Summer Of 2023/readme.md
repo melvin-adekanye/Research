@@ -35,3 +35,5 @@
 
         To run ⚙️:
         ....\...\nauty273> ./critical_Pfree_graphs c5 p2
+        
+
