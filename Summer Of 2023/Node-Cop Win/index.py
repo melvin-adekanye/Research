@@ -1,7 +1,6 @@
 from sage.graphs.graph import Graph
 from math import factorial
 
-
 # Combinations
 def combinations(n, k):
     if k < 0 or k > n:
@@ -36,6 +35,23 @@ def is_corner(G, v):
 
     # Vertex v is not a corner
     return False
+
+
+# Takes a graph G and a probability (or variable) p and returns the propability that the graph
+# is cop-win if each edge fails independently with probability p.
+# We call this the ``cop-win reliability''
+def CRel(G,p):
+    P = 0
+    E = G.edges()
+    m = len(E)
+    C = Combinations(E).list()
+    for U in C:
+        H = G.subgraph(edges=U)
+        if is_copwin(H):
+            k = len(H.edges())
+            P += (p**(k))*((1-p)**(n-k))
+
+    return P
 
 
 # Function to calculate the non-cooperative reliability of a graph G given a probability p.
@@ -121,7 +137,7 @@ def cop_win(graphs):
         # Create a graph object from the graph data
         G = Graph(graph)
         # Calculate the non-cooperative reliability polynomial for the graph
-        N = NCRel(G, x)
+        N = CRel(G, x)
         # Evaluate the polynomial at x=1/2
         val = N.subs(x=1/2)
 
@@ -176,8 +192,8 @@ def cop_win(graphs):
         print('Inconclusive. No max grah or max reliability')
     elif noOptimal == False:
         
-        maxGraph.show()  # Display the maximum graph
         print(maxRel)  # Display the maximum non-cooperative reliability polynomial
+        maxGraph.show()  # Display the maximum graph
 
     else:
         print('More investigation required:')
@@ -191,16 +207,24 @@ def cop_win(graphs):
 
 # Function to create a regular graph with n vertices and degree k.
 def generate_k_regular_graphs(n, k):
+
+    # -d = min degree
     # Use the nauty_geng function to generate k-regular graphs
-    graphs_iter = graphs.nauty_geng(f'-c -d{k} {n}')
+    graphs_iter = graphs.nauty_geng(f'-c -d{k} -D{k} {n}')
+
     # Create a list to store the generated k-regular graphs
     k_regular_graphs = [G for G in graphs_iter]
+
     # Return the list of generated k-regular graphs
     return k_regular_graphs
 
+
+# Input n and k in terminal
+n = int(input("Enter number of vertices (n):  "))
+k = int(input("Enter number of degree (k):  "))
+
 # Example usage
-n = 6  # Order of the graph
-k = 3  # Regularity
+# k = n - 2  # Regularity
 k_regular_graphs = generate_k_regular_graphs(n, k)
 
 # Print the generated graphs
@@ -227,7 +251,7 @@ def create_graph_n_C_2(n, j):
 
     return graph
 
-n = 6  # Number of vertices
+
 j_values = [1, 0, -1, -2]
 j_graphs = []
 
@@ -260,7 +284,6 @@ def create_graph_2n_2(n):
 
 
 # Example usage
-n = 6  # Number of vertices
 graph = create_graph_2n_2(n)
 print(f"Analyzing Cop Win — 3(n+2) Graphs")
 cop_win([graph])
