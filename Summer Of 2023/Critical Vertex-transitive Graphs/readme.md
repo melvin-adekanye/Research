@@ -21,3 +21,7 @@
 	After running unzipy.py, then run index.py (using sage).
     Here this file checks all the DATA graphs if they are critical. 
     If so they are saved to "/critical". 
+
+### 📄 multiprocess-index.py
+
+	This runs the same function as 📃index.py with the added bonus of being faster than index.py 

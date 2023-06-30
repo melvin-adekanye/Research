@@ -233,7 +233,6 @@ j_graphs = []
 
 for j in j_values:
     graph = create_graph_n_C_2(n, j)
-    # graph.show()
 
 print(f"Analyzing Cop Win — nC2 Graphs")
 cop_win(j_graphs)
