@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.0in]{geometry}
+
+
+%\input{paper_macros.tex}
+
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{ulem} %useful for strikethough, but will underline journal names!
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{longtable,tabu}
+
+\usepackage{enumitem}
+\setlist[enumerate]{label={\arabic*.}}
+%\setlist[enumerate]{label={\upshape(\alph*)}}
+
+\usepackage{color}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\M}[2]{M^{#1}_{#2}}
+\newcommand{\infcrit}[2]{G(#1,#2)}
+
+\newcommand{\den}{\mbox{Den}}
+\newcommand{\Hstar}{{\cal H}^{*}}
+\newcommand{\calH}{{\cal H}}
+
+\newcommand{\change}[1]{\textcolor{blue}{#1}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{tkz-graph}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}{Open Problem}
+
+%SQUISHLISTS
+\newcommand{\squishlist}{
+ \begin{list}{$\bullet$}
+  { \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{3pt}
+     \setlength{\topsep}{3pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{2.5em}
+     \setlength{\labelwidth}{1em}
+     \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishlisttwo}{
+ \begin{list}{$\triangleright$}
+  { \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{1.5em}
+    \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+  \end{list}  }
+  
+\newcommand{\forbid}{$(P_4+P_1,\ K_3+P_1,2P_2)$}
+
+\newcommand{\noneighbs}{\overline{N[v]}}
+
+\begin{document}
+
+\title{Critical \forbid -free graphs}
+\author{
+Ben Cameron\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+\small ben.cameron@kingsu.ca\\
+\and
+Thaler Knodel\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+%\small ben.cameron@kingsu.ca\\
+%Ch\'{i}nh T. Ho\`{a}ng\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+%\small Department of Physics and Computer Science\\
+%\small Wilfrid Laurier University\\
+%\small Waterloo, ON Canada\\
+%\small choang@wlu.ca\\
+}
+
+\date{\today}
+
+\maketitle
+
+
+%=================================================================
+%=================================================================
+\begin{abstract}
+%A graph is $k$-vertex-critical if $\chi(G)=k$ but $\chi(G-v)<k$ for all $v\in V(G)$. 
+%It is known that there are only finitely many $k$-vertex-critical $(P_5,\text{ gem})$-free graphs 
+%We give a new, stronger proof that there are only finitely many  $k$-vertex-critical ($P_5$,~gem)-free graphs for all $k$. Our proof further refines the structure of these graphs and allows for the implementation of a simple exhaustive computer search to completely list all $6$- and $7$-vertex-critical $(P_5$, gem)-free graphs. Our results imply the existence of polynomial-time certifying algorithms to decide the $k$-colourability of $(P_5$, gem)-free graphs for all $k$ where the certificate is either a $k$-colouring or a $(k+1)$-vertex-critical induced subgraph. Our complete lists for $k\le 7$ allow for the implementation of these algorithms for all $k\le 6$.
+\end{abstract}
+
+\section{Structure}
+
+Throughout this section, assume $G$ is a $k$-vertex-critical non-complete \forbid -free graph.\\
+
+For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$.
+
+
+\begin{lemma}\label{lem:P4K3-free}
+For every vertex $v\in V(G)$,  $G[\noneighbs]$ is $(P4, K_3)$-free.
+\end{lemma}
+\begin{proof}
+If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction.
+\end{proof}
+
+
+
+\begin{lemma}\label{lem:completebipartite}
+For every vertex $v\in V(G)$,  $\noneighbs$ induces $K_{n,m}$ some $n,m\ge 1$.
+\end{lemma}
+\begin{proof}
+By Lemma~\ref{lem:P4K3-free}, $\noneighbs$ is $P_4$-free and therefore either a join of disjoint union of graphs (since $P_4$-free graphs are co-graphs). Thus, every componenet is $K_1$ or a join. Further, since $\noneighbs$ is $K_3$-free, each component must be a complete bipartite graph, since if it were the join of any graph with an edge, a triangle would be induced, contradicting Lemma~\ref{lem:P4K3-free}. Now, if some component of $\noneighbs$ is $K_1$, then the neighbourhood of this component is contained in the neighbourhood of $v$ which makes comparable vertices and therefore contradicts $G$ being vertex-critical. Thus, every component of $\noneighbs$ contains at least one edge. If there are two components, then take any two vertices that are adjacent from two different components and these four vertices will induce a $2P_2$, contradicting $G$ being $2P_2$-free. Thus,  $\noneighbs$ induces $K_{n,m}$ some $n,m\ge 1$.
+\end{proof}
+
+\begin{lemma}\label{lem:neighbscomplete}
+$N_1 - N'_1$ is complete to $N_2$.
+\end{lemma}
+\begin{proof}
+If $N_1 - N'_1$ is not complete to $N_2$, then $n_1 \in N_1, n_2 \in N_2$, $\{ n_1, u_2, n_2, u_1 \}$ induces a $2K_2$.
+\end{proof}
+\begin{lemma}\label{lem:n2indep}
+$N_2$ is an independent set.
+\end{lemma}
+\begin{proof}
+By ~\ref{lem:completebipartite}, the non-neighbours of $N_1$ are a complete bipartite graph.
+\end{proof}
+
+Now let $S$ be the maximum independent set of $G$, and $v \in S$. Let $S - v = \{u_1, u_2, \dots, u_l \}$. Also, let $V(G) - S - N(v) = \{Y_1, Y_2, \dots, Y_j\}$. Suppose that $l$ is greater than some arbitrary constant, and that $j \geq 2$. If $Y_1$ is complete to $N(v)$, then $Y_1, v$ are comparable, which contradicts the $k$-vertex criticality of the graph. So let $N' \subseteq N(v)$ such that $Y_1$ is anticomplete to $N'$.
+
+\begin{lemma}\label{lem:ScompleteNprime}
+$S- v$ is complete to $N'$.
+\end{lemma}
+\begin{proof}
+If $\exists v_i \in S - v$ such that $u_i \not \sim n$ for some $n \in N'$, then $\{ u_i, Y_1, v, n \}$ induces a $2K_2$, which contradicts our graph characterization.
+\end{proof}
+
+\begin{lemma}\label{lem:anticomplete}
+$Y_i$ is anticomplete to $N'$ $\forall i \in \{1, \dots, j\}$.
+\end{lemma}
+\begin{proof}
+If $\exists Y_i \in V(G) - S - N(v)$ such that $Y_i \sim n$, then $\{ u_1, Y_i, n \} \subseteq \overline{N(Y_1)}$ contradicting that the non-neighbours are a complete biparite graph. 
+\end{proof}
+So $N(Y_i) \subseteq N(Y_1) \forall i \in \{2, \dots, j\}$, so $Y_i, Y_1$ are comparable vertices, making this not vertex critical and thus a contradiction. Further, since this applies for all $i \geq 2$, then the $|Y| \leq 1$. We also know (somehow) that this applies to the set of $\{u_1, \dots, u_l \}$ so they are limited to $\leq 1$.
+Now we can use Ramsay's Theorem to identify that since there is a maximum independent set, there is a finite amount of graphs.
+
+
+
+
+
+%Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ has at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
+%
+%
+%\begin{lemma}\label{lem:sAs'Aanticomplete}
+%For any two vertices $s,s' \in S_A$, $s_A$ is anti-complete to $s'_A$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $s,s'\in S_A$, $a_1\in s_A$ and $a_2\in s'_A$ such that $a_1\sim a_2$. Then the set $\{a_1,a_2,s,s',s''\}$ induces a $P_4+P_1$ for any $s''\in S-\{s,s'\}$, a contradiction.
+%\end{proof}
+%
+%\begin{lemma}\label{lem:sAisaclique}
+%DO WE NEED? If $|S_A|\ge 2$, then $s_A$ induces a clique for all $s \in S_A$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $|S_A|\ge 2$ and let $s,s'\in S_A$. Without loss of generality, suppose that $a_1,a_2\in s_A$ such that $a_1\nsim a_2$. Now, since $s\nsim s'$ by Lemma~\ref{lem:sAs'Aanticomplete}, $\{s,s',a_1,a_2,a'\}$ induces a $P_3+P_2$ for any $a'\in s'_A$, a contradiction.
+%\end{proof}
+%
+%
+%\begin{lemma}\label{lem:Bnonempty}
+%$B\neq\emptyset$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
+%\end{proof}
+%
+%
+%
+%\section*{Acknowledgements}
+%This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
+
+\bibliographystyle{abbrv}
+\bibliography{refs}
+
+
+\end{document}
+
