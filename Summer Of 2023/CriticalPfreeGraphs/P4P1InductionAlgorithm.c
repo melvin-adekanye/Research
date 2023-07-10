@@ -107,6 +107,9 @@ static void removeVertexFromGraph(GRAPH g, ADJACENCY inAdj, int inNV, int delete
 //This just brute force checks all the possible ways we can remove edges and tells us if a P4 + P1 is in there someplace
 static bool recursive_contains_induced_P4_P1(GRAPH g, ADJACENCY adj, int nv){
     //Base case
+    if (nv < 5){
+        return false;
+    }
     if (nv == 5){
         return is_P4_P1();
     }
