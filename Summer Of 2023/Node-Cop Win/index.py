@@ -49,7 +49,7 @@ def CRel(G,p):
         H = G.subgraph(edges=U)
         if is_copwin(H):
             k = len(H.edges())
-            P += (p**(k))*((1-p)**(n-k))
+            P += (p**(k))*((1-p)**(m-k))
 
     return P
 
@@ -210,7 +210,7 @@ def generate_k_regular_graphs(n, k):
 
     # -d = min degree
     # Use the nauty_geng function to generate k-regular graphs
-    graphs_iter = graphs.nauty_geng(f'-c -d{k} -D{k} {n}')
+    graphs_iter = graphs.nauty_geng(f'{n} -c -d{k} -D{k}')
 
     # Create a list to store the generated k-regular graphs
     k_regular_graphs = [G for G in graphs_iter]
@@ -263,7 +263,11 @@ cop_win(j_graphs)
 
 
 # Graphs with n vertices and 3(n-2) edges for all n\ge 6 (I have some motivation that this class is interesting).
-def create_graph_2n_2(n):
+def create_graph_3n_2(n):
+
+    # Use nauty for this func
+
+
     m = 3 * (n - 2)  # Number of edges
 
     if n < 6:
@@ -284,6 +288,6 @@ def create_graph_2n_2(n):
 
 
 # Example usage
-graph = create_graph_2n_2(n)
+graph = create_graph_3n_2(n)
 print(f"Analyzing Cop Win — 3(n+2) Graphs")
 cop_win([graph])
