@@ -81,17 +81,23 @@ def critical_check(graph, chromatic_number):
 # The save function
 def save(SAVE_PATH, string, filename):
 
-    DEFAULT_GRAPH6_STRING_SAVE_PATH = f'{SAVE_PATH}'
+    try:
 
-    # Store this graph in the grpahs folder
-    f = open(
-        f'{DEFAULT_GRAPH6_STRING_SAVE_PATH}/{filename}.g6', "a+")
+        DEFAULT_GRAPH6_STRING_SAVE_PATH = f'{SAVE_PATH}'
 
-    # Write to file
-    f.write(f'{string}\n')
+        # Store this graph in the grpahs folder
+        f = open(
+            f'{DEFAULT_GRAPH6_STRING_SAVE_PATH}/{filename}.g6', "a+")
 
-    # CLose the file save
-    f.close()
+        # Write to file
+        f.write(f'{string}\n')
+
+        # CLose the file save
+        f.close()
+
+    except:
+
+        print("Create folder '/critical' if it doesn't already exist!")
 
 
 # Define the path manager
