@@ -2,6 +2,8 @@ from sage.graphs.graph import Graph
 from math import factorial
 
 # Combinations
+
+
 def combinations(n, k):
     if k < 0 or k > n:
         return 0
@@ -40,7 +42,7 @@ def is_corner(G, v):
 # Takes a graph G and a probability (or variable) p and returns the propability that the graph
 # is cop-win if each edge fails independently with probability p.
 # We call this the ``cop-win reliability''
-def CRel(G,p):
+def CRel(G, p):
     P = 0
     E = G.edges()
     m = len(E)
@@ -191,7 +193,7 @@ def cop_win(graphs):
     if maxGraph == None:
         print('Inconclusive. No max grah or max reliability')
     elif noOptimal == False:
-        
+
         print(maxRel)  # Display the maximum non-cooperative reliability polynomial
         maxGraph.show()  # Display the maximum graph
 
@@ -232,6 +234,8 @@ print(f"Analyzing Cop Win — K-Regular Graphs")
 cop_win(k_regular_graphs)
 
 # Graphs with n vertices and (n choose 2)-(n-j) edges (graphs that are only missing j edges) for j=1, 0, -1, -2.
+
+
 def create_graph_n_C_2(n, j):
     m = combinations(n, 2) - (n - j)  # Number of edges
 
@@ -265,24 +269,9 @@ cop_win(j_graphs)
 # Graphs with n vertices and 3(n-2) edges for all n\ge 6 (I have some motivation that this class is interesting).
 def create_graph_3n_2(n):
 
-    # Use nauty for this func
-
-
-    m = 3 * (n - 2)  # Number of edges
-
-    if n < 6:
-        raise ValueError("n must be greater than or equal to 6.")
-
-    graph = Graph(n)
-    vertices = graph.vertices()
-
-    for i in range(n-1):
-        for j in range(i+1, n):
-            graph.add_edge(vertices[i], vertices[j])
-            m -= 1
-
-            if m == 0:
-                return graph
+    num_vertices = 3 * n + 2
+    # Adjust the probability as needed
+    graph = graphs.RandomGNP(num_vertices, 0.5)
 
     return graph
 
