@@ -14,11 +14,13 @@ GRAPH6_STRINGS = []
 CRITICAL_GRAPH6_STRINGS = []
 
 
-SAVE_PATH =f'{os.getcwd()}/critical'
+SAVE_PATH = f'{os.getcwd()}/critical'
 TEMP_PATH = f'{os.getcwd()}/temp'
 TEMP_SAVE_PATH = f"{TEMP_PATH}/critical"
 
 # Define the path manager
+
+
 def path_manager(*paths):
 
     for path in paths:
@@ -127,8 +129,6 @@ for folder in os.listdir(directory):
     for file in os.listdir(sub_directory):
 
         filename = os.fsdecode(file)
-        chromatic_number = int(filename.split("k=")[1])
-
 
         # Try: If the GRAPH_PATH does exist
         try:
@@ -143,8 +143,7 @@ for folder in os.listdir(directory):
                 string = line.split(None)[0]
 
                 # Append a list to the raw graph
-                GRAPH6_STRINGS.append((string, chromatic_number, filename))
-
+                GRAPH6_STRINGS.append((string, filename))
 
             # CLose the file
             f.close()
@@ -161,7 +160,7 @@ print('. . . Analyzing graph data')
 for (index, data) in enumerate(GRAPH6_STRINGS):
 
     # Get the graph6 string and file name
-    graph6_string, chromatic_number, filename = data
+    graph6_string, filename = data
 
     # Progress report
     if (index % int(0.1 * len(GRAPH6_STRINGS))) == 0:
@@ -171,6 +170,9 @@ for (index, data) in enumerate(GRAPH6_STRINGS):
 
     # Create graphs and get details
     graph = Graph(graph6_string)
+
+    # Calc the chromatic number
+    chromatic_number = graph.chromatic_number()
 
     print(f"{graph6_string} - Critical Check")
 
@@ -194,7 +196,6 @@ for graph in CRITICAL_GRAPH6_STRINGS:
 
     # Save the graph
     save(SAVE_PATH, graph6_string, filename)
-
 
 
 # Delete the temp folder
