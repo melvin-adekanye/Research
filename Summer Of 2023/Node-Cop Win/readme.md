@@ -14,4 +14,5 @@
     Node Cop WIn
         WHen n >= 6 there is a UMR 3-regular graph.
     
-    Try the Edge version next (June 30, 2023)
+    When creating graphs with nauty:
+        https://manpages.ubuntu.com/manpages/focal/man1/nauty-geng.1.html
