@@ -153,6 +153,13 @@ By ~\ref{lem:completebipartite}, the non-neighbours of $N_1$ are a complete bipa
 
 Now let $S$ be the maximum independent set of $G$, and $v \in S$. Let $S - v = \{u_1, u_2, \dots, u_l \}$. Also, let $V(G) - S - N(v) = \{Y_1, Y_2, \dots, Y_j\}$. Suppose that $l$ is greater than some arbitrary constant, and that $j \geq 2$. If $Y_1$ is complete to $N(v)$, then $Y_1, v$ are comparable, which contradicts the $k$-vertex criticality of the graph. So let $N' \subseteq N(v)$ such that $Y_1$ is anticomplete to $N'$.
 
+\begin{lemma}\label{lem:anticomplete}
+$Y_i$ is anticomplete to $N'$ $\forall i \in \{1, \dots, j\}$.
+\end{lemma}
+\begin{proof}
+If $\exists Y_i \in V(G) - S - N(v)$ such that $Y_i \sim n$, then $\{ u_1, Y_i, n \} \subseteq \overline{N(Y_1)}$ contradicting that the non-neighbours are a complete biparite graph. 
+\end{proof}
+
 \begin{lemma}\label{lem:ScompleteNprime}
 $S- v$ is complete to $N'$.
 \end{lemma}
@@ -160,20 +167,21 @@ $S- v$ is complete to $N'$.
 If $\exists v_i \in S - v$ such that $u_i \not \sim n$ for some $n \in N'$, then $\{ u_i, Y_1, v, n \}$ induces a $2K_2$, which contradicts our graph characterization.
 \end{proof}
 
-\begin{lemma}\label{lem:anticomplete}
-$Y_i$ is anticomplete to $N'$ $\forall i \in \{1, \dots, j\}$.
-\end{lemma}
-\begin{proof}
-If $\exists Y_i \in V(G) - S - N(v)$ such that $Y_i \sim n$, then $\{ u_1, Y_i, n \} \subseteq \overline{N(Y_1)}$ contradicting that the non-neighbours are a complete biparite graph. 
-\end{proof}
 So $N(Y_i) \subseteq N(Y_1) \forall i \in \{2, \dots, j\}$, so $Y_i, Y_1$ are comparable vertices, making this not vertex critical and thus a contradiction. Further, since this applies for all $i \geq 2$, then the $|Y| \leq 1$. We also know (somehow) that this applies to the set of $\{u_1, \dots, u_l \}$ so they are limited to $\leq 1$.
 Now we can use Ramsay's Theorem to identify that since there is a maximum independent set, there is a finite amount of graphs.
 
+\section{$claw + P_1, K_3 + P_1, 2P_2$-free}
+We can use a similar technique to find a finite amount of these graphs. Assume we have a $claw + P_1, K_3 + P_1, 2K_2$-free graph. Then we have the maximum independent set $S$. Let $v \in S$. We will reuse our definition of $\noneighbs$.
+\begin{lemma}\label{lem:clawminset}
+$\forall v \in \noneighbs, $
+\end{lemma}
 
+Results\\
+$P_4 + \ell_1 P_1, 2P_2, \ell_2 squid$\\
+$claw + P_1, K_3 + P_1, 2P_2$\\
+$2P_2, P_4 + P_1, chair, raging bull$
 
-
-
-%Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ has at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
+%Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ shas at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
 %
 %
 %\begin{lemma}\label{lem:sAs'Aanticomplete}
