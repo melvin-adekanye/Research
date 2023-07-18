@@ -94,6 +94,11 @@ Thaler Knodel\\ %\thanks{Research partially supported by the Natural Sciences an
 \small Department of Computing Science\\
 \small The King's University\\
 \small Edmonton, AB Canada\\
+\and
+Christopher Bury\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
 %\small ben.cameron@kingsu.ca\\
 %Ch\'{i}nh T. Ho\`{a}ng\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
 %\small Department of Physics and Computer Science\\
@@ -177,9 +182,20 @@ $\forall v \in \noneighbs, $
 \end{lemma}
 
 \section{$(2P_2, P_4 + P_1, chair, bull)$-free}
-Let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let us have a vertex $v$ and $N(v)$ and $\noneighbs$. Let $S$ be the maximum independent set of $G$.
-\begin{lemma}\label{lem:
-
+Let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let us have a vertex $v$ and $N(v)$ and $\noneighbs$. Let $S$ be the maximum independent set of $G$ where $v \in S$. Let $A$ be $\noneighbs - S$. Let $s_1$ and $s_2$ be any two separate vertices in $S$ not equal to $v$.
+\begin{lemma}\label{lem:chairBullOne}
+For $u \in A$, $u \not \sim u'$ where $u' \in N(v)$.
+\end{lemma}
+\begin{proof}
+Assume $u \sim u'$. This means that $\{u', u, v, u_2\}$ creates an induced $P_4$ where $u_2 \in N(v)$. Thus $u'$ must be complete to $S$ in order to not create an induced $P_4 + P_1$. This creates an induced chair with the vertex set $\{u', u, v, s_1, s_2\}$ unless $s_2 \sim u$. With this edge in place, $\{u', u, v, s_1, s_2\}$ is an induced bull. <This somehow covers every case; fill this in>
+\end{proof}
+\begin{lemma}\label{lem:chairBullTwo}
+The length of $S$ is bounded to a maximum of 2 vertices.
+\end{lemma}
+\begin{proof}
+With $u \not \sim u'$, $\{s_1, u'\}$ and $\{v, u\}$ form an induced $2P_2$ where $s_1 \in S$ unless $s_1 \sim u$. With this edge present, $\{s_1, u', s_2, u\}$ creates an induced $P_4$, meaning $u$ must be complete to $S$ to avoid creating an induced $P_4 + P_1$. However, this makes every vertex in $S$ comparable to each other, contradicting the assumption that $G$ is k-vertex-critical. This means that $S$ must have a maximum length of 2 in order for $G$ to exist, containing at most $v$ and $s_1$.
+\end{proof}
+The length of the maximum independent set of $G$ is bounded to some constant value, meaning that there are finitely many k-vertex-critical graphs that meet the criteria of $G$.
 Results\\
 $P_4 + \ell_1 P_1, 2P_2, \ell_2 squid$\\s
 $claw + P_1, K_3 + P_1, 2P_2$\\
