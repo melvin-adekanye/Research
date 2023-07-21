@@ -181,7 +181,28 @@ Now we can use Ramsay's Theorem to identify that since there is a maximum indepe
 
 \section{$claw + P_1, K_3 + P_1, 2P_2$-free}
 We can use a similar technique to find a finite amount of these graphs. Assume we have a $claw + P_1, K_3 + P_1, 2K_2$-free graph. Then we have the maximum independent set $S$. Let $v \in S$. We will reuse our definition of $\noneighbs$.
-\begin{lemma}\label{lem:clawminset}
+We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + p1$. We also know it's triangle free for the same reason.
+\begin{lemma}\label{lem:clawindependent}
+$\forall u \in \noneighbs - S, |N(v) \cap S| < 3$
+\end{lemma}
+\begin{proof}
+Assume $|N(v) \cap S| \geq 3$. $N(v) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
+\end{proof}
+\begin{lemma}\label{lem:trianglestuff}
+$\forall s \in S, u, u' \in N(s) \cap \noneighbs - S, u \not \sim u'$
+\end{lemma}
+\begin{proof}
+This induces a $K3 + P1$.
+\end{proof}
+Thus no two neighbours of s in noneighbours are adjacent.
+\begin{lemma}\label{lem:indset}
+$|S| \leq 2$
+\end{lemma}
+\begin{proof}
+Assume $|S| > 2$. Let $u \in N(v)$ and $u' \in \noneighbs$ and $s \in S - v$. $s \sim u'$ else $s$ is disconnected and makes the graph not $k$-vertex-critical. We now have 3 cases.
+Case 1: $u \sim u', s \not \sim u$. In this case, $u, u', v, s$ induces a $P_4$, and any additional member of $S - v \not \sim u'$ induces a $P_4 + P_1$.
+\end{proof}
+\begin{lemma}\label{lem:clawminset}s
 $\forall v \in \noneighbs, $
 \end{lemma}
 
