@@ -183,18 +183,25 @@ Now we can use Ramsay's Theorem to identify that since there is a maximum indepe
 We can use a similar technique to find a finite amount of these graphs. Assume we have a $claw + P_1, K_3 + P_1, 2K_2$-free graph. Then we have the maximum independent set $S$. Let $v \in S$. We will reuse our definition of $\noneighbs$.
 We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + p1$. We also know it's triangle free for the same reason.
 \begin{lemma}\label{lem:clawindependent}
-$\forall u \in \noneighbs - S, |N(v) \cap S| < 3$
+$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$
 \end{lemma}
 \begin{proof}
-Assume $|N(v) \cap S| \geq 3$. $N(v) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
+Assume $|N(u) \cap S| \geq 3$. $N(u) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
 \end{proof}
 \begin{lemma}\label{lem:trianglestuff}
-$\forall s \in S, u, u' \in N(s) \cap \noneighbs - S, u \not \sim u'$
+$\forall s \in S, \{u, u'\} \in N(s) \cap \noneighbs - S, u \not \sim u'$
 \end{lemma}
 \begin{proof}
-This induces a $K3 + P1$.
+This induces a $K_3 + P_1$.
 \end{proof}
 Thus no two neighbours of s in noneighbours are adjacent.
+\begin{lemma}\label{lem:juicebox}
+$|\noneighbs - S| \leq 1$
+\end{lemma}
+% either S is limited ot noneighbs is limited.
+\begin{proof}
+Assume $|\noneighbs - S| > 1$. $\noneighbs - S = A$. Then, $A$
+\end{proof}
 \begin{lemma}\label{lem:indset}
 $|S| \leq 2$
 \end{lemma}
@@ -222,9 +229,10 @@ With $u \not \sim u'$, $\{s_1, u'\}$ and $\{v, u\}$ form an induced $2P_2$ where
 \end{proof}
 The length of the maximum independent set of $G$ is bounded to some constant value, meaning that there are finitely many k-vertex-critical graphs that meet the criteria of $G$.
 Results\\
-$P_4 + \ell_1 P_1, 2P_2, \ell_2 squid$\\s
+$P_4 + \ell_1 P_1, 2P_2, \ell_2 squid$\\
 $claw + P_1, K_3 + P_1, 2P_2$\\
-$2P_2, P_4 + P_1, chair, raging bull$
+$2P_2, P_4 + P_1, chair, raging bull$\\
+$P_4+ \ell_1 P_1, 2K_2, K_{1,\ell_2} + P_1$-free
 
 %Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ shas at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
 %
