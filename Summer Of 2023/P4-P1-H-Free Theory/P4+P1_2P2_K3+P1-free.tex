@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+ \documentclass[11pt]{article}
 \usepackage[margin=1.0in]{geometry}
 
 
@@ -104,11 +104,6 @@ Melvin Adekanye\\
 \small Department of Computing Science\\
 \small The King's University\\
 \small Edmonton, AB Canada\\
-\and
-David Supina\\
-\small Department of Computing Science\\
-\small The King's University\\
-\small Edmonton, AB Canada\\
 }
 
 \date{\today}
@@ -181,9 +176,9 @@ Now we can use Ramsay's Theorem to identify that since there is a maximum indepe
 
 \section{$claw + P_1, K_3 + P_1, 2P_2$-free}
 We can use a similar technique to find a finite amount of these graphs. Assume we have a $claw + P_1, K_3 + P_1, 2K_2$-free graph. Then we have the maximum independent set $S$. Let $v \in S$. We will reuse our definition of $\noneighbs$.
-We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + p1$. We also know it's triangle free for the same reason.
+We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + P1$. We also know it's $K_3$-free for the same reason.
 \begin{lemma}\label{lem:clawindependent}
-$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$
+$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$ 
 \end{lemma}
 \begin{proof}
 Assume $|N(u) \cap S| \geq 3$. $N(u) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
@@ -199,9 +194,12 @@ Thus no two neighbours of s in noneighbours are adjacent.
 $|\noneighbs - S| \leq 1$
 \end{lemma}
 % either S is limited ot noneighbs is limited.
+$A$ has either 0, 1, or 2 neighbours in $S$.
+We can also split $N(v)$ into $N_1, N_2$, where $N_1 = \{$
 \begin{proof}
 Assume $|\noneighbs - S| > 1$. $\noneighbs - S = A$. Then, $A$
 \end{proof}
+%Maximum degree 2, because if you have a vertex of degree 3, you either have an edge in the neighbour set and a triangle, and if not you have a claw.
 \begin{lemma}\label{lem:indset}
 $|S| \leq 2$
 \end{lemma}
@@ -209,7 +207,7 @@ $|S| \leq 2$
 Assume $|S| > 2$. Let $u \in N(v)$ and $u' \in \noneighbs$ and $s \in S - v$. $s \sim u'$ else $s$ is disconnected and makes the graph not $k$-vertex-critical. We now have 3 cases.
 Case 1: $u \sim u', s \not \sim u$. In this case, $u, u', v, s$ induces a $P_4$, and any additional member of $S - v \not \sim u'$ induces a $P_4 + P_1$.
 \end{proof}
-\begin{lemma}\label{lem:clawminset}s
+\begin{lemma}\label{lem:clawminset}
 $\forall v \in \noneighbs, $
 \end{lemma}
 
