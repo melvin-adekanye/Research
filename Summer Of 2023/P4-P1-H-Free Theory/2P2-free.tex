@@ -1,0 +1,371 @@
+ \documentclass[11pt]{article}
+\usepackage[margin=1.0in]{geometry}
+
+
+%\input{paper_macros.tex}
+
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{ulem} %useful for strikethough, but will underline journal names!
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{longtable,tabu}
+
+\usepackage{enumitem}
+\setlist[enumerate]{label={\arabic*.}}
+%\setlist[enumerate]{label={\upshape(\alph*)}}
+
+\usepackage{color}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\M}[2]{M^{#1}_{#2}}
+\newcommand{\infcrit}[2]{G(#1,#2)}
+
+\newcommand{\den}{\mbox{Den}}
+\newcommand{\Hstar}{{\cal H}^{*}}
+\newcommand{\calH}{{\cal H}}
+
+\newcommand{\change}[1]{\textcolor{blue}{#1}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{tkz-graph}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}{Open Problem}
+
+%SQUISHLISTS
+\newcommand{\squishlist}{
+ \begin{list}{$\bullet$}
+  { \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{3pt}
+     \setlength{\topsep}{3pt}
+     \setlength{\partopsep}{0pt}
+     \setlength{\leftmargin}{2.5em}
+     \setlength{\labelwidth}{1em}
+     \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishlisttwo}{
+ \begin{list}{$\triangleright$}
+  { \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+    \setlength{\topsep}{0pt}
+    \setlength{\partopsep}{0pt}
+    \setlength{\leftmargin}{2em}
+    \setlength{\labelwidth}{1.5em}
+    \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+  \end{list}  }
+  
+\newcommand{\forbid}{$(2P_2, K_3+P_1,P_4+P_1)$}
+
+\newcommand{\noneighbs}{\overline{N[v]}}
+
+\begin{document}
+
+\title{Vertex-critical graphs in $2P_2$-free graphs}
+\author{
+Melvin Adekanye\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+\and
+Christopher Bury\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+\and
+Ben Cameron\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+\small ben.cameron@kingsu.ca\\
+\and
+Thaler Knodel\\ 
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada
+}
+
+\date{\today}
+
+\maketitle
+
+
+%=================================================================
+%=================================================================
+\begin{abstract}
+%A graph is $k$-vertex-critical if $\chi(G)=k$ but $\chi(G-v)<k$ for all $v\in V(G)$. 
+%It is known that there are only finitely many $k$-vertex-critical $(P_5,\text{ gem})$-free graphs 
+%We give a new, stronger proof that there are only finitely many  $k$-vertex-critical ($P_5$,~gem)-free graphs for all $k$. Our proof further refines the structure of these graphs and allows for the implementation of a simple exhaustive computer search to completely list all $6$- and $7$-vertex-critical $(P_5$, gem)-free graphs. Our results imply the existence of polynomial-time certifying algorithms to decide the $k$-colourability of $(P_5$, gem)-free graphs for all $k$ where the certificate is either a $k$-colouring or a $(k+1)$-vertex-critical induced subgraph. Our complete lists for $k\le 7$ allow for the implementation of these algorithms for all $k\le 6$.
+\end{abstract}
+
+
+\section{Introduction}
+
+\cite{KCameron2021}
+
+
+\subsection{Notation}
+
+For a vertex $v$, $N(v)$, $N[v]$ and $\noneighbs$ denote the open neighbourhood, closed neighbourhood, and set of nonneighbours of $v$, respectively. We let $\delta(G)$ and $\Delta(G)$ denote the minimum and maximum degrees of $G$, respectively. We let $\alpha(G)$ denote the independence number of $G$.
+
+\section{Structure}
+
+We will make extensive use of the following lemma, in particular when $m=1$ throughout the paper.
+
+\begin{lemma}[\cite{Hoang2015}]\label{lem:nocomparablecliques}
+Let $G$ be a graph with chromatic number $k$. If G contains two disjoint $m$-cliques $A = \{a_1, a_2,\ldots , a_m\}$ and $B = \{b_1, b_2,\ldots , b_m\}$ such that $N(a_i) \setminus A \subseteq N(b_i) \setminus B$ for all $1 \le i \le m$, then $G$ is not $k$-vertex-critical.
+\end{lemma}
+
+
+
+
+\begin{lemma}\label{lem:2P2freenonneighbconnected}
+If $G$ is a $k$-vertex-critical $2P_2$-free graph, then for every vertex $v\in V(G)$,  $\noneighbs$ induces a connected graph with at least two vertices.
+\end{lemma}
+\begin{proof}
+Let $G$ be a $k$-vertex-critical $2P_2$-free graph, $v\in V(G)$, and $H$ be the graph induced by $\noneighbs$. If $u\in \noneighbs$ such that $u$ is an isolated vertex in the graph induced by $H$, then $N(u)\subseteq N(v)$ contradicting $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. Therefore, if $H$ has at least two components, then each component has at least one edge and therefore taking an edge from each component induces a $2P_2$. This contradicts $G$ being $2P_2$-free. 
+\end{proof}
+
+A part of this work will be exhaustively generating all $k$-vertex-critical graphs in certain families for small values of $k$. While there are excellent exhaustive generation algorithms that exist like the one introduced in~\cite{Hoang2015} and then optimized and expanded in~\cite{GoedgebeurSchaudt2018}, these still rarely terminate for and values of $k\ge 6$. The small independence number of some of the critical graphs in our results allow us to use simpler exhaustive afforded by the implied bound (proven in the next lemma) on their order and the invaluable tool \texttt{nauty}~\cite{nauty} to generate all for values of $k$ up to $7$ in some cases.
+
+\begin{lemma}\label{lem:kcritindnumboundonorder}
+If $G$ is a $k$-vertex-critical graph with $\alpha(G)=c$ for some constant $c$, then $|V(G)|\le c(k-1)+1$.
+\end{lemma}
+\begin{proof}
+Let $G$ be a $k$-vertex-critical graphs with $\alpha(G)=c$, $v\in V(G)$, and let $n=|V(G)|$. Since $G$ is $k$-vertex-critical, $G-v$ is $(k-1)$-colourable and has order $n-1$ and $\alpha(G-v)\le c$. Since no colour-class of any $(k-1)$-colouring of $G-v$ can have more than $c$ vertices, it follows that $G-v$ can have at most $(k-1)c$ vertices. Thus, $n=n-1+1 \le (k-1)c+1$.
+\end{proof}
+
+\section{\forbid-free graphs}
+
+Throughout this section, assume $G$ is a $k$-vertex-critical non-complete \forbid -free graph.
+
+For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$. $N(v)$ further partitions into $N_1, N_1', N_2$. $\exists u_1 \in \noneighbs$ such that $u_1 \sim N_1$, and $\exists u_2 \in \noneighbs$ such that $u_2 \sim N_2$.
+
+\begin{lemma}\label{lem:completebipartite}
+For every nonuniversal vertex $v\in V(G)$,  $\noneighbs$ induces a complete bipartite graph $K_{n,m}$ some $n,m\ge 1$.
+\end{lemma}
+\begin{proof}
+Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. We first note that If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction. Thus, $H$ is $(P4, K_3)$-free. Since $H$ is $P_4$-free it is either a join or disjoint union of graphs (since $P_4$-free graphs are co-graphs). By Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected, so it therefore must be the join of graphs. Further, since $H$ is $K_3$-free and the join of graphs, it must be a complete bipartite graph. 
+\end{proof}
+
+%\begin{lemma}\label{lem:neighbscomplete}
+%$N_1 - N'_1$ is complete to $N_2$.
+%\end{lemma}
+%\begin{proof}
+%If $N_1 - N'_1$ is not complete to $N_2$, then $n_1 \in N_1, n_2 \in N_2$, $\{ n_1, u_2, n_2, u_1 \}$ induces a $2K_2$.
+%\end{proof}
+%\begin{lemma}\label{lem:n2indep}
+%$N_2$ is an independent set.
+%\end{lemma}
+%\begin{proof}
+%By ~\ref{lem:completebipartite}, the non-neighbours of $N_1$ are a complete bipartite graph.
+%\end{proof}
+
+Now let $S$ be the maximum independent set of $G$, and $v \in S$. Let $S - v = \{s_1, s_2, \dots, s_{\ell}\}$. Also, let $V(G) - (S \cup N(v)) = \{y_1, y_2, \dots, y_j\}$. Note that if $y_1$ is complete to $N(v)$, then $N(v)\subseteq N(y_1)$, contradicting the $k$-vertex-criticality of $G$ by Lemma~\ref{lem:nocomparablecliques}. So let $N' \subseteq N(v)$ be the set $\overline{N[y_1]}\cap N(v)$. Note also that we may assume $\ell\ge 2$ otherwise we are done by Ramsey's Theorem. 
+
+
+\begin{lemma}\label{lem:S-vcompletetoN'}
+$S-v$ is complete to $N'$.
+\end{lemma}
+\begin{proof}
+Suppose there is a $s_i\in S-v$ and $n\in N'$ such that $s_i\nsim n$. From Lemma~\ref{lem:completebipartite}, $S-v$ is complete to $V(G) - (S \cup N(v))$, so $y_1\sim s_i$, and by definition $y_1\nsim n$. Therefore, $\{y_i, s_i, n, v\}$ induces a $2P_2$ in $G$, a contradiction. Thus, $S-v$ is complete to $N'$.
+\end{proof}
+
+\textcolor{red}{We originally thought the next result was \textit{anticomplete}, so we need to figure out how to proceed. One option is to also forbid the dart as then we must a dart induced by $s_1$, $s_1$'s unique neighbour in $N(v)$ and $y_1$ and $y_2$. Thus $y_1$ is the only $y_i$ and a similar argument gets the $S-v$ set down to one element. May also be possible if chair is forbidden as well.}
+\begin{lemma}\label{lem:yicompletetoN'}
+$y_i$ is complete to $N'$ $\forall i \in \{2, \dots, j\}$.
+\end{lemma}
+\begin{proof}
+Let $2\le i\le j$ and let $n\in N'$. By Lemma~\ref{lem:completebipartite}, $y_i\in\overline{N[y_1]}$, so $\{v,n,y_i\}\subseteq \overline{N[y_1]}$. Since $v\sim n$ and $v\nsim y_i$ by definition, it follows that $n\sim y_i$  otherwise $\overline{N[y_1]}$ would not be complete bipartite, contradicting Lemma~\ref{lem:completebipartite}. Therefore, $y_i$ is complete to $N'$.
+\end{proof}
+
+
+So $N(Y_i) \subseteq N(Y_1) \forall i \in \{2, \dots, j\}$, so $Y_i, Y_1$ are comparable vertices, making this not vertex critical and thus a contradiction. Further, since this applies for all $i \geq 2$, then the $|Y| \leq 1$. We also know (somehow) that this applies to the set of $\{u_1, \dots, u_l \}$ so they are limited to $\leq 1$.
+Now we can use Ramsay's Theorem to identify that since there is a maximum independent set, there is a finite amount of graphs.
+
+\section{$(2P_2, K_3 + P_1, claw + P_1)$-free}
+
+Throughout this section, assume $G$ is a $k$-vertex-critical non-complete $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graph. 
+
+
+
+\begin{lemma}\label{lem:pathorcyclenonneighbourhood}
+For every nonuniversal vertex $v\in V(G)$, $\noneighbs$ induces a $P_j$ or $C_m$ for $2\le j\le 4$ and $4\le m\le 5$.
+\end{lemma}
+\begin{proof}
+Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. If $S\subseteq V(H)$ such that $S$ induces a $K_3$ or claw, then $S\cup\{v\}$ induces a claw$+P_1$ or $K_3+P_1$, a contradiction. Therefore, $H$ is $(K_3+P_1,\text{claw}+P_1)$-free. Suppose there is a vertex $u\in \noneighbs$ such that $|N(u)\cap \noneighbs|\ge 3$ and let $\{u_1,u_2,u_3\}\subseteq N(u)\cap \noneighbs$. If the $u_i$'s are all pairwise disjoint, then $\{u,u_1,u_2,u_3\}$ induces a claw, a contradiction. So there must be at least one edge in the graph induced by $\{u_1,u_2,u_3\}$, without loss of generality say $u_1\sim u_2$. But now $\{u,u_1,u_2\}$ induces a $K_3$, a contradiction. Thus, we must have $|N(u)\cap \noneighbs|\le 2$ for all $u\in \noneighbs$ and thus $\Delta(H)\le 2$. From Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected and have at least two vertices, so $H$ must be a $P_j$ or a $C_m$. Since $H$ is $(2P_2,K_3+P_1)$-free, it follows that $2\le j\le 4$ and $4\le m\le 5$. 
+\end{proof}
+
+
+\begin{corollary}\label{cor:indnumatmost3}
+$\alpha(G)\le 3$.
+\end{corollary}
+\begin{proof}
+Let $S=\{s_1,s_2,\dots s_{\ell}\}$ be a maximum independent set in $G$. By Lemma~\ref{lem:pathorcyclenonneighbourhood}, it follows that the graph induced by $\overline{N[s_1]}$ must have independence number at most $2$. Since $s_i\in \overline{N[s_1]}$ for all $2\le i\le \ell$, it follows that $\ell\le 3$.
+\end{proof}
+
+
+\begin{theorem}
+There are only finitely many $k$-vertex-critical $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graphs for any given $k$.
+\end{theorem}
+\begin{proof}
+Fix $k$ and let $G$ be a $k$-vertex-critical $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graph. Since $G$ is $k$-vertex-critical, $\omega(G)\le k$. From Corollary~\ref{cor:indnumatmost3}, $\alpha(G)\le 3$. Thus, by Ramsey's Theorem, $G$ has order bounded above by $R(4,k+1)$, a constant.
+\end{proof}
+
+\textcolor{red}{Questions: (1) can we remove the $K_3+P_1$-free restriction and still get only finitely many of these graphs? (2) can we show that $\noneighbs$ cannot induce a cycle and therefore every such critical graph has independence number at most $2$? (3) Can we exhaustively generate all for small $k$ even without the further restriction on independence number give the -k argument in nauty v2.8.6?}
+
+%Let $S$ be maximum independent set $S$, $v \in S$, and $S-v=\{s_1,s_2,\dots s_{\ell}\}$.
+%
+%
+%We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + P1$. We also know it's $K_3$-free for the same reason.
+%\begin{lemma}\label{lem:clawindependent}
+%$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$ 
+%\end{lemma}
+%\begin{proof}
+%Assume $|N(u) \cap S| \geq 3$. $N(u) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
+%\end{proof}
+%\begin{lemma}\label{lem:trianglestuff}
+%$\forall s \in S, \{u, u'\} \in N(s) \cap \noneighbs - S, u \not \sim u'$
+%\end{lemma}
+%\begin{proof}
+%This induces a $K_3 + P_1$.
+%\end{proof}
+%Thus no two neighbours of s in noneighbours are adjacent.
+%\begin{lemma}\label{lem:juicebox}
+%$|\noneighbs - S| \leq 1$
+%\end{lemma}
+%% either S is limited ot noneighbs is limited.
+%$A$ has either 0, 1, or 2 neighbours in $S$.
+%We can also split $N(v)$ into $N_1, N_2$, where $N_1 = \{$
+%\begin{proof}
+%Assume $|\noneighbs - S| > 1$. $\noneighbs - S = A$. Then, $A$
+%\end{proof}
+%Maximum degree 2, because if you have a vertex of degree 3, you either have an edge in the neighbour set and a triangle, and if not you have a claw.
+%\begin{lemma}\label{lem:indset}
+%$|S| \leq 2$
+%\end{lemma}
+%\begin{proof}
+%Assume $|S| > 2$. Let $u \in N(v)$ and $u' \in \noneighbs$ and $s \in S - v$. $s \sim u'$ else $s$ is disconnected and makes the graph not $k$-vertex-critical. We now have 3 cases.
+%Case 1: $u \sim u', s \not \sim u$. In this case, $u, u', v, s$ induces a $P_4$, and any additional member of $S - v \not \sim u'$ induces a $P_4 + P_1$.
+%\end{proof}
+%\begin{lemma}\label{lem:clawminset}
+%$\forall v \in \noneighbs, $
+%\end{lemma}
+
+\section{$(2P_2, P_4 + P_1, chair, bull)$-free}
+Throughout this section let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let $S$ be the maximum independent set of $G$, $v \in S$, and let $S-v=\{s_1,s_2,\dots,s_{\ell}\}$. Let $A$ be $\noneighbs - S$. 
+
+\begin{lemma}\label{lem:indnumatmost2bullchair}
+$\alpha(G)\le 2$.
+\end{lemma}
+\begin{proof}
+Suppose by way of contradiction that $\alpha(G)\ge 3$, so that $\ell\ge 2$. Since $s_1\nsim v$ by definition, we must have $v_1\in N(v)$ such that $s_1\nsim v_1$, otherwise we would have $N(v)\subseteq N(s_1)$, contradicting $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. Further, by Lemma~\ref{lem:2P2freenonneighbconnected}, $s_1$ must have a neighbour $u\in A$, otherwise $s_1$ would be an isolated vertex in the graph induced by $\noneighbs$. If $u\nsim v_1$, then $\{s_1,u,v_1,v\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u\sim v_1$. Now, $s_1\nsim s_2$ and $s_2\nsim v$ by definition, so if $u\nsim s_2$ and $v_1\nsim s_2$, $\{s_2,s_1,u,v_1,v\}$ induces a $P_4+P_1$ in $G$, a contradiction. Therefore, $u\sim s_2$ or $v\sim s_2$. If exactly one of $u$ and $v$ is adjacent to $s_2$, then $\{s_2,s_1,u,v_1,v\}$ induces a chair in $G$, a contradiction. Therefore, both $u$ and $v$ must be adjacent to $s_2$. However, we now have $\{s_2,s_1,u,v_1,v\}$ inducing a bull in $G$, a contradiction. This completes the proof.
+\end{proof}
+
+\begin{theorem}
+There are only finitely many $k$-vertex-critical $(2P_2, P_4 + P_1,\text{chair}, \text{bull})$-free graphs for any given $k$.
+\end{theorem}
+\begin{proof}
+Fix $k$ and let $G$ be a $k$-vertex-critical $(2P_2, P_4 + P_1,\text{chair}, \text{bull})$-free graph. Since $G$ is $k$-vertex-critical, $\omega(G)\le k$. From Lemma~\ref{lem:indnumatmost2bullchair}, $\alpha(G)\le 2$. Thus, by Ramsey's Theorem, $G$ has order bounded above by $R(3,k+1)$, a constant.
+\end{proof}
+
+
+%\begin{lemma}\label{lem:chairBullOne}
+%For $u \in A$, $u \not \sim u'$ where $u' \in N(v)$.
+%\end{lemma}
+%\begin{proof}
+%Assume $u \sim u'$. This means that $\{u', u, v, u_2\}$ creates an induced $P_4$ where $u_2 \in N(v)$. Thus $u'$ must be complete to $S$ in order to not create an induced $P_4 + P_1$. This creates an induced chair with the vertex set $\{u', u, v, s_1, s_2\}$ unless $s_2 \sim u$. With this edge in place, $\{u', u, v, s_1, s_2\}$ is an induced bull. <This somehow covers every case; fill this in>
+%\end{proof}
+%\begin{lemma}\label{lem:chairBullTwo}
+%The length of $S$ is bounded to a maximum of 2 vertices.
+%\end{lemma}
+%\begin{proof}
+%With $u \not \sim u'$, $\{s_1, u'\}$ and $\{v, u\}$ form an induced $2P_2$ where $s_1 \in S$ unless $s_1 \sim u$. With this edge present, $\{s_1, u', s_2, u\}$ creates an induced $P_4$, meaning $u$ must be complete to $S$ to avoid creating an induced $P_4 + P_1$. However, this makes every vertex in $S$ comparable to each other, contradicting the assumption that $G$ is k-vertex-critical. This means that $S$ must have a maximum length of 2 in order for $G$ to exist, containing at most $v$ and $s_1$.
+%\end{proof}
+%The length of the maximum independent set of $G$ is bounded to some constant value, meaning that there are finitely many k-vertex-critical graphs that meet the criteria of $G$.
+\section{$(2P_2,P_4+\ell P_1,m\text{-squid})$-free}
+
+For this section we need the following result:
+
+\begin{theorem}[\cite{AbuadasCameronHoangSawada2022}]\label{thm:P3ellP1free}
+There are only finitely many $k$-vertex-critical $(P_3+\ell P_1)$-free graphs for all $k$ and $\ell$.
+\end{theorem}
+
+
+\begin{theorem}
+There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squid})$-free for all $k$, $\ell$, and $m$.
+\end{theorem}
+\begin{proof}
+Fix $k$, $\ell$, and $m$ and let $G$ be a $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squid})$-free graph. If $G$ is $(P_3+c P_1)$-free for $c= \ell+m$, then we are done by Theorem~\ref{thm:P3ellP1free}. Thus we may assume $G$ has an induced $P_3+c P_1$. Let $v$ be the centre of the $P_3$, $v_1$ and $v_2$ be its leaves, and $s_1,s_2\ldots s_c$ be the $c$ isolated vertices of an induced $P_3+c P_1$ in $G$. Let $S=\{s_1,s_2,\dots,s_c\}$. If $N(s_1)\subseteq N(v)$, then we contradict $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. So there must be a vertex $u\in V(G)-(\noneighbs\cup \{v_1,v_2\})$ such that $s_1\sim u$. If $u\nsim v_1$ or $u\nsim v_2$, then $\{s_1,u,v_1,v\}$ or $\{s_1,u,v_2,v\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u\sim v_1$ and $u\sim v_2$. If $u$ has at least $\ell$ nonneighbours in $S-s_1$, then $\{s_1,u,v_1,v\}$ together with any $\ell$ nonneighbours of $u$ in  $S-s_1$ induces a $P_4+\ell P_1$, a contradiction. Thus, $u$ has at least $c-\ell=m$ neighbours in $S$ (including $s_1$). But now $\{u,v,v_1,v_2\}$ and any $m$ of $u$'s neighbours in $S$ induce an $m$-squid, a contradiction. This completes the proof.
+\end{proof}
+
+Since $K_{1,m}+P_1$ is an induced subgraph of $m$-squid, we get the following corollary immediately.
+
+\begin{corollary}
+There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,K_{1,m}+P_1)$-free for all $k$, $\ell$, and $m$.
+\end{corollary}
+
+
+\textcolor{red}{Question: Can we get rid of the $2P_2$-free restriction in the theorem?}
+
+\section{Conclusion}
+
+
+
+%Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ shas at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
+%
+%
+%\begin{lemma}\label{lem:sAs'Aanticomplete}
+%For any two vertices $s,s' \in S_A$, $s_A$ is anti-complete to $s'_A$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $s,s'\in S_A$, $a_1\in s_A$ and $a_2\in s'_A$ such that $a_1\sim a_2$. Then the set $\{a_1,a_2,s,s',s''\}$ induces a $P_4+P_1$ for any $s''\in S-\{s,s'\}$, a contradiction.
+%\end{proof}
+%
+%\begin{lemma}\label{lem:sAisaclique}
+%DO WE NEED? If $|S_A|\ge 2$, then $s_A$ induces a clique for all $s \in S_A$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $|S_A|\ge 2$ and let $s,s'\in S_A$. Without loss of generality, suppose that $a_1,a_2\in s_A$ such that $a_1\nsim a_2$. Now, since $s\nsim s'$ by Lemma~\ref{lem:sAs'Aanticomplete}, $\{s,s',a_1,a_2,a'\}$ induces a $P_3+P_2$ for any $a'\in s'_A$, a contradiction.
+%\end{proof}
+%
+%
+%\begin{lemma}\label{lem:Bnonempty}
+%$B\neq\emptyset$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
+%\end{proof}
+%
+%
+%
+%\section*{Acknowledgements}
+%This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
+
+\bibliographystyle{abbrv}
+\bibliography{refs}
+
+
+\end{document}
+
