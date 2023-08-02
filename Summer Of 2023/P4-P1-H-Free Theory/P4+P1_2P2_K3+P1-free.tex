@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+ \documentclass[11pt]{article}
 \usepackage[margin=1.0in]{geometry}
 
 
@@ -94,12 +94,16 @@ Thaler Knodel\\ %\thanks{Research partially supported by the Natural Sciences an
 \small Department of Computing Science\\
 \small The King's University\\
 \small Edmonton, AB Canada\\
-%\small ben.cameron@kingsu.ca\\
-%Ch\'{i}nh T. Ho\`{a}ng\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
-%\small Department of Physics and Computer Science\\
-%\small Wilfrid Laurier University\\
-%\small Waterloo, ON Canada\\
-%\small choang@wlu.ca\\
+\and
+Christopher Bury\\ %\thanks{Research partially supported by the Natural Sciences and Engineering Research Council of Canada (NSERC) (grants DGECR-2022-00446 and RGPIN-2022-03697)}\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
+\and
+Melvin Adekanye\\
+\small Department of Computing Science\\
+\small The King's University\\
+\small Edmonton, AB Canada\\
 }
 
 \date{\today}
@@ -119,7 +123,7 @@ Thaler Knodel\\ %\thanks{Research partially supported by the Natural Sciences an
 
 Throughout this section, assume $G$ is a $k$-vertex-critical non-complete \forbid -free graph.\\
 
-For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$.
+For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$. $N(v)$ further partitions into $N_1, N_1', N_2$. $\exists u_1 \in \noneighbs$ such that $u_1 \sim N_1$, and $\exists u_2 \in \noneighbs$ such that $u_2 \sim N_2$.
 
 
 \begin{lemma}\label{lem:P4K3-free}
@@ -172,14 +176,61 @@ Now we can use Ramsay's Theorem to identify that since there is a maximum indepe
 
 \section{$claw + P_1, K_3 + P_1, 2P_2$-free}
 We can use a similar technique to find a finite amount of these graphs. Assume we have a $claw + P_1, K_3 + P_1, 2K_2$-free graph. Then we have the maximum independent set $S$. Let $v \in S$. We will reuse our definition of $\noneighbs$.
+We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + P1$. We also know it's $K_3$-free for the same reason.
+\begin{lemma}\label{lem:clawindependent}
+$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$ 
+\end{lemma}
+\begin{proof}
+Assume $|N(u) \cap S| \geq 3$. $N(u) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
+\end{proof}
+\begin{lemma}\label{lem:trianglestuff}
+$\forall s \in S, \{u, u'\} \in N(s) \cap \noneighbs - S, u \not \sim u'$
+\end{lemma}
+\begin{proof}
+This induces a $K_3 + P_1$.
+\end{proof}
+Thus no two neighbours of s in noneighbours are adjacent.
+\begin{lemma}\label{lem:juicebox}
+$|\noneighbs - S| \leq 1$
+\end{lemma}
+% either S is limited ot noneighbs is limited.
+$A$ has either 0, 1, or 2 neighbours in $S$.
+We can also split $N(v)$ into $N_1, N_2$, where $N_1 = \{$
+\begin{proof}
+Assume $|\noneighbs - S| > 1$. $\noneighbs - S = A$. Then, $A$
+\end{proof}
+%Maximum degree 2, because if you have a vertex of degree 3, you either have an edge in the neighbour set and a triangle, and if not you have a claw.
+\begin{lemma}\label{lem:indset}
+$|S| \leq 2$
+\end{lemma}
+\begin{proof}
+Assume $|S| > 2$. Let $u \in N(v)$ and $u' \in \noneighbs$ and $s \in S - v$. $s \sim u'$ else $s$ is disconnected and makes the graph not $k$-vertex-critical. We now have 3 cases.
+Case 1: $u \sim u', s \not \sim u$. In this case, $u, u', v, s$ induces a $P_4$, and any additional member of $S - v \not \sim u'$ induces a $P_4 + P_1$.
+\end{proof}
 \begin{lemma}\label{lem:clawminset}
 $\forall v \in \noneighbs, $
 \end{lemma}
 
+\section{$(2P_2, P_4 + P_1, chair, bull)$-free}
+Let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let us have a vertex $v$ and $N(v)$ and $\noneighbs$. Let $S$ be the maximum independent set of $G$ where $v \in S$. Let $A$ be $\noneighbs - S$. Let $s_1$ and $s_2$ be any two separate vertices in $S$ not equal to $v$.
+\begin{lemma}\label{lem:chairBullOne}
+For $u \in A$, $u \not \sim u'$ where $u' \in N(v)$.
+\end{lemma}
+\begin{proof}
+Assume $u \sim u'$. This means that $\{u', u, v, u_2\}$ creates an induced $P_4$ where $u_2 \in N(v)$. Thus $u'$ must be complete to $S$ in order to not create an induced $P_4 + P_1$. This creates an induced chair with the vertex set $\{u', u, v, s_1, s_2\}$ unless $s_2 \sim u$. With this edge in place, $\{u', u, v, s_1, s_2\}$ is an induced bull. <This somehow covers every case; fill this in>
+\end{proof}
+\begin{lemma}\label{lem:chairBullTwo}
+The length of $S$ is bounded to a maximum of 2 vertices.
+\end{lemma}
+\begin{proof}
+With $u \not \sim u'$, $\{s_1, u'\}$ and $\{v, u\}$ form an induced $2P_2$ where $s_1 \in S$ unless $s_1 \sim u$. With this edge present, $\{s_1, u', s_2, u\}$ creates an induced $P_4$, meaning $u$ must be complete to $S$ to avoid creating an induced $P_4 + P_1$. However, this makes every vertex in $S$ comparable to each other, contradicting the assumption that $G$ is k-vertex-critical. This means that $S$ must have a maximum length of 2 in order for $G$ to exist, containing at most $v$ and $s_1$.
+\end{proof}
+The length of the maximum independent set of $G$ is bounded to some constant value, meaning that there are finitely many k-vertex-critical graphs that meet the criteria of $G$.
 Results\\
 $P_4 + \ell_1 P_1, 2P_2, \ell_2 squid$\\
 $claw + P_1, K_3 + P_1, 2P_2$\\
-$2P_2, P_4 + P_1, chair, raging bull$
+$2P_2, P_4 + P_1, chair, raging bull$\\
+$P_4+ \ell_1 P_1, 2K_2, K_{1,\ell_2} + P_1$-free
 
 %Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ shas at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
 %
