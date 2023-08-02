@@ -1,7 +1,7 @@
 # Graph Theory Research
 Summer Research with Dr. Ben Cameron
 
-### Kings Summer Research 2023 (Chris, David, Melvin, Thaler)
+### Kings Summer Research 2023 (Chris, Melvin, Thaler)
 —— An amazing summary yet to be written
 
 ### Kings Summer Research 2022 (Melvin)
