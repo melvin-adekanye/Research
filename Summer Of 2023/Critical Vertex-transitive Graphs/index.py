@@ -3,9 +3,6 @@ import shutil
 from sage import *
 from sage.graphs.graph_coloring import vertex_coloring
 
-print(
-    f'****  Finding Critical Vertex-transitive Graphs ****')
-
 # Get the source of the data
 SOURCE_PATH = f'{os.getcwd()}/DATA'
 
@@ -13,14 +10,17 @@ SOURCE_PATH = f'{os.getcwd()}/DATA'
 GRAPH6_STRINGS = []
 CRITICAL_GRAPH6_STRINGS = []
 
+K_CRITICAL = 5
+K_CRITICAL_FILENAME = f"{K_CRITICAL}-critical"
 
-SAVE_PATH = f'{os.getcwd()}/critical'
+SAVE_PATH = f'{os.getcwd()}/{K_CRITICAL_FILENAME}'
 TEMP_PATH = f'{os.getcwd()}/temp'
-TEMP_SAVE_PATH = f"{TEMP_PATH}/critical"
+TEMP_SAVE_PATH = f"{TEMP_PATH}/{K_CRITICAL_FILENAME}"
+
+print(
+    f'****  Finding {K_CRITICAL}-Critical Vertex-transitive Graphs ****')
 
 # Define the path manager
-
-
 def path_manager(*paths):
 
     for path in paths:
@@ -48,7 +48,7 @@ path_manager(TEMP_PATH, TEMP_SAVE_PATH)
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 def critical_check(graph, chromatic_number):
 
-    # if there is no cn
+    # if there is no cn 
     if chromatic_number == None:
 
         # Get it from the graph
@@ -180,18 +180,20 @@ for (index, data) in enumerate(GRAPH6_STRINGS):
     # Calc the chromatic number
     chromatic_number = graph.chromatic_number()
 
-    print(f"{graph6_string} - Critical Check")
+    if chromatic_number == K_CRITICAL:
+        
+        print(f"{graph6_string} - Critical Check")
 
-    # Check if this graph is critical
-    is_critical = critical_check(graph, chromatic_number)
+        # Check if this graph is critical
+        is_critical = critical_check(graph, chromatic_number)
 
-    # If this graph is critical
-    if is_critical == True:
+        # If this graph is critical
+        if is_critical == True:
 
-        CRITICAL_GRAPH6_STRINGS.append((graph6_string, filename))
+            CRITICAL_GRAPH6_STRINGS.append((graph6_string, filename))
 
-        # Save the graph
-        save(TEMP_SAVE_PATH, graph6_string, filename)
+            # Save the graph
+            save(TEMP_SAVE_PATH, graph6_string, filename)
 
 
 # Print the generated graphs

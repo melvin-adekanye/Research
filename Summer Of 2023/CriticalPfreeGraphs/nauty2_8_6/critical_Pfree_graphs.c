@@ -5030,80 +5030,107 @@ contains_induced_gem()
 static int
 contains_induced_p4_p1()
 {
-    // Don't assume that the last vertex must be in it, since it can be tricky
-    // Just find every triangle and test if they can be the central triangle of a gem
 
-    typedef int setword;
-    typedef setword set[MAXM];
+    return 0;
 
-    typedef int TRIANGLE[3];
+    /*
 
-    int i, j, k;
-    int nv = 0; // Number of vertices in the graph (replace with the actual value)
+// Don't assume that the last vertex must be in it, since it can be tricky
+// Just find every triangle and test if they can be the central triangle of a gem
 
-    // Check for induced P4 (path with four vertices)
-    for (i = 0; i < nv; i++)
+typedef int setword;
+typedef setword set[MAXM];
+
+int i, j, k;
+int nv = MAXM; // Number of vertices in the graph (replace with the actual value)
+
+printf("\n\n\n\n\nStarting...\n"); // Print statement added
+// Check for induced P4 (path with four vertices)
+for (i = 0; i < nv; i++)
+{
+    // Get the ith row (neighborhood) of the graph
+    set *gi = GRAPHROW1(nautyg, i, MAXM);
+
+    printf("Value of *gi: %p\n", (void *)*gi); // Adjusted format specifier
+
+    int neighbor_i = -1;
+
+    // Iterate over the neighbors of vertex i
+    while ((neighbor_i = nextelement1(gi, 1, neighbor_i)) >= 0)
     {
-        set *gi = GRAPHROW1(nautyg, i, MAXM); // Get the ith row (neighborhood) of the graph
 
-        int neighbor_i = -1;
+        set *gj = GRAPHROW1(nautyg, neighbor_i, MAXM); // Get the neighbor's row
 
-        // Iterate over the neighbors of vertex i
-        while ((neighbor_i = nextelement1(gi, 1, neighbor_i)) >= 0)
-        {
-            set *gj = GRAPHROW1(nautyg, neighbor_i, MAXM); // Get the neighbor's row
+        for (j = neighbor_i + 1; j < nv; j++)
+        { // Iterate over the remaining vertices
 
-            for (j = neighbor_i + 1; j < nv; j++)
-            { // Iterate over the remaining vertices
+            // Check if vertex j is a neighbor of the current neighbor_i
+            if (ISELEMENT1(*gj, j))
+            {
+                int neighbor_j = -1;
 
-                // Check if vertex j is a neighbor of the current neighbor_i
-                if (ISELEMENT1(*gj, j))
+                // Iterate over the neighbors of vertex j
+                while ((neighbor_j = nextelement1(gj, 1, neighbor_j)) >= 0)
                 {
-                    int neighbor_j = -1;
 
-                    // Iterate over the neighbors of vertex j
-                    while ((neighbor_j = nextelement1(gj, 1, neighbor_j)) >= 0)
+                    // Check if vertex neighbor_j is a neighbor of both i and j
+                    if (neighbor_j != i && ISELEMENT1(*gi, neighbor_j))
                     {
 
-                        // Check if vertex neighbor_j is a neighbor of both i and j
-                        if (neighbor_j != i && ISELEMENT1(*gi, neighbor_j))
+                        int neighbor_k = -1;
+                        set *gk = GRAPHROW1(nautyg, j, MAXM); // Get the jth row
+
+                        // Iterate over the neighbors of vertex j
+                        while ((neighbor_k = nextelement1(gk, 1, neighbor_k)) >= 0)
                         {
-                            int neighbor_k = -1;
-                            set *gk = GRAPHROW1(nautyg, j, MAXM); // Get the jth row
 
-                            // Iterate over the neighbors of vertex j
-                            while ((neighbor_k = nextelement1(gk, 1, neighbor_k)) >= 0)
-                            {
+                            // Check if vertex neighbor_k is a neighbor of both i and j
+                            if (neighbor_k != neighbor_i && neighbor_k != neighbor_j && ISELEMENT1(*gi, neighbor_k))
 
-                                // Check if vertex neighbor_k is a neighbor of both i and j
-                                if (neighbor_k != neighbor_i && neighbor_k != neighbor_j && ISELEMENT1(*gi, neighbor_k))
-                                    return 0; // Induced P4 found
-                            }
+                                return 0; // Induced P4 found
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
 
-    // Check for induced isolated vertices (P1)
-    for (k = 0; k < nv; k++)
+}
+
+return 0;
+
+
+
+
+// Check for induced isolated vertices (P1)
+for (k = 0; k < nv; k++)
+{
+    set *gk = GRAPHROW1(nautyg, k, MAXM); // Get the kth row
+
+    int neighbor_k = -1;
+
+    // Iterate over the neighbors of vertex k
+    while ((neighbor_k = nextelement1(gk, 1, neighbor_k)) >= 0)
     {
-        set *gk = GRAPHROW1(nautyg, k, MAXM); // Get the kth row
 
-        int neighbor_k = -1;
+        // Check if vertex neighbor_k is a neighbor of vertex k
+        if (ISELEMENT1(*gk, neighbor_k))
+            return 0; // Induced P1 found
 
-        // Iterate over the neighbors of vertex k
-        while ((neighbor_k = nextelement1(gk, 1, neighbor_k)) >= 0)
-        {
-
-            // Check if vertex neighbor_k is a neighbor of vertex k
-            if (ISELEMENT1(*gk, neighbor_k))
-                return 0; // Induced P1 found
-        }
     }
 
-    return 1; // Induced P4+P1-free
+}
+
+return 1; // Induced P4+P1-free
+*/
+
+
 }
 
 /******************************************************************************/
@@ -5367,6 +5394,7 @@ extend(setword isolated_vertices, unsigned char avoided_vertex,
 
     if (test_if_contains_induced_gem)
     {
+
         if (contains_induced_gem())
         {
             times_graph_not_gemfree[nv]++;
@@ -5384,7 +5412,6 @@ extend(setword isolated_vertices, unsigned char avoided_vertex,
         {
 
             times_graph_not_p4_p1[nv]++;
-
             return; // not p4_p1
         }
         else
@@ -7106,6 +7133,14 @@ int main(int argc, char **argv)
             }
             case 'p':
             {
+                // M+C July 4, 2023
+                if (strcmp(argv[i], "p4_p1") == 0)
+                {
+                    test_if_contains_induced_p4_p1 = 1;
+                    fprintf(stderr, "Info: searching for P4 + P1 Free graphs\n");
+                    // edge_critical_test_is_supported = 0;
+                }
+
                 if (strcmp(argv[i], "planar") == 0)
                 {
                     test_if_planar = 1;
@@ -7146,18 +7181,6 @@ int main(int argc, char **argv)
                 {
                     test_if_contains_induced_gem = 1;
                     fprintf(stderr, "Info: searching for gem-free graphs\n");
-                    edge_critical_test_is_supported = 0;
-                }
-                break;
-            }
-
-            // M+C June 26, 2023
-            case 'Z':
-            {
-                if (strcmp(argv[i], "p4_p1") == 0)
-                {
-                    test_if_contains_induced_p4_p1 = 1;
-                    fprintf(stderr, "Info: searching for P4 + P1 Free graphs\n");
                     edge_critical_test_is_supported = 0;
                 }
                 break;
@@ -7378,7 +7401,7 @@ int main(int argc, char **argv)
     // M+C - June 26, 2023
     if (test_if_contains_induced_p4_p1)
         for (i = 8; i <= maxnv; i++)
-            fprintf(stderr, "Nv=%d, times P4 + P1 -free: %llu (%.2f%%)\n", i, times_graph_p4_p1[i],
+            fprintf(stderr, "Nv=%d, times (LOLLLL) P4 + P1 -free: %llu (%.2f%%)\n", i, times_graph_p4_p1[i],
                     (double)times_graph_p4_p1[i] / (times_graph_p4_p1[i] + times_graph_not_p4_p1[i]) * 100);
 
     for (i = 10; i < maxnv; i++)
