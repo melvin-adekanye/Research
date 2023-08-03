@@ -1,5 +1,5 @@
 #
-# Makefile for critical_Pfree_graphs
+# Makefile for complement_critical_Pfree_graphs
 #
 
 SHELL = /bin/sh
@@ -13,13 +13,13 @@ CFLAGS = -O4
 all : clean 32bit
 
 32bit :
-	${CC32} $(CFLAGS) critical_Pfree_graphs.c planarity.c nautyW1.a -o critical_Pfree_graphs
+	${CC32} $(CFLAGS) complement_critical_Pfree_graphs.c planarity.c nautyW1.a -o complement_critical_Pfree_graphs
 
 64bit :
-	${CC64} $(CFLAGS) critical_Pfree_graphs.c planarity.c nautyL1.a -o critical_Pfree_graphs-64
+	${CC64} $(CFLAGS) complement_critical_Pfree_graphs.c planarity.c nautyL1.a -o complement_critical_Pfree_graphs-64
 
 profile :
-	${CC32} -pg -g critical_Pfree_graphs.c planarity.c nautyW1.a -o critical_Pfree_graphs-profile
+	${CC32} -pg -g complement_critical_Pfree_graphs.c planarity.c nautyW1.a -o complement_critical_Pfree_graphs-profile
 
 clean :
-	rm -f critical_Pfree_graphs
+	rm -f complement_critical_Pfree_graphs
