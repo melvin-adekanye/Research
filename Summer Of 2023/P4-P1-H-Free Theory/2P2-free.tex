@@ -1,4 +1,4 @@
- \documentclass[11pt]{article}
+\documentclass[11pt]{article}
 \usepackage[margin=1.0in]{geometry}
 
 
@@ -351,17 +351,26 @@ There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,K_{1,m}+P_1
 %\end{proof}
 %
 %
-%\begin{lemma}\label{lem:Bnonempty}
-%$B\neq\emptyset$.
-%\end{lemma}
-%\begin{proof}
-%Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
-%\end{proof}
-%
-%
-%
-%\section*{Acknowledgements}
-%This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
+% \begin{lemma}\label{lem:Bnonempty}
+% $B\neq\emptyset$.
+% \end{lemma}
+% \begin{proof}
+% Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
+
+% ----
+% Now, consider the graph G - S, which is the graph obtained by removing all vertices in S from G. Since G is k-vertex-critical, G - S should still be (k - |S|)-vertex-critical.
+
+% However, G - S is disconnected because all vertices in S are mutually non-adjacent. Thus, it is not possible to find a k-vertex-coloring for G - S, as the vertices in S must have distinct colors but are no longer adjacent to each other.
+
+% This contradicts the assumption that G is k-vertex-critical since we have found a proper vertex coloring of G - S using fewer than k colors, demonstrating that G - S is not (k - |S|)-vertex-critical.
+
+% Hence, the assumption that B = ∅ must be false, and there must exist at least one "bad" vertex in the graph G. Thus, Lemma 7.1 holds, and the set B is not empty.
+% \end{proof}
+
+
+
+% \section*{Acknowledgements}
+% This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
 
 \bibliographystyle{abbrv}
 \bibliography{refs}
