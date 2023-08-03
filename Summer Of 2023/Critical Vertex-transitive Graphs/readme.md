@@ -13,7 +13,7 @@
 ### 📄 unzip.py
 
     Neccessary for unzipping .gz files 
-	Should only be run on Ubuntu or linux devices. 
+	⚠️ Should only be run on Ubuntu or linux devices. 
 	It unzips the .tar and .gz files in /DATA
 
 ### 📄 index.py
