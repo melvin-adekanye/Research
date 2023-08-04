@@ -12,3 +12,6 @@ Summer Research with Dr. Ben Cameron
 ### How to install Sagemath on Windows:
 	SageMath 9.2 (Windows installer 0.6.2)
 	There's an executable available at this URL: https://github.com/sagemath/sage-windows/releases/tag/0.6.2-9.2
+
+### Online Graph Generator
+	https://csacademy.com/app/graph_editor/

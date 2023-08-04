@@ -1,4 +1,6 @@
 # 😲 What The Heck?
+Finding P5 and P4+P1 Free Critical Circulant Graphs. 
+Results show there are no 5-Critical, 6-critical or 7-critical P5 and P4+P1 Free Circulant Graphs
 
 ### 📁 DATA
 

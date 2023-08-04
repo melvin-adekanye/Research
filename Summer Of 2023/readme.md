@@ -24,12 +24,12 @@
 
     Analyzing edge critical graphs that are path free properties. 
 
-### 📂 Chudnovsky-Goedgebeur-Schaudt-Zhong program
+### 📂 CriticalPfreeGraphs
 
     Do you like C? Well, this is written in 100% C code.
     It is optimized to find and classify graphs.
 
-    📂 "nauty273"
+    📂 "nauty2_8_6"
         Contains all the neccessary files to run ./critical_Pfree_graphs
         In this folder, your ./critical_Pfree_graphs.c and ./list_critical_Pfree_graphs.c must stay
 
