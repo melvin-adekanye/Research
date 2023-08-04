@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+ \documentclass[11pt]{article}
 \usepackage[margin=1.0in]{geometry}
 
 
@@ -158,7 +158,12 @@ Let $G$ be a $k$-vertex-critical graphs with $\alpha(G)=c$, $v\in V(G)$, and let
 
 \section{\forbid-free graphs}
 
+IDEA: If $G$ is also $P_3+2P_1$-free then done by my previous paper. Thus, contains an induced $P_3+2P_1$. By Lemma~\ref{lem:completebipartite}, nonneighbourhood of $s_1$ ($s_1,s_2$ are the $2P_1$ vertices), its nonneighbourhood must be a complete bipartite graph, and thus $s_2$ must be complete to $v_1$ and $v_2$ (the two leaves of the $P_3$), contradicting the induced $P_3+2P_1$!. 
+
 Throughout this section, assume $G$ is a $k$-vertex-critical non-complete \forbid -free graph.
+
+
+
 
 For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$. $N(v)$ further partitions into $N_1, N_1', N_2$. $\exists u_1 \in \noneighbs$ such that $u_1 \sim N_1$, and $\exists u_2 \in \noneighbs$ such that $u_2 \sim N_2$.
 
@@ -274,6 +279,8 @@ Fix $k$ and let $G$ be a $k$-vertex-critical $(2P_2, K_3 + P_1, \text{claw} + P_
 %\end{lemma}
 
 \section{$(2P_2, P_4 + P_1, chair, bull)$-free}
+\textcolor{red}{NOTE!! The main result of this section is now a corollary of the $P_4+\ell P_1$ stuff}.
+
 Throughout this section let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let $S$ be the maximum independent set of $G$, $v \in S$, and let $S-v=\{s_1,s_2,\dots,s_{\ell}\}$. Let $A$ be $\noneighbs - S$. 
 
 \begin{lemma}\label{lem:indnumatmost2bullchair}
@@ -320,11 +327,17 @@ There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squ
 Fix $k$, $\ell$, and $m$ and let $G$ be a $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squid})$-free graph. If $G$ is $(P_3+c P_1)$-free for $c= \ell+m$, then we are done by Theorem~\ref{thm:P3ellP1free}. Thus we may assume $G$ has an induced $P_3+c P_1$. Let $v$ be the centre of the $P_3$, $v_1$ and $v_2$ be its leaves, and $s_1,s_2\ldots s_c$ be the $c$ isolated vertices of an induced $P_3+c P_1$ in $G$. Let $S=\{s_1,s_2,\dots,s_c\}$. If $N(s_1)\subseteq N(v)$, then we contradict $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. So there must be a vertex $u\in V(G)-(\noneighbs\cup \{v_1,v_2\})$ such that $s_1\sim u$. If $u\nsim v_1$ or $u\nsim v_2$, then $\{s_1,u,v_1,v\}$ or $\{s_1,u,v_2,v\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u\sim v_1$ and $u\sim v_2$. If $u$ has at least $\ell$ nonneighbours in $S-s_1$, then $\{s_1,u,v_1,v\}$ together with any $\ell$ nonneighbours of $u$ in  $S-s_1$ induces a $P_4+\ell P_1$, a contradiction. Thus, $u$ has at least $c-\ell=m$ neighbours in $S$ (including $s_1$). But now $\{u,v,v_1,v_2\}$ and any $m$ of $u$'s neighbours in $S$ induce an $m$-squid, a contradiction. This completes the proof.
 \end{proof}
 
-Since $K_{1,m}+P_1$ is an induced subgraph of $m$-squid, we get the following corollary immediately.
+Since both $K_{1,m}+P_1$ and chair are an induced subgraphs of the $m$-squid, we get the following corollarie immediately.
 
 \begin{corollary}
 There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,K_{1,m}+P_1)$-free for all $k$, $\ell$, and $m$.
 \end{corollary}
+
+\begin{corollary}
+There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,\text{chair})$-free for all $k$, $\ell$,
+\end{corollary}
+
+
 
 
 \textcolor{red}{Question: Can we get rid of the $2P_2$-free restriction in the theorem?}
@@ -351,26 +364,17 @@ There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,K_{1,m}+P_1
 %\end{proof}
 %
 %
-% \begin{lemma}\label{lem:Bnonempty}
-% $B\neq\emptyset$.
-% \end{lemma}
-% \begin{proof}
-% Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
-
-% ----
-% Now, consider the graph G - S, which is the graph obtained by removing all vertices in S from G. Since G is k-vertex-critical, G - S should still be (k - |S|)-vertex-critical.
-
-% However, G - S is disconnected because all vertices in S are mutually non-adjacent. Thus, it is not possible to find a k-vertex-coloring for G - S, as the vertices in S must have distinct colors but are no longer adjacent to each other.
-
-% This contradicts the assumption that G is k-vertex-critical since we have found a proper vertex coloring of G - S using fewer than k colors, demonstrating that G - S is not (k - |S|)-vertex-critical.
-
-% Hence, the assumption that B = ∅ must be false, and there must exist at least one "bad" vertex in the graph G. Thus, Lemma 7.1 holds, and the set B is not empty.
-% \end{proof}
-
-
-
-% \section*{Acknowledgements}
-% This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
+%\begin{lemma}\label{lem:Bnonempty}
+%$B\neq\emptyset$.
+%\end{lemma}
+%\begin{proof}
+%Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
+%\end{proof}
+%
+%
+%
+%\section*{Acknowledgements}
+%This work was supported by the Canadian Tri-Council Research Support Fund. Each author was supported by individual NSERC Discovery Grants.
 
 \bibliographystyle{abbrv}
 \bibliography{refs}
