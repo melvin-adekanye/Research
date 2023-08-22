@@ -11,6 +11,7 @@
 %\usepackage{ulem} %useful for strikethough, but will underline journal names!
 \usepackage{amssymb}
 \usepackage{amsfonts}
+
 \usepackage{multicol}
 \usepackage{subfigure}
 \usepackage[numbers,sort&compress]{natbib}
@@ -206,6 +207,7 @@ The \squid{\ell}  is the graph obtained from a $C_4$ by adding $\ell$ leaves to 
 \end{figure}
 
 
+
 \begin{lemma}\label{lem:2P2ellsquidP3cP1fee}
 Let $\ell,k\ge 1$ and $c=((\ell-1)(k-1)+1)$. If $G$ is $k$-vertex-critical ($2P_2$, \squid{\ell})-free, then $G$ is $(P_3+ cP_1)$-free.
 \end{lemma}
@@ -261,13 +263,36 @@ Suppose $v_1'\in N[v_2]$ or $v_3'\in N[v_2]$. Without loss of generality assume 
 
 \section{$(2P_2, \overline{diamond + P_1})$-free}
 
+\begin{figure}[h]
+\def\r{1.5}
+\centering
+\begin{tikzpicture}
+\begin{scope}[every node/.style={circle,fill,draw}]
+	\node (u1) at (-0.5*\r,2*\r) {};
+	\node (u2) at (0.5*\r,2*\r) {};
+	\node (u3) at (0*\r,1*\r) {};
+	\node (u4) at (-0.5*\r,0*\r) {};
+	\node (u5) at (0.5*\r,0*\r) {};
+\end{scope}
+
+\begin{scope}
+	\path [-] (u1) edge node {} (u3) {};
+	\path [-] (u2) edge node {} (u3) {};
+	
+	\path [-] (u3) edge node {} (u4) {};
+	\path [-] (u3) edge node {} (u5) {};
+	\path [-] (u4) edge node {} (u5) {};
+\end{scope}
+\end{tikzpicture}
+\caption{A thing}
+\end{figure}
+
 \begin{lemma}\label{lem:compdiamondplusP1}
-Let $\ell,k\ge 1$ and $c=((\ell-1)(k-1)+1)$. If $G$ is $k$-vertex-critical $(2P_2, \overline{diamond+P_1})$-free, then $G$ is $(\ell-squid)$-free.
+Let $\ell,k\ge 1$. If $G$ is $k$-vertex-critical $(2P_2, \overline{diamond+P_1})$-free, then $G$ is $(\ell$-$squid)$-free.
 \end{lemma}
 \begin{proof}
-%I am unsure if I use the c thingss
-Let $G$ be a $k$-vertex-critical $(2P_2, \overline{K_3 + 2P_1})$-free graph for some $\ell \ge 0$ and let $c = (\ell - 1)(k - 1) + 1$. Suppose by way of contradiction that $G$ contains an induced $\ell-squid$ with the same construction as Figure ~\ref{fig:squid}.
-$u_2, u_3$ must have unique neighbours, or else they are comparable and the graph is not $k$-vertex-critical, a contradiction. We will call these vertices $u'_2, u'_3$. Now, $\{ u_2, u_3, u'_2, u'_3 \}$ induce a $2P_2$ unless $u'_2 \sim u'_3$. Then $\{ u'_2, u'_3, w_i, u_4 \}$ for any $w_i \in w$ induces a $2P_2$ unless $u'_2, u'_3$ are combined complete to $w$. Further, $\{ u_1, u_2, u'_3, w_i \}$ and $\{ u_1, u_3, u'_2, w_i \}$ both induce a $2P_2$ unless $u'_3, u'_2 \sim u_1$. Then, $\{ u'_3, u'_2, v_1, w_1, w_2, \dots, w_\ell \}$ induces a $\overline{K_3 + P_1}$, a contradiction. Thus, $(2P_2, \overline{K_3 + 2P_1})$-free graphs are finite.
+Let $G$ be a $k$-vertex-critical $(2P_2, \overline{K_3 + 2P_1})$-free graph. Suppose by way of contradiction that $G$ contains an induced $\ell-squid$ with the same construction as Figure ~\ref{fig:squid} for some $2\ell \geq 1$.
+$u_2, u_3$ must have unique neighbours, or else they are comparable and the graph is not $k$-vertex-critical, a contradiction. Further, $u'_2, u'_3$ cannot be adjacent to $u_4$ else it forms the forbidden graph. We will call these vertices $u'_2, u'_3$. Now, $\{ u_2, u_3, u'_2, u'_3 \}$ induce a $2P_2$ unless $u'_2 \sim u'_3$. Then $\{ u'_2, u'_3, w_i, u_4 \}$ for any $w_i \in w$ induces a $2P_2$ unless $u'_2, u'_3$ are combined complete to $w$. Further, $\{ u_1, u_2, u'_3, w_i \}$ and $\{ u_1, u_3, u'_2, w_i \}$ both induce a $2P_2$ unless $u'_3, u'_2 \sim u_1$. Then by pigeon-hole principle, either $u'_3$ or $u'_2$ are adjacent to $\ell$ vertices, inducing the forbidden graph. Thus, $(2P_2, \overline{K_3 + 2P_1})$-free graphs are finite.
 \end{proof}
 
 
