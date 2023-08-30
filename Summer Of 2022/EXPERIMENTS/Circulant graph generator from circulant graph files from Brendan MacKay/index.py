@@ -50,6 +50,7 @@ if x == 'y':
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 
 
+<<<<<<< HEAD
 def critical_check(graph, chromatic_number):
 
     # Set the original graph before messing with it
@@ -101,6 +102,25 @@ def critical_check(graph, chromatic_number):
 # Save the graph in general
 
 
+=======
+# The OG critical check
+def critical_check(G, k=k):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+
+
+# Save the graph in general
+>>>>>>> master
 def save(type, string, raw_string, order, chromatic_number):
 
     if type == 'default':
@@ -230,7 +250,11 @@ for (index, data) in enumerate(raw_graphs):
     chromatic_number = graph.chromatic_number()
 
     # Check if this graph is critical
+<<<<<<< HEAD
     is_critical = critical_check(graph, chromatic_number)
+=======
+    is_critical = critical_check(graph)
+>>>>>>> master
 
     # If this graph is critical
     if is_critical == True:

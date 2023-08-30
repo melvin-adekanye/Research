@@ -45,6 +45,25 @@ print('. . . Creating TEMP directory')
 path_manager(TEMP_PATH, TEMP_SAVE_PATH)
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# The OG critical check
+def critical_check(G, k):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+=======
+>>>>>>> master
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 def critical_check(graph, chromatic_number):
 
@@ -76,6 +95,10 @@ def critical_check(graph, chromatic_number):
 
     # Return is_critical
     return is_critical
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
 
 
 # The save function

@@ -48,6 +48,25 @@ graph6Cache = {}
 DESTINATION_PATH = "critical graphs"
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# The OG critical check
+def critical_check(G, k=GRAPH_K):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+=======
+>>>>>>> master
 def critical_check(graph):
 
     # Set the original graph before messing with it
@@ -91,6 +110,10 @@ def critical_check(graph):
 
     # Return not critical to k value
     return False
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
 
 
 def multiprocess_critical_check(original_graph_and_index, flag):
@@ -346,10 +369,19 @@ if __name__ == '__main__':
 
     # multithreading()
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> master
 
 
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
     def foo(bar, result, index, event):
         print('hello {0}'.format(bar))
         result[index] = "foo"
@@ -367,7 +399,16 @@ if __name__ == '__main__':
     event = threading.Event()
 
     for i in range(len(threads)):
+<<<<<<< HEAD
         threads[i] = threading.Thread(target=foo, args=('world!', results, i, event))
+=======
+<<<<<<< HEAD
+        threads[i] = threading.Thread(
+            target=foo, args=('world!', results, i, event))
+=======
+        threads[i] = threading.Thread(target=foo, args=('world!', results, i, event))
+>>>>>>> origin/main
+>>>>>>> master
         threads[i].start()
 
     # Do some other stuff
@@ -379,6 +420,15 @@ if __name__ == '__main__':
     # Terminate all threads
     for thread in threads:
         thread.join(timeout=0)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+    # What sound does a metasyntactic locomotive make?
+    print(" ".join(results))
+
+=======
+>>>>>>> master
         
     # What sound does a metasyntactic locomotive make?
     print(" ".join(results))
@@ -400,6 +450,10 @@ if __name__ == '__main__':
 
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
     end_time = datetime.datetime.now()
 
     elapsed_time = end_time - start_time

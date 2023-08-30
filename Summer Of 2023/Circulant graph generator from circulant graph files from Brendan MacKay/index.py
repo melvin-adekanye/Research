@@ -21,6 +21,7 @@ x = input(f'delete "/graphs - {k}" (y/n): ')
 
 # Create the path for the graphs to be stored
 graph_path = f'{os.getcwd()}/graphs - {k}'
+<<<<<<< HEAD
 source_path = f'{os.getcwd()}/raw graphs'
 
 default_graph6_string_path = f'{graph_path}/all graphs'
@@ -28,6 +29,15 @@ default_params_path = f'{graph_path}/all graphs params'
 
 critical_graph6_string_path = f'{graph_path}/critical graphs'
 critical_params_path = f'{graph_path}/critical graphs params'
+=======
+source_path = f'{os.getcwd()}/DATA'
+
+default_graph6_string_path = f'{graph_path}/graph6_string'
+default_params_path = f'{graph_path}/parameters'
+
+critical_graph6_string_path = f'{graph_path}/critical graph6_string'
+critical_params_path = f'{graph_path}/critical parameters'
+>>>>>>> master
 
 # If yes
 if x == 'y':
@@ -48,6 +58,7 @@ if x == 'y':
     os.mkdir(critical_params_path)
 
 
+<<<<<<< HEAD
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 def critical_check(graph, chromatic_number):
 
@@ -95,6 +106,22 @@ def critical_check(graph, chromatic_number):
 
     # Return not critical to k value
     return False
+=======
+# The OG critical check
+def critical_check(G):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+>>>>>>> master
 
 
 # Save the graph in general
@@ -159,9 +186,15 @@ def circulant(n, L):
 
         for j in range(i+1, n):
 
+<<<<<<< HEAD
             if(((i-j) % n) in L):
 
                 if({i, j} not in E):
+=======
+            if (((i-j) % n) in L):
+
+                if ({i, j} not in E):
+>>>>>>> master
 
                     E.append({i, j})
 
@@ -169,7 +202,11 @@ def circulant(n, L):
     return E
 
 
+<<<<<<< HEAD
 print('. . . Gathering graph data files from raw graphs folder')
+=======
+print('. . . Gathering graph data files from DATA folder')
+>>>>>>> master
 # Loop through all graphs with {min_vertices} to {max_vertices}
 for order in range(min_vertices, max_vertices + 1):
 
@@ -226,7 +263,11 @@ for (index, data) in enumerate(raw_graphs):
     chromatic_number = graph.chromatic_number()
 
     # Check if this graph is critical
+<<<<<<< HEAD
     is_critical = critical_check(graph, chromatic_number)
+=======
+    is_critical = critical_check(graph)
+>>>>>>> master
 
     # If this graph is critical
     if is_critical == True:

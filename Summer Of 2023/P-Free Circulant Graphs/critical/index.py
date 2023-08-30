@@ -119,6 +119,25 @@ def save(SAVE_PATH, string, raw_string, order, chromatic_number):
     e.close()
 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# The OG critical check
+def critical_check(G, k):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+=======
+>>>>>>> master
 # Critical check. Takes in the graph6_string, graph raw string and the chromatic number
 def critical_check(graph, order, chromatic_number):
 
@@ -154,6 +173,10 @@ def critical_check(graph, order, chromatic_number):
 
     # Return is_critical
     return is_critical
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
 
 
 # Analyze
@@ -170,11 +193,20 @@ def analyze(data):
         # Get he order from the filename
         order = int(filename.split('circ')[1].split('_')[0])
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> master
         # [REMOVE AFTER MAY 25, 2023]
         if order < 13:
 
             break
 
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
         # Get he chromatic_number from the filename
         chromatic_number = int(filename.split(
             '_chi')[1].split('_params.txt')[0])
@@ -226,10 +258,20 @@ print('. . . Analyzing graph data')
 # For all the raw graphs
 for (index, data) in enumerate(RAW_GRAPHS):
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    print(f'{index} out of {len(RAW_GRAPHS)}')
+=======
+>>>>>>> master
     # Progress report
     if (index % int(0.1 * len(RAW_GRAPHS))) == 0:
 
         print(f'{index} out of {len(RAW_GRAPHS)}')
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
 
     # Define the order
     DESTINATION_TEMP_PATH, DESTINATION_PATH, DESTINATION_ARRAY, order, chromatic_number, graph_raw_string = data
@@ -246,7 +288,15 @@ for (index, data) in enumerate(RAW_GRAPHS):
 
     # critical_check
     print('. . .  Critical Check')
+<<<<<<< HEAD
     is_critical = critical_check(graph, order, chromatic_number)
+=======
+<<<<<<< HEAD
+    is_critical = critical_check(graph, chromatic_number)
+=======
+    is_critical = critical_check(graph, order, chromatic_number)
+>>>>>>> origin/main
+>>>>>>> master
 
     # If this is critical
     if is_critical:
@@ -259,7 +309,15 @@ for (index, data) in enumerate(RAW_GRAPHS):
         # Save the graph
         save(DESTINATION_TEMP_PATH, graph6_string,
              graph6_raw_array_to_string, order, chromatic_number)
+<<<<<<< HEAD
         
+=======
+<<<<<<< HEAD
+
+=======
+        
+>>>>>>> origin/main
+>>>>>>> master
         # print
         print(f'[TEMP] Saving to {DESTINATION_TEMP_PATH}')
 
@@ -267,6 +325,22 @@ for (index, data) in enumerate(RAW_GRAPHS):
 # Create paths if they doesn't exist
 path_manager(P5_CRITICAL_SAVE_PATH, P4UP1_CRITICAL_SAVE_PATH)
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+if len(DESTINATION_ARRAY) > 0:
+
+    # Print the generated graphs
+    for graph in DESTINATION_ARRAY:
+
+        # Unpack the graph data
+        DESTINATION_TEMP_PATH, DESTINATION_PATH, graph6_string, graph6_raw_array_to_string, order, chromatic_number = graph
+
+        # Save the graph
+        save(DESTINATION_PATH, graph6_string,
+             graph6_raw_array_to_string, order, chromatic_number)
+=======
+>>>>>>> master
 # Print the generated graphs
 for graph in DESTINATION_ARRAY:
 
@@ -276,6 +350,10 @@ for graph in DESTINATION_ARRAY:
     # Save the graph
     save(DESTINATION_PATH, graph6_string,
          graph6_raw_array_to_string, order, chromatic_number)
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
+>>>>>>> master
 
 print(
     f'. . . Success! Saved to {DESTINATION_PATH}')

@@ -81,8 +81,18 @@ def critical_check(graph):
                 # Not critical, lets break the loop
                 break
 
+<<<<<<< HEAD
         # Reset the graph to replace deleted vertex
         graph = Graph(original_graph)
+=======
+<<<<<<< HEAD
+            # Reset the graph to replace deleted vertex
+            graph = Graph(original_graph)
+=======
+        # Reset the graph to replace deleted vertex
+        graph = Graph(original_graph)
+>>>>>>> origin/main
+>>>>>>> master
 
         # Return is_critical
         return is_critical
@@ -164,7 +174,15 @@ def multiprocess_critical_check_manager(graph):
                 break
 
         print(is_critical)
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+
+=======
+    
+>>>>>>> origin/main
+>>>>>>> master
     return is_critical
 
 
