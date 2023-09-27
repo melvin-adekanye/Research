@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-\documentclass[11pt]{article}
-=======
-<<<<<<< HEAD
  \documentclass[11pt]{article}
-=======
-\documentclass[11pt]{article}
->>>>>>> origin/main
->>>>>>> master
 \usepackage[margin=1.0in]{geometry}
 
 
@@ -19,14 +11,6 @@
 %\usepackage{ulem} %useful for strikethough, but will underline journal names!
 \usepackage{amssymb}
 \usepackage{amsfonts}
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
->>>>>>> master
 \usepackage{multicol}
 \usepackage{subfigure}
 \usepackage[numbers,sort&compress]{natbib}
@@ -57,6 +41,7 @@
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{result}[theorem]{Result}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{fact}[theorem]{Fact}
@@ -92,9 +77,10 @@
 \newcommand{\squishend}{
   \end{list}  }
   
+\newcommand{\kcol}{$k$-\textsc{Colouring}}
 \newcommand{\forbid}{$(2P_2, K_3+P_1,P_4+P_1)$}
-\newcommand{\squid}[1]{$#1$-$squid$}
-
+\newcommand{\squid}[1]{$(4,#1)$-$squid$}
+\newcommand{\hl}[1]{$(3,#1)$-$squid$}
 \newcommand{\noneighbs}{\overline{N[v]}}
 
 \begin{document}
@@ -138,15 +124,43 @@ Thaler Knodel\\
 
 
 \section{Introduction}
+The \kcol{} decision problem is to determine, for fixed $k$, if a given graph admits a proper $k$-colouring or not. The problem is of intense interest in computational complexity theory since for all $k\ge 3$, it is one of the most intuitive of Karp's~\cite{Karp1972} original 21 NP-complete problems. Research has focused on many computational aspects of \kcol{} including approximation~\cite{approximategraphcoloring} and heuristic algorithms~\cite{heuristicgraphcoloring}, but we are most interested in the substructures that can be forbidden to produce polynomial-time algorithms to solve \kcol{} for all $k$. The substructures we are interested in forbidding are induced subgraphs. We say a graph is $H$-free if it contains no induced copy of $H$. One of the most impressive results to this end is Ho\`{a}ng et al.'s 2010 result that \kcol{} can be solved in polynomial-time on $P_5$-free graphs for all $k$~\cite{Hoang2010}. The full strength of this result was later demonstrated by Huang's~\cite{Huang2016} result that \kcol{} remains NP-complete for $P_6$-free graphs when $k\ge 5$, and for $P_7$-free graphs when $k\ge 4$. A polynomial-time algorithm to solve $4$-\textsc{Colouring} for $P_6$-free graphs were later developed by Chudnovsky et al.~\cite{P6free1,P6free2,P6freeconf}. It has long been known that \kcol{} remains NP-complete on $H$-free graphs when $H$ contains an induced cycle~\cite{KaminskiLozin2007,MaffrayMorel2012} or claw~\cite{LevenGail1983,Holyer1981}. Thus, $P_5$ is the largest connected subgraph that can be forbidden and \kcol{} can be solved in polynomial-time for all $k$ (assuming P$\neq$NP). As such, deeper study of $P_5$-free graphs in relation to \kcol{} has been of considerable interest. One of these deeper areas is determining which subfamilies of $P_5$-free graphs admit polynomial-time \kcol{} algorithms that are fully \textit{certifying}. An algorithm is certifying if it returns with each output, an easily verifiable witness (called a \textit{certificate}) that the output is correct. For \kcol{}, a certificate for ``yes'' output is a $k$-colouring of the graph, and indeed the \kcol{} algorithms for $P_5$-free graphs from~\cite{Hoang2010} return $k$-colourings if they exist. To discuss certificates for ``no'' output for \kcol{}, we must first define that a graph is $k$-vertex-critical if it is not $k$-colourable, but every proper induced subgraph is. Since every graph that is not $k$-colourable must contain an induced $(k+1)$-vertex-critical graph, such an induced subgraph is a certificate for ``no'' output for \kcol{}. Indeed, if there are only finitely many $(k+1)$-vertex-critical graphs in a family $\mathcal{F}$, then a polynomial-time algorithm to decide \kcol{} that certifies ``no'' output for all graphs in $\mathcal{F}$ can be implemented by searching for each $(k+1)$-vertex-critical graph in $\mathcal{F}$ as an induced subgraph of the input graph (see~\cite{P5banner2019}, for example, for the details). Thus, proving there are only finitely many $(k+1)$-vertex critical graphs in a subfamily of $P_5$-free graphs implies the existence of polynomial-time certifying \kcol{} algorithms when paired with the algorithms that certify ``yes'' output from~\cite{Hoang2010}. 
 
-\cite{KCameron2021}
+It should also be noted that classifying vertex-critical graphs is of interest in resolving the Borodin–Kostochka Conjecture~\cite{BKconj1977} that if $G$ is a graph with $\Delta(G)\ge 9$ and $\omega(G)\le \Delta(G)-1$, then $\chi(G)\le \Delta(G)-1$. This connection comes in the proof technique often employed (see for example \cite{CranstonLafayetteRabern2022,HaxellNaserasr2023,WuWu023}) to consider a minimal counterexample to the conjecture which must be vertex-critical~\cite{GuptaPradhan2021}.
+
+An obvious question to ask is for which $k$ are there only finitely many $k$-vertex-critical $P_5$-free graphs. Bruce et al.~\cite{Bruce2009} showed that there are only finitely many $4$-vertex-critical $P_5$-free graphs, and this result was later extended by Maffray and Morel~\cite{MaffrayMorel2012} to develop a linear-time certifying algorithm for $3$-\textsc{Colouring} $P_5$-free graphs. Unfortunately, for each $k\ge 5$, Ho\`{a}ng et al.~\cite{Hoang2015} constructed infinitely many $k$-vertex-critical $P_5$-free graphs. This result caused attention to shift to subfamilies of $P_5$-free graphs, usually defined by forbidding additional induced subgraphs. A graph is $(H_1,H_2,\dots,H_{\ell})$-free if it does not contain an induced copy of $H_i$ for all $i\in\{1,2,\dots,\ell\}$. It is known that there are only finitely many $5$-vertex-critical $(P_5,H)$-free graphs if $H$ is isomorphic to $C_5$~\cite{Hoang2015}, $bull$~\cite{HuangLiXia2023}, or $chair$~\cite{HuangLi2023} (where $bull$ is the graph in Figure~\ref{fig:bull} and $chair$ is the subgraph of the graph in Figure~\ref{fig:squid} induced by the set $\{u_1,u_2,u_4,w_1,w_2\}$). When moving beyond $k=5$ to larger values of $k$, the most comprehensive result is K. Cameron et al.'s~\cite{KCameron2021} dichotomy theorem that there are infinitely many $k$-vertex-critical $(P_5,H)$-free graphs for $H$ of order $4$ if and only if $H$ is $2P_2$ or $K_3+P_1$. The open question was also posed in~\cite{KCameron2021} to prove a dichotomy theorem for $H$ of order $5$, and there has been substantial work toward this end. On the positive side of resolving this open question, it is known that there are only finitely many $(P_5,H)$-free $k$-vertex-critical graphs for all $k$ if $H$ is isomorphic to $banner$~\cite{Brause2022}, $dart$~\cite{Xiaetal2023}, $K_{2,3}$~\cite{Kaminski2019}, $\overline{P_5}$~\cite{Dhaliwal2017}, $P_2+3P_1$~\cite{CameronHoangSawada2022}, $P_3+2P_1$~\cite{AbuadasCameronHoangSawada2022}, $gem$~\cite{CaiGoedgebeurHuang2021,CameronHoang2023}, or $\overline{P_3+P_2}$~\cite{CaiGoedgebeurHuang2021} (where we refer to the table in~\cite{CameronHoang2023P5C5} for the adjacencies of each of these graphs). On the negative side of resolving the open question is every graph of order $5$ containing an induced $2P_2$ or $K_3+P_1$ (a corollary from the dichotomy theorem in~\cite{KCameron2021}), and the recent construction of infinitely many $k$-vertex-critical $(P_5,C_5)$-free graphs for all $k\ge 6$ by the third author and Ho\`{a}ng~\cite{CameronHoang2023P5C5}. With all these results, it remains unknown for which graphs $H$ of order $5$ there are only finitely many $(P_5,H)$-free graphs for all $k$ if $H$ is one of the following:
+
+\begin{multicols}{3}
+\begin{itemize}
+ \item $claw+P_1$
+ \item $P_4+P_1$ 
+  \item $chair$
+ \item $\overline{diamond+P_1}$ 
+ \item $C_4+P_1$
+ \item $bull$ 
+ \item $\overline{K_3+2P_1}$
+ \item  $\overline{P_3+2P_1}$
+ \item $W_4$
+ \item $K_5-e$
+ \item $K_5$
+\end{itemize}
+\end{multicols}
+
+
+
+
+In this paper, we prove that there are only finitely many $k$-vertex-critical $(2P_2,H)$-free graphs for all $k$ for four of the graphs above. Namely,  $claw+P_1$,  $\overline{diamond+P_1}$, $chair$, and $bull$. Three of these are corollaries of more general results that there are only finitely many $k$-vertex-critical ($2P_2$, \squid{\ell})-free graphs and ($2P_2$,\hl{\ell})-free graphs for all $k,\ell$. We also show that there are only finitely many $(2P_2,K_3+P_1,P_4+P_1)$-free graphs for all $k$. These results, while not as strong as showing for $P_5$-free instead of $2P_2$-free, are nonetheless important as every infinite $k$-vertex-critical family of $P_5$-free graphs known (i.e., the families from~\cite{Hoang2015} and the generalized families from~\cite{CameronHoang2023P5C5}) are actually $(2P_2,K_3+P_1)$-free as well. Thus, there is no known $H$ for which there are infinitely many $k$-vertex-critical $(P_5,H)$-free graphs and only finitely many that are $(2P_2,H)$-free for some $k$. Therefore, our results provide evidence of the finiteness of $k$-vertex-critical $(P_5,H)$-free graphs for each $H$ we consider, but also will be of interest if it turns out there are infinitely many that are $(P_5,H)$-free but not $2P_2$-free.
+
+In addition, while most proof techniques for showing finiteness of vertex-critical graphs involve bounding structure around odd holes or anit-holes from the Strong Perfect Graph Theorem~\cite{Chudnovsky2006}, or using a clever application of Ramsey's Theorem, our techniques are new and simple. We show that each of the families in question be $(P_3+m P_1)$-free for some $m$ depending only on $k$ and the orders of the forbidden induced subgraphs.  We then apply the result from~\cite{AbuadasCameronHoangSawada2022} that there are only finitely many $k$-vertex-critical $(P_3+m P_1)$-free graphs for all $m,k$ to get the immediate corollary of finiteness. We always employ this technique in proof by contradiction, allowing us to force lots of structure around the induced $P_3+mP_1$. This approach results in short and easy to follow proofs that only require basic facts about vertex-critical graphs to prove finiteness given that much of the heavy lifting specific to more subtle details of vertex-critical graphs are handled by the $(P_3+m P_1)$-free result.
+
+The rest of this paper is structured as follows. We include the preliminary results and state our main theorems in Section~\ref{sec:prelims}. We prove that there are only finitely many $k$-vertex-critical $(2P_2,bull)$-free graphs for all $k$ and include enumerations for all $k\le 7$ in Section~\ref{sec:bull}. In Section~\ref{sec:ellsquid}, we prove two more general results which have as corollaries that there are only finitely many $k$-vertex-critical $(2P_2,H)$-free graphs for all $k$ for $H$ isomorphic to $chair$, $claw+P_1$ (Section~\ref{sec:ellsquid}), and $\overline{diamond+P_1}$ (Section~\ref{sec:fountain}). Finally, we conclude with a discussion on future research directions and provide our very short proof that there are only finitely many $k$-vertex-critical $(2P_2,K_3+P_1,P_4+P_1)$-free graphs for all $k$. Before any of this though, we first include a brief subsection outlining definitions and notation.
 
 
 \subsection{Notation}
 
 For a vertex $v$, $N(v)$, $N[v]$ and $\noneighbs$ denote the open neighbourhood, closed neighbourhood, and set of nonneighbours of $v$, respectively. We let $\delta(G)$ and $\Delta(G)$ denote the minimum and maximum degrees of $G$, respectively. We let $\alpha(G)$ denote the independence number of $G$. For subsets $A$ and $B$ of $V(G)$, we say $A$ is \textit{(anti)complete} to $B$ if $a$ is (non)adjacent to $b$ for all $a\in A$ and $b\in B$. If $A=\{a\}$ then we say $a$ is (anti)complete to $B$ if $\{a\}$ is. If vertices $u$ and $v$ are adjacent we write $u\sim v$ and if they are nonadjacent we write $u\nsim v$.
 
-\section{Structure}
+\section{Preliminaries and Statements of Main Results}\label{sec:prelims}
 
 We will make extensive use of the following lemma, in particular when $m=1$ throughout the paper.
 
@@ -164,6 +178,17 @@ If $G$ is a $k$-vertex-critical $2P_2$-free graph, then for every nonuniversal v
 Let $G$ be a $k$-vertex-critical $2P_2$-free graph, $v\in V(G)$ be nonuniversal, and $H$ be the graph induced by $\noneighbs$. If $u\in \noneighbs$ such that $u$ is an isolated vertex in the graph induced by $H$, then $N(u)\subseteq N(v)$ contradicting $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. Therefore, if $H$ has at least two components, then each component has at least one edge and therefore taking an edge from each component induces a $2P_2$. This contradicts $G$ being $2P_2$-free. 
 \end{proof}
 
+
+We will apply the following theorem extensively throughout this paper.
+
+\begin{theorem}[\cite{CameronHoangSawada2022}]\label{thm:finiteP3ellP1freecrit}
+There are only finitely many $k$-vertex-critical $(P_3+\ell P_1)$-free graphs for all $k\ge 1$ and $\ell \ge 0$.
+\end{theorem}
+
+
+
+A technical lemma is also required as the argument is required many times as we apply Theorem~\ref{thm:finiteP3ellP1freecrit} to prove the finiteness of vertex-critical graphs in many familes.
+
 % I think following lemma can work for $P_5$-free too but a few more complicated details to workout
 \begin{lemma}\label{lem:2P2freeneighboursofS}
 Let $G$ be a $2P_2$-free graph that contains an induced $P_3+\ell P_1$ for some $\ell\ge 1$. Let $S\cup\{v_1,v_2,v_3\}\subseteq V(G)$ induce a $P_3+\ell P_1$ where $v_1v_2v_3$ is the induced $P_3$ and $S$ contains the vertices in the $\ell P_1$. Then for ever vertex $u\in \overline{N[v_2]}$ such that $u$ has a neighbour in $S$, $u$ is complete to $\{v_1,v_3\}$. 
@@ -174,18 +199,171 @@ Let $s\in S$ and $u\in \overline{N[v_2]}$ with $u\sim s$. Let $i\in \{1,3\}$. If
 
 
 
-A part of this work will be exhaustively generating all $k$-vertex-critical graphs in certain families for small values of $k$. While there are excellent exhaustive generation algorithms that exist like the one introduced in~\cite{Hoang2015} and then optimized and expanded in~\cite{GoedgebeurSchaudt2018}, these still rarely terminate for and values of $k\ge 6$. The small independence number of some of the critical graphs in our results allow us to use simpler exhaustive afforded by the implied bound (proven in the next lemma) on their order and the invaluable tool \texttt{nauty}~\cite{nauty} to generate all for values of $k$ up to $7$ in some cases.
+%A part of this work will be exhaustively generating all $k$-vertex-critical graphs in certain families for small values of $k$. While there are excellent exhaustive generation algorithms that exist like the one introduced in~\cite{Hoang2015} and then optimized and expanded in~\cite{GoedgebeurSchaudt2018}, these still rarely terminate for and values of $k\ge 6$. The small independence number of some of the critical graphs in our results allow us to use simpler exhaustive afforded by the implied bound (proven in the next lemma) on their order and the invaluable tool \texttt{nauty}~\cite{nauty} to generate all for values of $k$ up to $7$ in some cases.
 
-\begin{lemma}\label{lem:kcritindnumboundonorder}
-If $G$ is a $k$-vertex-critical graph with $\alpha(G)=c$ for some constant $c$, then $|V(G)|\le c(k-1)+1$.
+%\begin{lemma}\label{lem:kcritindnumboundonorder}
+%If $G$ is a $k$-vertex-critical graph with $\alpha(G)=c$ for some constant $c$, then $|V(G)|\le c(k-1)+1$.
+%\end{lemma}
+%\begin{proof}
+%Let $G$ be a $k$-vertex-critical graphs with $\alpha(G)=c$, $v\in V(G)$, and let $n=|V(G)|$. Since $G$ is $k$-vertex-critical, $G-v$ is $(k-1)$-colourable and has order $n-1$ and $\alpha(G-v)\le c$. Since no colour-class of any $(k-1)$-colouring of $G-v$ can have more than $c$ vertices, it follows that $G-v$ can have at most $(k-1)c$ vertices. Thus, $n=n-1+1 \le (k-1)c+1$.
+%\end{proof}
+
+
+Finally, there are two special families of graphs that will be used in our results. Let \hl{\ell} be the graph obtained from $K_{1,\ell+1}$ by adding an edge between any pair of the $\ell+1$ leaves (see Figure~\ref{fig:Hell} and let $F_{\ell}$ be the graph obtained from \hl{\ell} by subdividing the edge between the two degree $2$ vertices (see Figure~\ref{fig:squid}).
+
+
+
+\section{($2P_2$, $bull$)-free}\label{sec:bull}
+Let the $bull$ be the graph in Figure~\ref{fig:bull}.
+
+
+\begin{figure}[h]
+\def\r{1.5}
+\centering
+\begin{tikzpicture}
+\begin{scope}[every node/.style={circle,fill,draw}]
+    \node (u1) at (-1*\r,1*\r) {};
+    \node (u2) at (-1*\r,0*\r) {};
+    \node (u3) at (1*\r,0*\r) {};
+    \node (u4) at (0*\r,-1*\r) {};
+    \node (w1) at (1*\r,1*\r) {};   
+\end{scope}
+
+\begin{scope}
+
+   
+    
+    %face
+    \path [-] (u4) edge node {} (u2);
+    \path [-] (u4) edge node {} (u3);
+    \path [-] (u2) edge node {} (u3);
+    
+    %horns
+    \path [-] (u1) edge node {} (u2);
+    \path [-] (w1) edge node {} (u3);
+    
+\end{scope}
+
+
+
+
+
+\end{tikzpicture}
+\caption{The $bull$ graph.}\label{fig:bull}
+\end{figure}
+
+
+\begin{lemma}\label{lem:2P2bullP3P1fee}
+Let $k\ge 1$. If $G$ is $k$-vertex-critical ($2P_2$, $bull$)-free, then $G$ is $(P_3+ P_1)$-free.
 \end{lemma}
 \begin{proof}
-Let $G$ be a $k$-vertex-critical graphs with $\alpha(G)=c$, $v\in V(G)$, and let $n=|V(G)|$. Since $G$ is $k$-vertex-critical, $G-v$ is $(k-1)$-colourable and has order $n-1$ and $\alpha(G-v)\le c$. Since no colour-class of any $(k-1)$-colouring of $G-v$ can have more than $c$ vertices, it follows that $G-v$ can have at most $(k-1)c$ vertices. Thus, $n=n-1+1 \le (k-1)c+1$.
+Let $G$ be a $k$-vertex-critical ($2P_2$, $bull$)-free graph and by way of contradiction let $\{v_1,v_2,v_3,s_1\}$ induce a $P_3+P_1$ in $G$ where $\{v_1,v_2,v_3\}$ induces the $P_3$, in that order, of the $P_3+P_1$. We will show that $v_1$ and $v_3$ are comparable which will contradict Lemma~\ref{lem:nocomparablecliques}.
+
+
+We first show that $s_1$ has no neighbours in $(N(v_1)\cap N(v_2))-N(v_3)$  (and by symmetry no neighbours in $(N(v_3)\cap N(v_2))-N(v_1)$). Suppose $n\in (N(v_1)\cap N(v_2))-N(v_3)$ such that $s_1\sim n$. Now, $\{s_1,v_1,v_2,v_3,n\}$ induces a $bull$ in $G$, a contradiction. 
+
+If $s_1$ is not comparable with $v_1$, then it must have a neighbour $u_1$ such that $u_1\nsim v_1$. By Lemma~\ref{lem:2P2freeneighboursofS}, $u_1\not\in \overline{N(v_2)}$ and therefore $u_1\sim v_2$. Now, since $s_1$ has no neighbours in $(N(v_3)\cap N(v_2))-N(v_1)$ as argued above, it must be that $u_1\nsim v_3$. %Therefore the neighbours of $s_1$ must belong to one of the following three sets, $\overline{N[v_2]}-\{s_1,s_2\}$, $N(v_2)-(N(v_1)\cup N(v_3)$ and $N(v_1)\cap N(v_2)\cap N(v_3)$.
+
+If $v_1$ and $v_3$ are not comparable, then they must have distinct neighbours. Let $v_1'$ be such that $v_1\sim v_1'$ and $v_1'\nsim v_3$ and $v_3'$ be such that $v_3\sim v_3'$ and $v_3'\nsim v_1$. Note that we must have $v_1'\sim v_3'$, otherwise $\{v_1,v_1',v_3,v_3'\}$ induces a $2P_2$ in $G$.
+
+Suppose $v_1'\in N(v_2)$ or $v_3'\in N(v_2)$. Without loss of generality assume $v_1'\in N(v_2)$. Since we have already argued above that $s_1$ is anticomplete to $(N(v_1)\cup N(v_2))-N(v_3)$ and $(N(v_3)\cup N(v_2))-N(v_1)$, it follows that $s_1\nsim v_1'$ and $s_1\nsim v_3'$. Further $u_1$ must be complete to $\{v_1',v_3'\}$, else $\{s_1,u_1,v_1,v_1'\}$ or $\{s_1,u_1,v_3,v_3'\}$ will induce a $2P_2$ in $G$. But now, $\{s_1,u_1,v_1',v_2,v_3\}$ induces a $bull$, a contradiction (see Figure~\ref{fig:bullproofillustration}). 
+
+Therefore,  $v_1'\in \overline{N[v_2]}-\{s_1\}$ and, by symmetry, $v_3'\in \overline{N[v_2]}-\{s_1\}$. Further, by Lemma~\ref{lem:2P2freeneighboursofS} we must have $\{v_1',v_3'\}$ is anticomplete to $s_1$, otherwise we would have $v_1'\sim v_3$ or $v_3'\sim v_1$.  But now, $\{u_1,v_1',v_3',v_1,v_3\}$ induces a $bull$ in $G$, a contradiction. Thus in this case, $v_1$ and $v_3$ are comparable, contradicting $G$ being $k$-vertex-critical.
+
 \end{proof}
 
 
-\section{($2P_2$, \squid{\ell})-free}
+
+\begin{figure}[h]
+\def\r{1.5}
+\centering
+\begin{tikzpicture}
+\begin{scope}[every node/.style={circle,draw}]
+   
+    \node[label=above:$v_1$,draw] (v1) at (-1*\r,0*\r) {};
+    
+   
+    \node[label=below:$v_3'$,draw] (v3p) at (1*\r,-1*\r) {};
+    
+  
+\end{scope}
+
+
+\begin{scope}[every node/.style={circle,fill,draw}]
+  % *** vertices of induced bull ***    
+	%horns    
+    \node[label=above:$s_{1}$,draw] (s1) at (2*\r,1*\r) {};   
+     \node[label=above:$v_2$,draw] (v2) at (0*\r,1*\r) {};
+	
+	%triangle     
+     \node[label=below:$u_1$,draw] (u1) at (0*\r,-2*\r) {};  
+     \node[label=below:$v_1'$,draw] (v1p) at (-1*\r,-1*\r) {};
+     \node[label=above:$v_3$,draw] (v3) at (1*\r,0*\r) {};
+\end{scope}
+
+\begin{scope}[line width=3pt]
+% *** edges of induced bull ***
+	\path [-] (u1) edge node {} (s1);
+	\path [-] (v2) edge node {} (v3);
+
+	\path [-] (v1p) edge node {} (v2); 
+	\path [-] (u1) edge node {} (v1p);
+	 \path [-] (u1) edge node {} (v2);
+\end{scope}
+
+\begin{scope}
+    \path [-] (v1p) edge node {} (v3p);
+    \path [-] (v1) edge node {} (v2);
+    \path [-] (u1) edge node {} (v3p);	
+	\path [-] (v1) edge node {} (v1p);
+	\path [-] (v3) edge node {} (v3p);  
+\end{scope}
+
+%\path (w2) -- node[auto=false]{\ldots} (well);
+
+\end{tikzpicture}
+\caption{An illustration of part of the proof of Lemma~\ref{lem:2P2bullP3P1fee} with the induced $bull$ in bold.}\label{fig:bullproofillustration}
+\end{figure}
+ 
+
+The following theorem follows directly from Lemma~\ref{lem:2P2bullP3P1fee} and Theorem~\ref{thm:finiteP3ellP1freecrit}.
+
+\begin{theorem}
+There are only finitely many $k$-vertex-critical $(2P_2,bull)$-free graphs for all $k\ge 1$.
+\end{theorem}
+
+
+In~\cite{CameronHoangSawada2022} it was further shown that every $k$-vertex-critical $(P_3+P_1)$-free graph has independence number at most $2$ and order at most $2k-1$, which allowed for exhaustive generation of all such graphs for $k\le 7$. These graphs, available at~\cite{graphfiles}, were quickly searched for those that are also $(2P_2,bull)$-free to provide the complete lists of all $k$-vertex-critical $(2P_2,bull)$-free graphs for all $k\ge 7$.  The graphs in graph6 format are available~\cite{2P2bullfreefiles} and the number of each order is summarized in Table~\ref{tab:5to72P2bullcrit}.
+
+\begin{table}[!h]
+\begin{center}  \small
+\renewcommand\arraystretch{1.2}
+\begin{tabular}{|r|r|r|r|r|} 
+\hline
+$n$  &  $4$-vertex-critical  & $5$-vertex-critical & $6$-vertex-critical & $7$-vertex-critical  \\ \hline
+%
+4   	& $1$  & $0$      &  $0$     & $0$ \\ \hline
+5   	& $0$  & $1$      &  $0$     & $0$ \\ \hline
+6  		& $1$  & $0$   	  &  $1$     & $0$ \\ \hline
+7   	& $2$  & $1$   	  &  $0$     & $1$ \\ \hline
+8   	& $0$  & $2$   	  &  $1$     & $0$ \\ \hline
+9   	& $0$  & $11$ 	  &  $2$     & $1$  \\ \hline
+10  	& $0$  & $0$   	  &  $12$    & $2$    \\ \hline
+11  	& $0$  & $0$   	  &  $126$   & $12$ \\ \hline 
+12  	& $0$  & $0$   	  &  $0$  	 & $128$ \\ \hline
+13  	& $0$  & $0$   	  &  $0$  	 & $3806$ \\ \hline \hline
+total 	& $4$  & $15$ 	  & $142$ 	 & $3947$ \\ \hline
+\end{tabular}
+\caption{Number of $k$-critical $(2P_2,bull)$-free graphs of order $n$ for $k\le 7$.}\label{tab:5to72P2bullcrit}
+\end{center}
+\end{table}
+
+
+\section{($2P_2$, \squid{\ell})-free}\label{sec:ellsquid}
 The \squid{\ell}  is the graph obtained from a $C_4$ by adding $\ell$ leaves to one vertex, see Figure~\ref{fig:squid}.
+
+
+
 
 \begin{figure}[h]
 \def\r{1.5}
@@ -220,33 +398,26 @@ The \squid{\ell}  is the graph obtained from a $C_4$ by adding $\ell$ leaves to 
 \end{tikzpicture}
 \caption{The \squid{\ell} graph.}\label{fig:squid}
 \end{figure}
+ 
 
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
->>>>>>> master
 \begin{lemma}\label{lem:2P2ellsquidP3cP1fee}
-Let $\ell,k\ge 1$ and $c=((\ell-1)(k-1)+1)$. If $G$ is $k$-vertex-critical ($2P_2$, \squid{\ell})-free, then $G$ is $(P_3+ cP_1)$-free.
+Let $\ell,k\ge 1$ and $c=(\ell-1)(k-1)+1$. If $G$ is a $k$-vertex-critical ($2P_2$, \squid{\ell})-free graph, then $G$ is $(P_3+ cP_1)$-free.
 \end{lemma}
 \begin{proof}
-Let $G$ be a $k$-vertex-critical ($2P_2$, \squid{\ell})-free graph for some $\ell\ge 0$ and let $c=(\ell-1)(k-1)+1$. Suppose by way of contradiction that $G$ contains an induced $P_3+c P_1$ with $\{v_1,v_2,v_3\}$ inducing the $P_3$ in that order and $S=\{s_1,s_2\dots, s_c\}$ the $c P_1$ of the induced $P_3+c P_1$. 
+Let $G$ be a $k$-vertex-critical ($2P_2$, \squid{\ell})-free graph for some $k,\ell\ge 1$ and let $c=(\ell-1)(k-1)+1$. Suppose by way of contradiction that $G$ contains an induced $P_3+c P_1$ with $\{v_1,v_2,v_3\}$ inducing the $P_3$ in that order and $S=\{s_1,s_2\dots, s_c\}$ the $c P_1$ of the induced $P_3+c P_1$. 
 
 By Lemma~\ref{lem:2P2freenonneighbconnected}, each $s_i$ must have a neighbour in $\overline{N[v_2]}$. Further, by Lemma~\ref{lem:2P2freeneighboursofS}, for every $u\in \overline{N[v_2]}-S$, such that $u\sim s_i$ for some $s_i\in S$, we must have that $u$ is complete to $\{v_1,v_3\}$. Therefore, each $u\in \overline{N[v_2]}-S$  has at most $\ell-1$ neighbours in $S$, else $u,v_1,v_2,v_3$ together with any $\ell$ of $u$'s neighbours in $S$ would induce an \squid{\ell}. Let $U=\{u_1,u_2,\dots u_m\}$ be a subset of $N(S)\cap \overline{N[v_2]}$ such that $\left(\bigcup_{i=1}^{m} N(u_i)\right)\cap S = S$ and such that $N(u_i)\cap S\not\subseteq N(u_j)\cap S$ for all $i\neq j$. Such a set $U$ exists since each vertex in $S$ has at least one neighbour in $N(S)\cap \overline{N[v_2]}$. %If required can add this argument: Clearl we can get a set U whose neighbours cover all of $S$. Remove sets that are subsets of another set until left with only incomparable sets with respect to $\subseteq$, call the resulting set $U'$. Since each each vertex in $U$ can have at most $\ell-1$ neighbours in $S$, if $s_i\in S$ is not in the neighbourhood of $N(U')$, then some $u\in U$ was removed only because it was a subset of another and therefore $s_i$ must still be covered. 
 Since each $u_i$ can have at most $\ell-1$ neighbours in $S$ we must have that $|U|\ge k$ by the Pigeonhole Principle. Let $u_i,u_j\in U$ for $i\neq j$ and without loss of generality let $s_i\in N(u_i)-N(u_j)$ and $s_j\in N(u_j)-N(u_i)$. If $u_i\nsim u_j$, then $\{s_i,u_i,s_j,u_j\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u_i\sim u_j$ for all $i\neq j$ and therefore $U$ induces a clique with at least $k$ vertices in $G$. However, $U$ is a proper subgraph of $G$ and requires at leat $k$ colours, which contradicts $G$ being $k$-vertex-critical. Therefore, $G$ must be $(P_3+ cP_1)$-free.
 \end{proof}
 
-The following theorem follows directly from Lemma~\ref{lem:2P2ellsquidP3cP1fee} and Theorem~\ref{thm:P3ellP1free}.
+The following theorem follows directly from Lemma~\ref{lem:2P2ellsquidP3cP1fee} and Theorem~\ref{thm:finiteP3ellP1freecrit}.
 
 \begin{theorem}\label{thm:2P2ellsquidcrit}
 There are only finitely many $k$-vertex-critical ($2P_2$, \squid{\ell})-free graphs for all $k,\ell\ge 1$.
 \end{theorem}
 
-Since $chair$ is an induced subgraph of \squid{1}, $claw+P_1$ is an induced subgraph of \squid{3}, and more generally  $K_{1,\ell}+P_1$ is an induced subgraph of \squid{\ell} for all $\ell\ge 1$, we get the following immediate corollaries of Theorem~\ref{thm:2P2ellsquidcrit} 
+Since $chair$ is an induced subgraph of \squid{2}, $claw+P_1$ is an induced subgraph of \squid{3}, and more generally  $K_{1,\ell}+P_1$ is an induced subgraph of \squid{\ell} for all $\ell\ge 1$, we get the following immediate corollaries of Theorem~\ref{thm:2P2ellsquidcrit} 
 
 \begin{corollary}
 There are only finitely many $k$-vertex-critical ($2P_2$, $chair$)-free graphs for all $k\ge 1$.
@@ -260,364 +431,133 @@ There are only finitely many $k$-vertex-critical ($2P_2$, $claw+P_1$)-free graph
 There are only finitely many $k$-vertex-critical ($2P_2$, $K_{1,\ell}+P_1$)-free graphs for all $k\ge 1$.
 \end{corollary}
 
-We note as well that $banner$ is isomorphic to \squid{1}, so our results also imply that there are only finitely many $k$-vertex-critical ($2P_2$, $banner$)-free graphs for all $k$. This result is not new though as it was recently shown in~\cite{Brause2022} that every $k$-vertex-critical ($P_5$, $banner$)-free graph has interdependence number less than $3$ and therefore there only finitely many such graphs.  However, a special case Lemma~\ref{lem:2P2ellsquidP3cP1fee} implies that every $k$-vertex-critical ($2P_2$, $banner$)-free graph is $(P_3+P_1)$-free and therefore by Theorem 3.1 in~\cite{CameronHoangSawada2022}, it follows that every such graph has independence number at most $2$. Thus our results give an alternate short proof (in fact the proof of Lemma~\ref{lem:2P2ellsquidP3cP1fee} only requires the first three sentences if restricted to $banner$-free graphs) of a slightly weaker version of the result in~\cite{Brause2022}.
+We note as well that $banner$ is isomorphic to \squid{1}, so our results also imply that there are only finitely many $k$-vertex-critical ($2P_2$, $banner$)-free graphs for all $k$. This result is not new though as it was recently shown in~\cite{Brause2022} that every $k$-vertex-critical ($P_5$, $banner$)-free graph has interdependence number less than $3$ and therefore there only finitely many such graphs.  However, a special case Lemma~\ref{lem:2P2ellsquidP3cP1fee} implies that every $k$-vertex-critical ($2P_2$, $banner$)-free graph is $(P_3+P_1)$-free and therefore by Theorem 3.1 in~\cite{CameronHoangSawada2022}, it follows that every such graph has independence number less than $3$. Thus our results give an alternate short proof (in fact the proof of Lemma~\ref{lem:2P2ellsquidP3cP1fee} only requires the first three sentences if restricted to $banner$-free graphs) of a slightly weaker version of the result in~\cite{Brause2022}.
 
 
-\section{($2P_2$, $bull$)-free}
 
-\begin{lemma}\label{lem:2P2bullP3P1fee}
-Let $k\ge 1$. If $G$ is $k$-vertex-critical ($2P_2$, $bull$)-free, then $G$ is $(P_3+ P_1)$-free.
-\end{lemma}
-\begin{proof}
-Let $G$ be a $k$-vertex-critical ($2P_2$, $bull$)-free graph and by way of contradiction let $\{v_1,v_2,v_3,s_1\}$ induce a $P_3+P_1$ in $G$ where $\{v_1,v_2,v_3\}$ induces the $P_3$, in that order, of the $P_3+P_1$. We will show that $v_1$ and $v_3$ are comparable which will contradict Lemma~\ref{lem:nocomparablecliques}.
+\section{($2P_2$, \hl{\ell})-free}\label{sec:fountain}
 
-
-We first show that $s_1$ has no neighbours in $(N(v_1)\cap N(v_2))-N(v_3)$  (and by symmetry no neighbours in $(N(v_3)\cap N(v_2))-N(v_1)$). Suppose $n\in (N(v_1)\cap N(v_2))-N(v_3)$ such that $s_1\sim n$. Now, $\{s_1,v_1,v_2,v_3,n\}$ induces a $bull$ in $G$, a contradiction. If $s_1$ is not comparable with $v_1$, then it must have a neighbour $u_1$ such that $u_1\nsim v_1$. Since $s_1$ has  no neighbours in $(N(v_1)\cap N(v_2))-N(v_3)$, it must be that $u_1\nsim v_3$. %Therefore the neighbours of $s_1$ must belong to one of the following three sets, $\overline{N[v_2]}-\{s_1,s_2\}$, $N(v_2)-(N(v_1)\cup N(v_3)$ and $N(v_1)\cap N(v_2)\cap N(v_3)$.
-
-If $v_1$ and $v_3$ are not comparable, then they must have distinct neighbours. Let $v_1'$ be such that $v_1\sim v_1'$ and $v_1'\nsim v_3$ and $v_3'$ be such that $v_3\sim v_3'$ and $v_3'\nsim v_1$. 
-
-Suppose $v_1'\in N[v_2]$ or $v_3'\in N[v_2]$. Without loss of generality assume $v_1'\in N[v_2]$. Since we have already argued above that $s_1$ is anticomplete to $(N(v_2)\cup N(v_1))-N(v_3)$, it follows that $s_1\nsim v_1'$. Thus we must have $u_1\sim v_1'$, else $\{s_1,u_1,v_1,v_1'\}$ induces a $2P_2$. But now, $\{s_1,u_1,v_1',v_2,v_3\}$ induces a $bull$, a contradiction. Therefore,  $v_1'\in \overline{N[v_2]}-\{s_1,s_2\}$ and $v_3'\in \overline{N[v_2]}-\{s_1,s_2\}$. Further, by Lemma~\ref{lem:2P2freeneighboursofS} we must have $\{v_1',v_3'\}$ is anticomplete to $s_1$. Now, $v_1'\sim v_3'$, else $\{v_1,v_1',v_3,v_3'\}$ induces a $2P_2$. Further $u_1$ must be complete to $\{v_1',v_3'\}$, else $\{s_1,u_1,v_1,v_1'\}$ or $\{s_1,u_1,v_3,v_3'\}$ will induce a $2P_2$ in $G$. But now, $\{u_1,v_1',v_3',v_1,v_3\}$ induces a $bull$ in $G$, a contradiction. Thus in this case, $v_1$ and $v_3$ are comparable, contradicting $G$ being $k$-vertex-critical.
-
-\end{proof}
-
-
-\textcolor{red}{Should probably add a picture or two to aid with the proof above.}
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> master
-\section{$(2P_2, \overline{diamond + P_1})$-free}
 
 \begin{figure}[h]
 \def\r{1.5}
 \centering
 \begin{tikzpicture}
+%\begin{scope}[every node/.style={circle,fill,draw}]
+%	\node (u1) at (-0.5*\r,2*\r) {};
+%	\node (u2) at (0.5*\r,2*\r) {};
+%	\node (u3) at (0*\r,1*\r) {};
+%	\node (u4) at (-0.5*\r,0*\r) {};
+%	\node (u5) at (0.5*\r,0*\r) {};
+%\end{scope}
+%
+%\begin{scope}
+%	\path [-] (u1) edge node {} (u3) {};
+%	\path [-] (u2) edge node {} (u3) {};
+%	
+%	\path [-] (u3) edge node {} (u4) {};
+%	\path [-] (u3) edge node {} (u5) {};
+%	\path [-] (u4) edge node {} (u5) {};
+%\end{scope}
+%
+%\path (w2) -- node[auto=false]{\ldots} (well);
+%\end{tikzpicture}
+
 \begin{scope}[every node/.style={circle,fill,draw}]
-	\node (u1) at (-0.5*\r,2*\r) {};
-	\node (u2) at (0.5*\r,2*\r) {};
-	\node (u3) at (0*\r,1*\r) {};
-	\node (u4) at (-0.5*\r,0*\r) {};
-	\node (u5) at (0.5*\r,0*\r) {};
+    %\node[label=above:$u_1$,draw] (u1) at (0*\r,1*\r) {};
+    \node[label=above:$u_2$,draw] (u2) at (-1*\r,0*\r) {};
+    \node[label=above:$u_3$,draw] (u3) at (1*\r,0*\r) {};
+    \node[label=above:$u_4$,draw] (u4) at (0*\r,-1*\r) {};
+    \node[label=below:$w_1$,draw] (w1) at (-1*\r,-2*\r) {};
+    \node[label=below:$w_2$,draw] (w2) at (-0.5*\r,-2*\r) {};  
+    \node[label=below:$w_{\ell}$,draw] (well) at (1*\r,-2*\r) {};    
 \end{scope}
 
 \begin{scope}
-	\path [-] (u1) edge node {} (u3) {};
-	\path [-] (u2) edge node {} (u3) {};
-	
-	\path [-] (u3) edge node {} (u4) {};
-	\path [-] (u3) edge node {} (u5) {};
-	\path [-] (u4) edge node {} (u5) {};
+
+    \path [-] (u4) edge node {} (w1);
+    \path [-] (u4) edge node {} (w2);
+    \path [-] (u4) edge node {} (well);
+    
+    \path [-] (u4) edge node {} (u2);
+    \path [-] (u4) edge node {} (u3);
+    
+    \path [-] (u2) edge node {} (u3);
+
+    
 \end{scope}
+
+\path (w2) -- node[auto=false]{\ldots} (well);
 \end{tikzpicture}
-\caption{A thing}
+\caption{The \hl{\ell} graph.}\label{fig:Hell}
 \end{figure}
 
-\begin{lemma}\label{lem:compdiamondplusP1}
-Let $\ell,k\ge 1$. If $G$ is $k$-vertex-critical $(2P_2, \overline{diamond+P_1})$-free, then $G$ is $(\ell$-$squid)$-free.
+
+\begin{lemma}\label{lem:2P2Hellfreeimpliesellsquidfree}
+Let $\ell,k\ge 1$. If $G$ is $k$-vertex-critical $(2P_2$, \hl{\ell}$)$-free, then $G$ is \squid{2\ell-1}-free.
 \end{lemma}
 \begin{proof}
-Let $G$ be a $k$-vertex-critical $(2P_2, \overline{K_3 + 2P_1})$-free graph. Suppose by way of contradiction that $G$ contains an induced $\ell-squid$ with the same construction as Figure ~\ref{fig:squid} for some $2\ell \geq 1$.
-$u_2, u_3$ must have unique neighbours, or else they are comparable and the graph is not $k$-vertex-critical, a contradiction. Further, $u'_2, u'_3$ cannot be adjacent to $u_4$ else it forms the forbidden graph. We will call these vertices $u'_2, u'_3$. Now, $\{ u_2, u_3, u'_2, u'_3 \}$ induce a $2P_2$ unless $u'_2 \sim u'_3$. Then $\{ u'_2, u'_3, w_i, u_4 \}$ for any $w_i \in w$ induces a $2P_2$ unless $u'_2, u'_3$ are combined complete to $w$. Further, $\{ u_1, u_2, u'_3, w_i \}$ and $\{ u_1, u_3, u'_2, w_i \}$ both induce a $2P_2$ unless $u'_3, u'_2 \sim u_1$. Then by pigeon-hole principle, either $u'_3$ or $u'_2$ are adjacent to $\ell$ vertices, inducing the forbidden graph. Thus, $(2P_2, \overline{K_3 + 2P_1})$-free graphs are finite.
-\end{proof}
+Let $G$ be a $k$-vertex-critical ($2P_2$, \hl{\ell})-free graph and suppose by way of contradiction that $G$ contains an induced \squid{2\ell-1} with the same labelling as Figure ~\ref{fig:squid}. It must be the case that there are $u_2',u_3'\in V(G)$ such that  $u_2'\sim u_2$, $u_2'\nsim u_3$, $u_3'\sim u_3$, and $u_3'\nsim u_2$ otherwise $u_2$ and $u_3$ are comparable, contradicting Lemma~\ref{lem:nocomparablecliques}. Now, $\{ u_2, u_3, u'_2, u'_3 \}$ induces a $2P_2$ unless $u'_2 \sim u'_3$. There are now two cases to consider.\\
 
+\noindent \textit{Case 1:} $u_2'\sim u_4$.
 
-<<<<<<< HEAD
-=======
->>>>>>> origin/main
->>>>>>> master
-\section{Old Stuff I'm keeping just in case}
-
-
-
-\begin{lemma}\label{lem:2P2bullP32P1fee}
-Let $k\ge 1$. If $G$ is $k$-vertex-critical ($2P_2$, $bull$)-free, then $G$ is $(P_3+2 P_1)$-free.
-\end{lemma}
-\begin{proof}
-Let $G$ be a $k$-vertex-critical ($2P_2$, $bull$)-free graph and by way of contradiction let $\{v_1,v_2,v_3,s_1,s_2\}$ induce a $P_3+2P_1$ in $G$ where $\{v_1,v_2,v_3\}$ induces the $P_3$ in that order and $\{s_1,s_2\}$ induces the $2P_1$ of the $P_3+P_1$. We will show that $N(s_1)\subseteq N(s_2)$ or $N(s_2)\subseteq N(s_1)$ and therefore contradicts Lemma~\ref{lem:nocomparablecliques}.
-
-We first show that for $i\in\{1,2\}$, $s_i$ has no neighbours in $(N(v_1)\cap N(v_2))-N(v_3)$  (and by symmetry no neighbours in $(N(v_3)\cap N(v_2))-N(v_1)$). Suppose $n\in (N(v_1)\cap N(v_2))-N(v_3)$ such that $s_i\sim n$. Now, $\{s_i,v_1,v_2,v_3,n\}$ induces a $bull$ in $G$, a contradiction. Therefore the neighbours of $s_i$ must belong to one of the following three sets, $\overline{N[v_2]}-\{s_1,s_2\}$, $N(v_2)-(N(v_1)\cup N(v_3)$ and $N(v_1)\cap N(v_2)\cap N(v_3)$. 
-
-If $N(s_1)\not\subseteq N(s_2)$ and $N(s_2)\not\subseteq N(s_1)$, there must be a $u_1\in N(s_1)\subseteq N(s_2)$ and $u_2\in N(s_2)\subseteq N(s_1)$. We note that just as in the proof of Lemma~\ref{lem:2P2ellsquidP3cP1fee}, for every $u\in \overline{N[v_2]}-S$, such that $u\sim s_i$ for some $i\in \{1,2\}$, we must have that $u$ is complete to $\{v_1,v_3\}$, else $\{u,s_i,v_1,v_2\}$ or $\{u,s_i,v_3,v_2\}$ induces a $2P_2$ in $G$. We now consider BLANK cases. We note that in each of the cases, we must have $u_1\sim u_2$, or else $\{s_1,u_1,s_2,u_2\}$ induces a $2P_2$ in $G$.
-
-\noindent \textit{Case 1:} $u_1,u_2\in \overline{N[v_2]}-\{s_1,s_2\}$.
-
-From above, we also know that $\{u_1,u_2\}$ is complete to $\{v_1,v_3\}$ and therefore, $\{s_1,s_2,u_1,u_2,v_1\}$ induces a $bull$, a contradiction.
-
-\noindent \textit{Case 2:} $u_1,u_2\in N(v_2)$.
-
-In this case, $\{s_1,s_2,u_1,u_2,v_2\}$ induces a $bull$, a contradiction.\\
-
-Thus the only remaining case is when one of the $u_i$'s is in $\overline{N[v_2]}-\{s_1,s_2\}$ and the other is in $N(v_2)$. Without loss of generality we may assume the following.
-
-\noindent \textit{Case 3:} $u_1\in N(v_2)$ and $u_2\in\overline{N[v_2]}-\{s_1,s_2\}$.
-
-In this case we now must consider the fact that $v_1$ and $v_3$ must have distinct neighbours, else $v_1$ and $v_3$ are comparable. Let $v_1'$ be such that $v_1\sim v_1'$ and $v_1'\nsim v_3$ and $v_3'$ be such that $v_3\sim v_3'$ and $v_3'\nsim v_1$. 
-
-Suppose $v_1'\in N[v_2]$ or $v_3'\in N[v_2]$. Without loss of generality assume $v_1'\in N[v_2]$. Since we have already argued above that $s_1$ is anticomplete to $(N(v_2)\cup N(v_1))-N(v_3)$, it follows that $s_1\nsim v_1'$. Thus we must have $u_1\sim v_1'$, else $\{s_1,u_1,v_1,v_1'\}$ induces a $2P_2$. But now, $\{s_1,u_1,v_1',v_2,v_3\}$ induces a $bull$, a contradiction. Therefore,  $v_1'\in \overline{N[v_2]}-\{s_1,s_2\}$ and $v_3'\in \overline{N[v_2]}-\{s_1,s_2\}$. Further, since every vertex in $v_3'\in \overline{N[v_2]}-\{s_1,s_2\}$ adjacent to $s_1$ or $s_2$ must be complete to $\{v_1,v_3\}$ it follows that $\{v_1',v_3'\}$ is anticomplete to $\{s_1,s_2\}$. Now, $v_1'\sim v_3'$, else $\{v_1,v_1',v_3,v_3'\}$ induces a $2P_2$. Further $u_1$ must be complete to $\{v_1',v_3'\}$, else $\{s_1,u_1,v_1,v_1'\}$ or $\{s_1,u_1,v_3,v_3'\}$ will induce a $2P_2$ in $G$. But now, $\{u_1,v_1',v_3',v_1,v_3\}$ induces a $bull$ in $G$, a contradiction. Thus in this case, $v_1$ and $v_3$ are comparable, contradicting $G$ being $k$-vertex-critical.
-
-
+In this case, $u_2'$ must be adjacent to at least $\ell$ of the $w_i$'s, or else $\{u_2',u_2,u_4\}$ together with any $\ell$ of the $w_i$'s that are nonadjacent to $u_2'$ induce \hl{\ell}, a contradiction. Let $W$ be the subset of the $w_i$'s that are adjacent to $u_2'$. We now have $\{u_2',w,u_1,u_3\}$ inducing a $2P_2$ for all $w\in W$ unless $u_2'\sim u_1$. Since $G$ is $2P_2$-free, we must have $u_2'\sim u_1$. But now $\{u_2,u_2',u_1\}$ together with any subset of $W$ with at least $\ell$ vertices induces \hl{\ell}, a contradiction.\\
 
  
-Since we already argued above that any vertex in $\overline{N[v_2]}$ adjacent to $s_1$ or $s_2$ must be complete to $\{v_1,v_3\}$ we must have $v_1'$ is anticomplete to $\{s_1,s_2\}$. Thus, $v_1'\neq u_2$.
+ \noindent \textit{Case 2:} $u_2'\nsim u_4$.
+
+In this case, $u_2'\sim w_i$ for all $i\in\{1,\dots,\ell\}$, else $\{u_2,u_2',u_4,w_i\}$ would induce a $2P_2$. We now have $u_2'\sim u_1$, else $\{u_2',w_i,u_1,u_3\}$ induces a $2P_2$ for any $i\in\{1,\dots,\ell\}$. But now $\{u_2,u_2',u_1\}\cup\{w_1,w_2,\dots, w_{\ell}\}$ induces \hl{\ell}, a contradiction.\\
 
 
-If $u_1\sim v_1$, then $\{s_1,s_2,u_1,u_2,v_1\}$ induces a $bull$, a contradiction. Therefore, $u_1\in N(v_2)-(N(v_1)\cup N(v_3)$. 
-
-From Lemma~\ref{lem:nocomparablecliques}, $s_2$ must have a neighbour that is not adjacent to $v_1$, else $N(s_2)\subseteq N(v_1)$. Let $u_1'$ be such a neighbour of $s_2$. Since every every vertex in $\overline{N[v_2]}-\{s_1,s_2\}$ adjacent to $s_2$ must also be complete to $\{v_1,v_3\}$ from a above, it follows that $u_1'$ must be in $N(v_2)$. Since $u_1\not\in N(s_2)$, $u_1\neq u_1'$. If $u_1'\sim u_1$, then $\{u_1,u_1',v_2,s_2,v_1\}$ induces a $bull$, a contradiction. Therefore, $s_1\sim u_1'$ or else $\{s_1,u_1,s_2,u_1'\}$ induces a $2P_2$. 
-
-Again from Lemma~\ref{lem:nocomparablecliques}, $s_1$ must have a neighbour that is not adjacent to $v_2$, else $N(s_1)\subseteq N(v_2)$. Let $u_2'$ be such a neighbour of $s_1$. We note that $u_2'$ must also be complete to $\{v_1,v_3\}$ and so if $u_2\sim u_2'$, then $\{s_1,s_2,u_2,u_2',v_1\}$ induces a $bull$. Therefore, we must have $s_2\sim u_2'$, else $\{s_1,u_1,s_2,u_1'\}$ induces a $2P_2$. 
-
-Thus, if $s_1$ and $s_2$ are not comparable, we have $N(s_1)\cap (\overline{N[v_2]}-\{s_1,s_2\})\subset N(s_2)\cap (\overline{N[v_2]}-\{s_1,s_2\})$ and $N(s_2)\cap N(v_2)\subset N(s_1)\cap N(v_2)$.
-
-\textcolor{red}{FROM HERE< Change to be a $P_3+3P_1$ and bring $s_3$ which must contain the neighbourhoods of both $s_1$ and $s_3$ (I think!)} 
-
-Now $s_3$ must have a neighbour 
-
-
-
-
-\end{proof}
-
-
-\begin{lemma}
-If $G$ is $k$-vertex-critical $(2P_2,\text{claw}+P_1)$-free, then $G$ is $(P_3+3 P_1)$-free.
-\end{lemma}
-\begin{proof}
-Suppose by way of contradiction that $G$ contains an induced $P_3+3 P_1$, and let $\{v_1,v_2,v_3\}\cup \{s_1,s_2,s_3\}$ induce a $P_3+2 P_1$ in $G$ with $v_1v_2v_3$ the induced $P_3$, in that order. Since $\overline{N[v_2]}$ must be connected from Lemma~\ref{lem:2P2freenonneighbconnected}, it follows that $s_1$ has a neighbour in $\overline{N[v_2]}$, say $u_1$. If $u_1\nsim v_i$ for $i\in \{1,3\}$, then $\{s_1,u_1,v_i,v\}$ induces a $2P_2$ in $G$, a contradiction. Thus, $u_1$ is complete to $\{v_1,v_3\}$. If $s_i\nsim u_1$ for $i\in\{2,3\}$, then $\{s_1,u_1,v_1,v_3,s_i\}$ induces a $claw+P_1$ in $G$, a contradiction. Thus, $u_1$ is complete to $\{s_2,s_3\}$. But now, $\{s_1,s_2,s_3,u_1,v_2\}$ induces a $claw+P_1$, a contradiction. Therefore, $G$ must be $(P_3+3 P_1)$-free.
+Since we reach contradictions in either case, we must contradict that fact that $G$ is \squid{2\ell-1}-free.
 \end{proof}
 
 
 
-\subsection{\forbid-free graphs}
+
+Thus, we the following theorem follows directly from Lemma~\ref{lem:2P2Hellfreeimpliesellsquidfree} and Theorem~\ref{thm:2P2ellsquidcrit}.
+
+\begin{theorem}
+There are only finitely many $k$-vertex-critical (\hl{\ell})-free graphs for all $k,\ell\ge 1$.
+\end{theorem}
+
+
+Since the graph $\overline{diamond+P_1}$ is isomorphic to \hl{2}, we will state the following corollary to make it explicit.
+
+\begin{corollary}
+There are only finitely many $k$-vertex-critical $(\overline{diamond+P_1})$-free graphs for all $k\ge 1$.
+\end{corollary}
+%\begin{lemma}\label{lem:compdiamondplusP1}
+%Let $\ell,k\ge 1$. If $G$ is $k$-vertex-critical $(2P_2, \overline{diamond+P_1})$-free, then $G$ is $(\ell$-$squid)$-free.
+%\end{lemma}
+%\begin{proof}
+%Let $G$ be a $k$-vertex-critical $(2P_2, \overline{K_3 + 2P_1})$-free graph. Suppose by way of contradiction that $G$ contains an induced $\ell-squid$ with the same construction as Figure ~\ref{fig:squid} for some $2\ell \geq 1$.
+%$u_2, u_3$ must have unique neighbours, or else they are comparable and the graph is not $k$-vertex-critical, a contradiction. Further, $u'_2, u'_3$ cannot be adjacent to $u_4$ else it forms the forbidden graph. We will call these vertices $u'_2, u'_3$. Now, $\{ u_2, u_3, u'_2, u'_3 \}$ induce a $2P_2$ unless $u'_2 \sim u'_3$. Then $\{ u'_2, u'_3, w_i, u_4 \}$ for any $w_i \in w$ induces a $2P_2$ unless $u'_2, u'_3$ are combined complete to $w$. Further, $\{ u_1, u_2, u'_3, w_i \}$ and $\{ u_1, u_3, u'_2, w_i \}$ both induce a $2P_2$ unless $u'_3, u'_2 \sim u_1$. Then by pigeon-hole principle, either $u'_3$ or $u'_2$ are adjacent to $\ell$ vertices, inducing the forbidden graph. Thus, $(2P_2, \overline{K_3 + 2P_1})$-free graphs are finite.
+%\end{proof}
+%
+%
+
+
+
+\section{Conclusion}\label{sec:conclusion}
+
+Of the 11 graphs $H$ of order $5$ where it remains unknown if there are only finitely many $k$-vertex-critical $(P_5,H)$-free graphs for all $k$, we have solved it for four of these graphs in the more restricted $2P_2$-free case. A clear open question that remains is if this still holds for in the less restrictive $P_5$-free case, or, perhaps even more interesting, for some it does not. The question also remains completely open for the other $7$ graphs and the one that we find most interesting is $H=P_4+P_1$, as it is still unknown whether there are only finitely many $k$-vertex-critical $(P_4+P_1)$-free for any given $k\ge 5$ even without the added restriction of $P_5$ or $2P_2$. While the number of $k$-vertex-critical $(2P_2,P_4+P_1)$-free graphs continues to evade us, we do know that there are only finitely many for all $k$ is $K_3+P_1$ is also forbidden. Including this extra forbidden induced subgraph, while decidedly more restrictive, is justified in that all known infinite families of $k$-vertex-critical graphs that are $2P_2$-free are also $(K_3+P_1)$-free. For $k\ge 6$, in fact, there is the family of $k$-vertex-critical $(2P_2,K_3+P_1,C_5)$-free graphs constructed by the third author and Ho\`{a}ng in~\cite{CameronHoang2023P5C5}. 
 
 IDEA: If $G$ is also $P_3+2P_1$-free then done by my previous paper. Thus, contains an induced $P_3+2P_1$. By Lemma~\ref{lem:completebipartite}, nonneighbourhood of $s_1$ ($s_1,s_2$ are the $2P_1$ vertices), its nonneighbourhood must be a complete bipartite graph, and thus $s_2$ must be complete to $v_1$ and $v_2$ (the two leaves of the $P_3$), contradicting the induced $P_3+2P_1$!. 
-
-Throughout this section, assume $G$ is a $k$-vertex-critical non-complete \forbid -free graph.
-
-For any $v\in V(G)$, $G$ partitions into $\{v\}$, $N(v)$, and $\overline{N[v]}$. $N(v)$ further partitions into $N_1, N_1', N_2$. $\exists u_1 \in \noneighbs$ such that $u_1 \sim N_1$, and $\exists u_2 \in \noneighbs$ such that $u_2 \sim N_2$.
-
 \begin{lemma}\label{lem:completebipartite}
 For every nonuniversal vertex $v\in V(G)$,  $\noneighbs$ induces a complete bipartite graph $K_{n,m}$ some $n,m\ge 1$.
 \end{lemma}
 \begin{proof}
-<<<<<<< HEAD
-Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. We first note that If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction. Thus, $H$ is $(P4, K_3)$-free. Since $H$ is $P_4$-free it is either a join or disjoint union of graphs (since $P_4$-free g raphs are co-graphs). By Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected, so it therefore must be the join of graphs. Further, since $H$ is $K_3$-free and the join of graphs, it must be a complete bipartite graph. 
-=======
-<<<<<<< HEAD
-Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. We first note that If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction. Thus, $H$ is $(P4, K_3)$-free. Since $H$ is $P_4$-free it is either a join or disjoint union of graphs (since $P_4$-free graphs are co-graphs). By Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected, so it therefore must be the join of graphs. Further, since $H$ is $K_3$-free and the join of graphs, it must be a complete bipartite graph. 
-=======
-Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. We first note that If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction. Thus, $H$ is $(P4, K_3)$-free. Since $H$ is $P_4$-free it is either a join or disjoint union of graphs (since $P_4$-free g raphs are co-graphs). By Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected, so it therefore must be the join of graphs. Further, since $H$ is $K_3$-free and the join of graphs, it must be a complete bipartite graph. 
->>>>>>> origin/main
->>>>>>> master
+Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. We first note that If $S\subseteq\noneighbs$ induces $P_4$ or $K_3$, then $\{v\}\cup S$ induces a $P_4+P_1$ or $K_3+P_1$, a contradiction. Thus, $H$ is $(P_4, K_3)$-free. Since $H$ is $P_4$-free it is either a join or disjoint union of graphs (since $P_4$-free graphs are co-graphs). By Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected, so it therefore must be the join of graphs. Further, since $H$ is $K_3$-free and the join of graphs, it must be a complete bipartite graph. 
 \end{proof}
 
-%\begin{lemma}\label{lem:neighbscomplete}
-%$N_1 - N'_1$ is complete to $N_2$.
-%\end{lemma}
-%\begin{proof}
-%If $N_1 - N'_1$ is not complete to $N_2$, then $n_1 \in N_1, n_2 \in N_2$, $\{ n_1, u_2, n_2, u_1 \}$ induces a $2K_2$.
-%\end{proof}
-%\begin{lemma}\label{lem:n2indep}
-%$N_2$ is an independent set.
-%\end{lemma}
-%\begin{proof}
-%By ~\ref{lem:completebipartite}, the non-neighbours of $N_1$ are a complete bipartite graph.
-%\end{proof}
-
-Now let $S$ be the maximum independent set of $G$, and $v \in S$. Let $S - v = \{s_1, s_2, \dots, s_{\ell}\}$. Also, let $V(G) - (S \cup N(v)) = \{y_1, y_2, \dots, y_j\}$. Note that if $y_1$ is complete to $N(v)$, then $N(v)\subseteq N(y_1)$, contradicting the $k$-vertex-criticality of $G$ by Lemma~\ref{lem:nocomparablecliques}. So let $N' \subseteq N(v)$ be the set $\overline{N[y_1]}\cap N(v)$. Note also that we may assume $\ell\ge 2$ otherwise we are done by Ramsey's Theorem. 
-
-
-\begin{lemma}\label{lem:S-vcompletetoN'}
-$S-v$ is complete to $N'$.
-\end{lemma}
+\begin{proposition}\label{prop:2P2K3P1P4P1freeisP32P1free}
+There are only finitely many $k$-vertex-critical $(2P_2,K_3+P_1,P_4+P_1)$-free graphs for all $k\ge 1$.
+\end{proposition}
 \begin{proof}
-Suppose there is a $s_i\in S-v$ and $n\in N'$ such that $s_i\nsim n$. From Lemma~\ref{lem:completebipartite}, $S-v$ is complete to $V(G) - (S \cup N(v))$, so $y_1\sim s_i$, and by definition $y_1\nsim n$. Therefore, $\{y_i, s_i, n, v\}$ induces a $2P_2$ in $G$, a contradiction. Thus, $S-v$ is complete to $N'$.
-\end{proof}
-
-\textcolor{red}{We originally thought the next result was \textit{anticomplete}, so we need to figure out how to proceed. One option is to also forbid the dart as then we must a dart induced by $s_1$, $s_1$'s unique neighbour in $N(v)$ and $y_1$ and $y_2$. Thus $y_1$ is the only $y_i$ and a similar argument gets the $S-v$ set down to one element. May also be possible if chair is forbidden as well.}
-\begin{lemma}\label{lem:yicompletetoN'}
-$y_i$ is complete to $N'$ $\forall i \in \{2, \dots, j\}$.
-\end{lemma}
-\begin{proof}
-Let $2\le i\le j$ and let $n\in N'$. By Lemma~\ref{lem:completebipartite}, $y_i\in\overline{N[y_1]}$, so $\{v,n,y_i\}\subseteq \overline{N[y_1]}$. Since $v\sim n$ and $v\nsim y_i$ by definition, it follows that $n\sim y_i$  otherwise $\overline{N[y_1]}$ would not be complete bipartite, contradicting Lemma~\ref{lem:completebipartite}. Therefore, $y_i$ is complete to $N'$.
+Let $G$ be a $k$-vertex-critical $(2P_2,K_3+P_1,P_4+P_1)$-free graph. Our proof proceeds by contradiction and application of Theorem~\ref{thm:finiteP3ellP1freecrit} like the others in this paper. Suppose $G$ has induced $P_3+2P_1$ on $\{v_1,v_2,v_3,s_1,s_2\}$ with $v_1v_2v_3$ inducing the $P_3$ in that order. Clearly, $s_1$ is nonuniversal, so by Lemma~\ref{lem:completebipartite} $\overline{N[s_1]}$ must induce a complete bipartite graph. However, $\{v_1,v_2,v_3,s_2\}\subseteq\overline{N[s_1]}$ and induces a $P_3+P_1$. Since every complete bipartite graph is $(P_3+P_1)$-free this is a contradiction. Thus, $G$ must be $(P_3+2P_1)$-free and therefore the proposition follows from Theorem~\ref{thm:finiteP3ellP1freecrit}.
 \end{proof}
 
 
-So $N(Y_i) \subseteq N(Y_1) \forall i \in \{2, \dots, j\}$, so $Y_i, Y_1$ are comparable vertices, making this not vertex critical and thus a contradiction. Further, since this applies for all $i \geq 2$, then the $|Y| \leq 1$. We also know (somehow) that this applies to the set of $\{u_1, \dots, u_l \}$ so they are limited to $\leq 1$.
-Now we can use Ramsay's Theorem to identify that since there is a maximum independent set, there is a finite amount of graphs.
-
-\subsection{$(2P_2, K_3 + P_1, claw + P_1)$-free}
-
-Throughout this section, assume $G$ is a $k$-vertex-critical non-complete $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graph. 
-
-
-
-\begin{lemma}\label{lem:pathorcyclenonneighbourhood}
-For every nonuniversal vertex $v\in V(G)$, $\noneighbs$ induces a $P_j$ or $C_m$ for $2\le j\le 4$ and $4\le m\le 5$.
-\end{lemma}
-\begin{proof}
-Let $v$ be a nonuniversal vertex in $G$ and let $H$ be the subgraph of $G$ induced by $\noneighbs$. If $S\subseteq V(H)$ such that $S$ induces a $K_3$ or claw, then $S\cup\{v\}$ induces a claw$+P_1$ or $K_3+P_1$, a contradiction. Therefore, $H$ is $(K_3+P_1,\text{claw}+P_1)$-free. Suppose there is a vertex $u\in \noneighbs$ such that $|N(u)\cap \noneighbs|\ge 3$ and let $\{u_1,u_2,u_3\}\subseteq N(u)\cap \noneighbs$. If the $u_i$'s are all pairwise disjoint, then $\{u,u_1,u_2,u_3\}$ induces a claw, a contradiction. So there must be at least one edge in the graph induced by $\{u_1,u_2,u_3\}$, without loss of generality say $u_1\sim u_2$. But now $\{u,u_1,u_2\}$ induces a $K_3$, a contradiction. Thus, we must have $|N(u)\cap \noneighbs|\le 2$ for all $u\in \noneighbs$ and thus $\Delta(H)\le 2$. From Lemma~\ref{lem:2P2freenonneighbconnected}, $H$ must be connected and have at least two vertices, so $H$ must be a $P_j$ or a $C_m$. Since $H$ is $(2P_2,K_3+P_1)$-free, it follows that $2\le j\le 4$ and $4\le m\le 5$. 
-\end{proof}
-
-
-\begin{corollary}\label{cor:indnumatmost3}
-$\alpha(G)\le 3$.
-\end{corollary}
-\begin{proof}
-Let $S=\{s_1,s_2,\dots s_{\ell}\}$ be a maximum independent set in $G$. By Lemma~\ref{lem:pathorcyclenonneighbourhood}, it follows that the graph induced by $\overline{N[s_1]}$ must have independence number at most $2$. Since $s_i\in \overline{N[s_1]}$ for all $2\le i\le \ell$, it follows that $\ell\le 3$.
-\end{proof}
-
-
-\begin{theorem}
-There are only finitely many $k$-vertex-critical $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graphs for any given $k$.
-\end{theorem}
-\begin{proof}
-Fix $k$ and let $G$ be a $k$-vertex-critical $(2P_2, K_3 + P_1, \text{claw} + P_1)$-free graph. Since $G$ is $k$-vertex-critical, $\omega(G)\le k$. From Corollary~\ref{cor:indnumatmost3}, $\alpha(G)\le 3$. Thus, by Ramsey's Theorem, $G$ has order bounded above by $R(4,k+1)$, a constant.
-\end{proof}
-
-\textcolor{red}{Questions: (1) can we remove the $K_3+P_1$-free restriction and still get only finitely many of these graphs? (2) can we show that $\noneighbs$ cannot induce a cycle and therefore every such critical graph has independence number at most $2$? (3) Can we exhaustively generate all for small $k$ even without the further restriction on independence number give the -k argument in nauty v2.8.6?}
-
-%Let $S$ be maximum independent set $S$, $v \in S$, and $S-v=\{s_1,s_2,\dots s_{\ell}\}$.
-%
-%
-%We know that $\noneighbs$ is claw free, else we take the claw plus $v$ to make $claw + P1$. We also know it's $K_3$-free for the same reason.
-%\begin{lemma}\label{lem:clawindependent}
-%$\forall u \in \noneighbs - S, |N(u) \cap S| < 3$ 
-%\end{lemma}
-%\begin{proof}
-%Assume $|N(u) \cap S| \geq 3$. $N(u) \cap S = \{s_1, s_2, s_3, \dots, s_j\}$. Then $\{u, s_1, s_2, s_3, v\}$ induces a $claw + P_1$, a contradiction.
-%\end{proof}
-%\begin{lemma}\label{lem:trianglestuff}
-%$\forall s \in S, \{u, u'\} \in N(s) \cap \noneighbs - S, u \not \sim u'$
-%\end{lemma}
-%\begin{proof}
-%This induces a $K_3 + P_1$.
-%\end{proof}
-%Thus no two neighbours of s in noneighbours are adjacent.
-%\begin{lemma}\label{lem:juicebox}
-%$|\noneighbs - S| \leq 1$
-%\end{lemma}
-%% either S is limited ot noneighbs is limited.
-%$A$ has either 0, 1, or 2 neighbours in $S$.
-%We can also split $N(v)$ into $N_1, N_2$, where $N_1 = \{$
-%\begin{proof}
-%Assume $|\noneighbs - S| > 1$. $\noneighbs - S = A$. Then, $A$
-%\end{proof}
-%Maximum degree 2, because if you have a vertex of degree 3, you either have an edge in the neighbour set and a triangle, and if not you have a claw.
-%\begin{lemma}\label{lem:indset}
-%$|S| \leq 2$
-%\end{lemma}
-%\begin{proof}
-%Assume $|S| > 2$. Let $u \in N(v)$ and $u' \in \noneighbs$ and $s \in S - v$. $s \sim u'$ else $s$ is disconnected and makes the graph not $k$-vertex-critical. We now have 3 cases.
-%Case 1: $u \sim u', s \not \sim u$. In this case, $u, u', v, s$ induces a $P_4$, and any additional member of $S - v \not \sim u'$ induces a $P_4 + P_1$.
-%\end{proof}
-%\begin{lemma}\label{lem:clawminset}
-%$\forall v \in \noneighbs, $
-%\end{lemma}
-
-\subsection{$(2P_2, P_4 + P_1, chair, bull)$-free}
-\textcolor{red}{NOTE!! The main result of this section is now a corollary of the $P_4+\ell P_1$ stuff}.
-
-Throughout this section let $G$ be a $(2P_2, P_4 + P_1, chair, bull)$-free $k$-vertex-critical graph. Let $S$ be the maximum independent set of $G$, $v \in S$, and let $S-v=\{s_1,s_2,\dots,s_{\ell}\}$. Let $A$ be $\noneighbs - S$. 
-
-\begin{lemma}\label{lem:indnumatmost2bullchair}
-$\alpha(G)\le 2$.
-\end{lemma}
-\begin{proof}
-Suppose by way of contradiction that $\alpha(G)\ge 3$, so that $\ell\ge 2$. Since $s_1\nsim v$ by definition, we must have $v_1\in N(v)$ such that $s_1\nsim v_1$, otherwise we would have $N(v)\subseteq N(s_1)$, contradicting $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. Further, by Lemma~\ref{lem:2P2freenonneighbconnected}, $s_1$ must have a neighbour $u\in A$, otherwise $s_1$ would be an isolated vertex in the graph induced by $\noneighbs$. If $u\nsim v_1$, then $\{s_1,u,v_1,v\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u\sim v_1$. Now, $s_1\nsim s_2$ and $s_2\nsim v$ by definition, so if $u\nsim s_2$ and $v_1\nsim s_2$, $\{s_2,s_1,u,v_1,v\}$ induces a $P_4+P_1$ in $G$, a contradiction. Therefore, $u\sim s_2$ or $v\sim s_2$. If exactly one of $u$ and $v$ is adjacent to $s_2$, then $\{s_2,s_1,u,v_1,v\}$ induces a chair in $G$, a contradiction. Therefore, both $u$ and $v$ must be adjacent to $s_2$. However, we now have $\{s_2,s_1,u,v_1,v\}$ inducing a bull in $G$, a contradiction. This completes the proof.
-\end{proof}
-
-\begin{theorem}
-There are only finitely many $k$-vertex-critical $(2P_2, P_4 + P_1,\text{chair}, \text{bull})$-free graphs for any given $k$.
-\end{theorem}
-\begin{proof}
-Fix $k$ and let $G$ be a $k$-vertex-critical $(2P_2, P_4 + P_1,\text{chair}, \text{bull})$-free graph. Since $G$ is $k$-vertex-critical, $\omega(G)\le k$. From Lemma~\ref{lem:indnumatmost2bullchair}, $\alpha(G)\le 2$. Thus, by Ramsey's Theorem, $G$ has order bounded above by $R(3,k+1)$, a constant.
-\end{proof}
-
-
-%\begin{lemma}\label{lem:chairBullOne}
-%For $u \in A$, $u \not \sim u'$ where $u' \in N(v)$.
-%\end{lemma}
-%\begin{proof}
-%Assume $u \sim u'$. This means that $\{u', u, v, u_2\}$ creates an induced $P_4$ where $u_2 \in N(v)$. Thus $u'$ must be complete to $S$ in order to not create an induced $P_4 + P_1$. This creates an induced chair with the vertex set $\{u', u, v, s_1, s_2\}$ unless $s_2 \sim u$. With this edge in place, $\{u', u, v, s_1, s_2\}$ is an induced bull. <This somehow covers every case; fill this in>
-%\end{proof}
-%\begin{lemma}\label{lem:chairBullTwo}
-%The length of $S$ is bounded to a maximum of 2 vertices.
-%\end{lemma}
-%\begin{proof}
-%With $u \not \sim u'$, $\{s_1, u'\}$ and $\{v, u\}$ form an induced $2P_2$ where $s_1 \in S$ unless $s_1 \sim u$. With this edge present, $\{s_1, u', s_2, u\}$ creates an induced $P_4$, meaning $u$ must be complete to $S$ to avoid creating an induced $P_4 + P_1$. However, this makes every vertex in $S$ comparable to each other, contradicting the assumption that $G$ is k-vertex-critical. This means that $S$ must have a maximum length of 2 in order for $G$ to exist, containing at most $v$ and $s_1$.
-%\end{proof}
-%The length of the maximum independent set of $G$ is bounded to some constant value, meaning that there are finitely many k-vertex-critical graphs that meet the criteria of $G$.
-\subsection{$(2P_2,P_4+\ell P_1,m\text{-squid})$-free}
-
-For this section we need the following result:
-
-\begin{theorem}[\cite{AbuadasCameronHoangSawada2022}]\label{thm:P3ellP1free}
-There are only finitely many $k$-vertex-critical $(P_3+\ell P_1)$-free graphs for all $k$ and $\ell$.
-\end{theorem}
-
-
-\begin{theorem}
-There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squid})$-free for all $k$, $\ell$, and $m$.
-\end{theorem}
-\begin{proof}
-Fix $k$, $\ell$, and $m$ and let $G$ be a $k$-vertex-critical $(2P_2,P_4+\ell P_1,m\text{-squid})$-free graph. If $G$ is $(P_3+c P_1)$-free for $c= \ell+m$, then we are done by Theorem~\ref{thm:P3ellP1free}. Thus we may assume $G$ has an induced $P_3+c P_1$. Let $v$ be the centre of the $P_3$, $v_1$ and $v_2$ be its leaves, and $s_1,s_2\ldots s_c$ be the $c$ isolated vertices of an induced $P_3+c P_1$ in $G$. Let $S=\{s_1,s_2,\dots,s_c\}$. If $N(s_1)\subseteq N(v)$, then we contradict $G$ being $k$-vertex-critical by Lemma~\ref{lem:nocomparablecliques}. So there must be a vertex $u\in V(G)-(\noneighbs\cup \{v_1,v_2\})$ such that $s_1\sim u$. If $u\nsim v_1$ or $u\nsim v_2$, then $\{s_1,u,v_1,v\}$ or $\{s_1,u,v_2,v\}$ induces a $2P_2$ in $G$, a contradiction. Therefore, $u\sim v_1$ and $u\sim v_2$. If $u$ has at least $\ell$ nonneighbours in $S-s_1$, then $\{s_1,u,v_1,v\}$ together with any $\ell$ nonneighbours of $u$ in  $S-s_1$ induces a $P_4+\ell P_1$, a contradiction. Thus, $u$ has at least $c-\ell=m$ neighbours in $S$ (including $s_1$). But now $\{u,v,v_1,v_2\}$ and any $m$ of $u$'s neighbours in $S$ induce an $m$-squid, a contradiction. This completes the proof.
-\end{proof}
-
-Since both $K_{1,m}+P_1$ and chair are an induced subgraphs of the $m$-squid, we get the following corollarie immediately.
-
-\begin{corollary}
-There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,K_{1,m}+P_1)$-free for all $k$, $\ell$, and $m$.
-\end{corollary}
-
-\begin{corollary}
-There are only finitely many $k$-vertex-critical $(2P_2,P_4+\ell P_1,\text{chair})$-free for all $k$, $\ell$,
-\end{corollary}
-
-
-
-
-\textcolor{red}{Question: Can we get rid of the $2P_2$-free restriction in the theorem?}
-
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
->>>>>>> master
-\section{Conclusion}
-
-
-
-%Let $S$ be a maximum stable set of $G$. Then, each vertex in $G-S$ has at least one neighbour in $S$. Let $A$ be the vertices in $G-S$ with exactly one neighbour in $S$. Let $B = G - (S \cup A)$. We note that every vertex in $B$ shas at least two neighbours in $S$. Let $S_A$ be the set of vertices $s \in S$ such that some vertex in $A$ is adjacent to $s$. Let $S_B = S - S_A$.
-%
-%
-%\begin{lemma}\label{lem:sAs'Aanticomplete}
-%For any two vertices $s,s' \in S_A$, $s_A$ is anti-complete to $s'_A$.
-%\end{lemma}
-%\begin{proof}
-%Suppose $s,s'\in S_A$, $a_1\in s_A$ and $a_2\in s'_A$ such that $a_1\sim a_2$. Then the set $\{a_1,a_2,s,s',s''\}$ induces a $P_4+P_1$ for any $s''\in S-\{s,s'\}$, a contradiction.
-%\end{proof}
-%
-%\begin{lemma}\label{lem:sAisaclique}
-%DO WE NEED? If $|S_A|\ge 2$, then $s_A$ induces a clique for all $s \in S_A$.
-%\end{lemma}
-%\begin{proof}
-%Suppose $|S_A|\ge 2$ and let $s,s'\in S_A$. Without loss of generality, suppose that $a_1,a_2\in s_A$ such that $a_1\nsim a_2$. Now, since $s\nsim s'$ by Lemma~\ref{lem:sAs'Aanticomplete}, $\{s,s',a_1,a_2,a'\}$ induces a $P_3+P_2$ for any $a'\in s'_A$, a contradiction.
-%\end{proof}
-%
-%
-%\begin{lemma}\label{lem:Bnonempty}
-%$B\neq\emptyset$.
-%\end{lemma}
-%\begin{proof}
-%Suppose $B=\emptyset$, so $S=S_A$. If $|S|<2$, then $G$ must be $K_k$ since it is $k$-vertex-critical, a contradiction. So, $|S|\ge 2$, and therefore by Lemma~\ref{lem:sAs'Aanticomplete}, $G$ is disconnected and therefore not critical, a contradiction.
-%\end{proof}
-%
 %
 %
 %\section*{Acknowledgements}
